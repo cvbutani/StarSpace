@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "46321758653",
+    "firebase_url": "https://star-space-f03e4.firebaseio.com",
+    "project_id": "star-space-f03e4",
+    "storage_bucket": "star-space-f03e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46321758653:android:066b1434ae09af44",
+        "android_client_info": {
+          "package_name": "com.example.chiragpc.starspace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "46321758653-2p9r96t42g36rkv78i6gbnt95ec2c54r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chiragpc.starspace",
+            "certificate_hash": "7600ca095ec3d1e0e95606227269d46c368e707e"
+          }
+        },
+        {
+          "client_id": "46321758653-ilukqt06h5t6hgmgs7h2c9192jfugr00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClAM9xljgw8K5xmswAFe0cAcv-EDF2awM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "46321758653-ilukqt06h5t6hgmgs7h2c9192jfugr00.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
