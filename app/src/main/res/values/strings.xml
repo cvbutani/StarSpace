@@ -6,4 +6,8 @@
     <string name="user_name">Username</string>
     <string name="pass_word">Password</string>
     <string name="email_address">Email Address</string>
+    <string name="email_enter">Please enter email address</string>
+    <string name="password_enter">Please enter password</string>
+    <string name="register_text">New to Star Space? Sign Up</string>
+    <string name="sign_in_text">Sign In</string>
 </resources>

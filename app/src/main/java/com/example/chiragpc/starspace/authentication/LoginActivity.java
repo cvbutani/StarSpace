@@ -46,12 +46,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         String email = mEmail.getText().toString().trim();
         String pass = mPassword.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email address", Toast.LENGTH_SHORT).show();
-            mEmail.setError("Please enter email address");
+            Toast.makeText(this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
+            mEmail.setError(getString(R.string.email_enter));
         }
         if (TextUtils.isEmpty(pass)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-            mPassword.setError("Please enter password");
+            Toast.makeText(this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
+            mPassword.setError(getString(R.string.password_enter));
         }
         mPresenter.signInUser(email, pass);
     }

@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final int RC_SIGN_IN = 1;
     private ActionBar mToolbar;
 
     private String mUsername;
@@ -80,29 +79,17 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
         mFirebaseAuth = FirebaseAuth.getInstance();
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                mCurrentUser = firebaseAuth.getCurrentUser();
-                if (mCurrentUser != null) {
-                    onSignedInInitialize(mCurrentUser);
-                } else {
-                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                }
-            }
-        };
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Sign In Cancelled", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                mCurrentUser = firebaseAuth.getCurrentUser();
+//                if (mCurrentUser != null) {
+//                    onSignedInInitialize(mCurrentUser);
+//                } else {
+//                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+//                }
+//            }
+//        };
     }
 
     private void onSignedInInitialize(FirebaseUser user) {
@@ -115,19 +102,19 @@ public class HomeActivity extends AppCompatActivity {
         mUsername = ANONYMOUS;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mAuthStateListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (mAuthStateListener != null) {
+//            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+//        }
+//    }
 
     //    private void attachDatabaseReadListener() {
 //        if (mChildEventListener == null) {
