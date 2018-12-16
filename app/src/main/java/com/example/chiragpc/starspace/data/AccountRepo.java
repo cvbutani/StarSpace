@@ -45,4 +45,19 @@ public class AccountRepo {
                     }
                 });
     }
+
+    public void resetPasswordAccRepo(String email, OnTaskCompletion.ResetPassword taskCompletion) {
+        mFirebaseRepo.getFirebaseAuthInstance()
+                .sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            taskCompletion.onResetPasswordSuccess();
+                        } else {
+                            taskCompletion.onResetPasswrodFailure(task.getException().getMessage());
+                        }
+                    }
+                });
+    }
 }

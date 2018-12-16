@@ -41,4 +41,22 @@ public class LoginPresenter
             }
         });
     }
+
+    @Override
+    public void resetPassword(String email) {
+        getView().showProgressBar();
+        mDataManager.resetPasswordDataRepo(email, new OnTaskCompletion.ResetPassword() {
+            @Override
+            public void onResetPasswordSuccess() {
+                getView().hideProgressBar();
+                getView().resetPasswordSuccess();
+            }
+
+            @Override
+            public void onResetPasswrodFailure(String error) {
+                getView().hideProgressBar();
+                getView().resetPasswordFailure(error);
+            }
+        });
+    }
 }

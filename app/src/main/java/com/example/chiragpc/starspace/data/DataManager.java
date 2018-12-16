@@ -33,4 +33,9 @@ public class DataManager implements DataContract {
     public void registerDataRepo(String username, String email, String password, OnTaskCompletion taskCompletion) {
         mAccountRepo.registerAccRepo(username, email, password, taskCompletion);
     }
+
+    @Override
+    public void resetPasswordDataRepo(String email, OnTaskCompletion.ResetPassword taskCompletion) {
+        mAccountRepo.resetPasswordAccRepo(email, taskCompletion);
+    }
 }

@@ -6,6 +6,10 @@ public interface LoginContract {
     interface View extends MvpView {
         void signInSuccess();
 
+        void resetPasswordSuccess();
+
+        void resetPasswordFailure(String error);
+
         void signInError(String error);
 
         void showProgressBar();
@@ -21,5 +25,7 @@ public interface LoginContract {
 
     interface Presenter {
         void signInUser(String email, String password);
+
+        void resetPassword(String email);
     }
 }

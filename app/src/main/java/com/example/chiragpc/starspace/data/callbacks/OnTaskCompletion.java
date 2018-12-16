@@ -5,4 +5,10 @@ public interface OnTaskCompletion {
     void onSuccess();
 
     void onFailure(String errorMessage);
+
+    interface ResetPassword {
+        void onResetPasswordSuccess();
+
+        void onResetPasswrodFailure(String error);
+    }
 }

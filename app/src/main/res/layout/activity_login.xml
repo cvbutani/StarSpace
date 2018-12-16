@@ -53,23 +53,37 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/common_signin_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/login_password_reset"
+        app:layout_constraintEnd_toEndOf="@+id/login_password_reset"
+        app:layout_constraintStart_toStartOf="@+id/login_password_reset" />
 
 
-    <ProgressBar
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         android:id="@+id/login_progressBar"
         android:layout_width="46dp"
         android:layout_height="36dp"
         android:layout_gravity="center|bottom"
         android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/login_signin"
+        app:layout_constraintEnd_toEndOf="@+id/login_password_reset"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/login_signin"
-        app:layout_constraintTop_toBottomOf="@+id/login_signin" />
+        app:layout_constraintStart_toStartOf="@+id/login_password_reset"
+        app:layout_constraintTop_toBottomOf="@+id/login_password_reset" />
+
+    <TextView
+        android:id="@+id/login_password_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="64dp"
+        android:gravity="center"
+        android:text="@string/reset_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
