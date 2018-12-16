@@ -2,15 +2,18 @@ package com.example.chiragpc.starspace.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.os.PersistableBundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.authentication.LoginActivity;
 import com.example.chiragpc.starspace.authentication.register.RegisterActivity;
 import com.example.chiragpc.starspace.base.BaseActivity;
+import com.google.android.material.button.MaterialButton;
 
-import butterknife.ButterKnife;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.OnClick;
 
 /**
@@ -19,24 +22,34 @@ import butterknife.OnClick;
  */
 public class SplashActivity extends AppCompatActivity {
 
+    MaterialButton register;
+    MaterialButton signIn;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        ButterKnife.bind(this);
-    }
+        register = findViewById(R.id.splash_register);
+        signIn = findViewById(R.id.splash_sign_in);
 
-    @OnClick(R.id.splash_register)
-    public void register() {
-        startActivity(new Intent(this, RegisterActivity.class));
-        finish();
-    }
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this, RegisterActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+        });
 
-    @OnClick(R.id.splash_sign_in)
-    public void signIn() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
+            }
+        });
     }
 }

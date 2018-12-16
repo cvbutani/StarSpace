@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/textInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cardview_password"
-        app:layout_constraintEnd_toEndOf="@id/cardview_password"
-        app:layout_constraintStart_toStartOf="@id/cardview_password">
+        app:layout_constraintBottom_toTopOf="@id/cardview_email"
+        app:layout_constraintEnd_toEndOf="@id/cardview_email"
+        app:layout_constraintStart_toStartOf="@id/cardview_email">
 
         <EditText
-            android:id="@+id/login_email_address"
+            android:id="@+id/register_display_name"
+            style="@style/EditorFieldStyle"
+            android:hint="@string/display_name"
+            android:inputType="text"
+            android:selectAllOnFocus="false" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/cardview_signup"
+        app:layout_constraintEnd_toEndOf="@id/cardview_signup"
+        app:layout_constraintStart_toStartOf="@id/cardview_signup">
+
+        <EditText
+            android:id="@+id/register_email_address"
             style="@style/EditorFieldStyle"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
@@ -24,21 +39,21 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardview_password"
+        android:id="@+id/cardview_signup"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/login_signin"
-        app:layout_constraintEnd_toEndOf="@+id/login_signin"
-        app:layout_constraintStart_toStartOf="@+id/login_signin">
+        app:layout_constraintBottom_toTopOf="@id/register_signup"
+        app:layout_constraintEnd_toEndOf="@id/register_signup"
+        app:layout_constraintStart_toStartOf="@id/register_signup">
 
         <EditText
-            android:id="@+id/login_password"
+            android:id="@+id/register_password"
             style="@style/EditorFieldStyle"
             android:baselineAligned="false"
             android:hint="@string/pass_word"
@@ -46,7 +61,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_signin"
+        android:id="@+id/register_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -54,22 +69,22 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="64dp"
-        android:text="@string/common_signin_button_text"
+        android:text="@string/common_signup_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 
-    <ProgressBar
-        android:id="@+id/login_progressBar"
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/register_progressBar"
         android:layout_width="46dp"
         android:layout_height="36dp"
         android:layout_gravity="center|bottom"
         android:layout_marginTop="16dp"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/login_signin"
+        app:layout_constraintEnd_toEndOf="@id/register_signup"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/login_signin"
-        app:layout_constraintTop_toBottomOf="@+id/login_signin" />
+        app:layout_constraintStart_toStartOf="@id/register_signup"
+        app:layout_constraintTop_toBottomOf="@id/register_signup" />
 </androidx.constraintlayout.widget.ConstraintLayout>
