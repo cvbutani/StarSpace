@@ -51,17 +51,15 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
                     mEmail.setError(getString(R.string.email_enter));
-                }
-                if (TextUtils.isEmpty(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
                     mPassword.setError(getString(R.string.password_enter));
-                }
-                if (TextUtils.isEmpty(username)) {
+                } else if (TextUtils.isEmpty(username)) {
                     Toast.makeText(RegisterActivity.this, getString(R.string.username_enter), Toast.LENGTH_SHORT).show();
                     mUsername.setError(getString(R.string.username_enter));
+                } else {
+                    mPresenter.registerUser(username, email, password);
                 }
-
-                mPresenter.registerUser(username,email,password);
             }
         });
     }

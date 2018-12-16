@@ -44,12 +44,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
                     mEmail.setError(getString(R.string.email_enter));
-                }
-                if (TextUtils.isEmpty(pass)) {
+                } else if (TextUtils.isEmpty(pass)) {
                     Toast.makeText(LoginActivity.this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
                     mPassword.setError(getString(R.string.password_enter));
+                } else {
+                    mPresenter.signInUser(email, pass);
                 }
-                mPresenter.signInUser(email, pass);
             }
         });
     }
