@@ -39,41 +39,35 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
 
-        mSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSignIn.getText().equals(getString(R.string.common_signin_button_text))) {
-                    mPassword.setVisibility(View.VISIBLE);
-                    String email = mEmail.getText().toString().trim();
-                    String pass = mPassword.getText().toString().trim();
-                    if (TextUtils.isEmpty(email)) {
-                        Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
-                        mEmail.setError(getString(R.string.email_enter));
-                    } else if (TextUtils.isEmpty(pass)) {
-                        Toast.makeText(LoginActivity.this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
-                        mPassword.setError(getString(R.string.password_enter));
-                    } else {
-                        mPresenter.signInUser(email, pass);
-                    }
+        mSignIn.setOnClickListener(v -> {
+            if (mSignIn.getText().equals(getString(R.string.common_signin_button_text))) {
+                mPassword.setVisibility(View.VISIBLE);
+                String email = mEmail.getText().toString().trim();
+                String pass = mPassword.getText().toString().trim();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
+                    mEmail.setError(getString(R.string.email_enter));
+                } else if (TextUtils.isEmpty(pass)) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
+                    mPassword.setError(getString(R.string.password_enter));
                 } else {
-                    String email = mEmail.getText().toString().trim();
-                    if (TextUtils.isEmpty(email)) {
-                        Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
-                        mEmail.setError(getString(R.string.email_enter));
-                    } else {
-                        Toast.makeText(LoginActivity.this, getString(R.string.password_reset), Toast.LENGTH_SHORT).show();
-                        mPresenter.resetPassword(email);
-                    }
+                    mPresenter.signInUser(email, pass);
+                }
+            } else {
+                String email = mEmail.getText().toString().trim();
+                if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
+                    mEmail.setError(getString(R.string.email_enter));
+                } else {
+                    Toast.makeText(LoginActivity.this, getString(R.string.password_reset), Toast.LENGTH_SHORT).show();
+                    mPresenter.resetPassword(email);
                 }
             }
         });
 
-        mPasswordReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPassword.setVisibility(View.GONE);
-                mSignIn.setText(getString(R.string.send));
-            }
+        mPasswordReset.setOnClickListener(v -> {
+            mPassword.setVisibility(View.GONE);
+            mSignIn.setText(getString(R.string.send));
         });
     }
 

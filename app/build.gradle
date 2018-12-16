@@ -57,6 +57,7 @@ dependencies {
 
     //  Logger
     implementation 'com.orhanobut:logger:2.2.0'
+    implementation 'org.jetbrains:annotations:15.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
