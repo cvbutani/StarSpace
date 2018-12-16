@@ -5,4 +5,6 @@ import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 public interface DataContract {
 
     void signInDataRepo(String email, String password, OnTaskCompletion taskCompletion);
+
+    void registerDataRepo(String username, String email, String password, OnTaskCompletion taskCompletion);
 }

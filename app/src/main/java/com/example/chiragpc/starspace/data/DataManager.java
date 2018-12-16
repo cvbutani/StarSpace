@@ -28,4 +28,9 @@ public class DataManager implements DataContract {
     public void signInDataRepo(String email, String password, OnTaskCompletion taskCompletion) {
         mAccountRepo.signInAccRepo(email, password, taskCompletion);
     }
+
+    @Override
+    public void registerDataRepo(String username, String email, String password, OnTaskCompletion taskCompletion) {
+        mAccountRepo.registerAccRepo(username, email, password, taskCompletion);
+    }
 }

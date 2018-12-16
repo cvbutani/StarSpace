@@ -2,19 +2,15 @@ package com.example.chiragpc.starspace.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.chiragpc.starspace.R;
-import com.example.chiragpc.starspace.authentication.LoginActivity;
+import com.example.chiragpc.starspace.authentication.login.LoginActivity;
 import com.example.chiragpc.starspace.authentication.register.RegisterActivity;
-import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.OnClick;
 
 /**
  * Created by Chirag on 12/15/2018 at 14:22.

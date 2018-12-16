@@ -30,4 +30,19 @@ public class AccountRepo {
                     }
                 });
     }
+
+    public void registerAccRepo(String username, String email, String password, OnTaskCompletion taskCompletion) {
+        mFirebaseRepo.getFirebaseAuthInstance()
+                .createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            taskCompletion.onSuccess();
+                        } else {
+                            taskCompletion.onFailure(task.getException().getMessage());
+                        }
+                    }
+                });
+    }
 }

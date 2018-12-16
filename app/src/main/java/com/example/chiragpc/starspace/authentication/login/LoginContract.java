@@ -1,4 +1,4 @@
-package com.example.chiragpc.starspace.authentication;
+package com.example.chiragpc.starspace.authentication.login;
 
 import com.example.chiragpc.starspace.base.MvpView;
 
