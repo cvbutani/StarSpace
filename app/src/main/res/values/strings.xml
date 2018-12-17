@@ -16,4 +16,5 @@
     <string name="reset_password">Forgot Password? Reset here</string>
     <string name="send">Send</string>
     <string name="password_reset">Password rest email sent</string>
+    <string name="reset_password_fail">Something went wrong.</string>
 </resources>

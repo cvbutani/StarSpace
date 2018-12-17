@@ -59,6 +59,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                     mUsername.setError(getString(R.string.username_enter));
                 } else {
                     mPresenter.registerUser(username, email, password);
+                    Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });

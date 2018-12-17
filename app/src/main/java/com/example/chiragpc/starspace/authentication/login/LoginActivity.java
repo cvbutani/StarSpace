@@ -45,10 +45,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 String email = mEmail.getText().toString().trim();
                 String pass = mPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.email_enter));
                     mEmail.setError(getString(R.string.email_enter));
                 } else if (TextUtils.isEmpty(pass)) {
-                    Toast.makeText(LoginActivity.this, getString(R.string.password_enter), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.password_enter));
                     mPassword.setError(getString(R.string.password_enter));
                 } else {
                     mPresenter.signInUser(email, pass);
@@ -56,10 +56,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             } else {
                 String email = mEmail.getText().toString().trim();
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(LoginActivity.this, getString(R.string.email_enter), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.email_enter));
                     mEmail.setError(getString(R.string.email_enter));
                 } else {
-                    Toast.makeText(LoginActivity.this, getString(R.string.password_reset), Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.password_reset));
                     mPresenter.resetPassword(email);
                 }
             }
@@ -84,7 +84,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void signInSuccess() {
-        startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        startActivity(new Intent(this, HomeActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
 
@@ -96,12 +97,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void resetPasswordFailure(String error) {
-        Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show();
+        showToast(getString(R.string.reset_password_fail));
     }
 
     @Override
     public void signInError(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        showToast(error);
     }
 
     @Override
@@ -112,5 +113,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @Override
     public void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
