@@ -71,6 +71,10 @@ class AccountRepo {
                 });
     }
 
+    void signOutAccRepo() {
+        mFirebaseRepo.getFirebaseAuthInstance().signOut();
+    }
+
     private Boolean registerUserToDatabase(@NonNull FirebaseUser firebaseUser, String username) {
         String userId = firebaseUser.getUid();
 

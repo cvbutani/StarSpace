@@ -38,4 +38,10 @@ public class DataManager implements DataContract {
     public void resetPasswordDataRepo(String email, OnTaskCompletion.ResetPassword taskCompletion) {
         mAccountRepo.resetPasswordAccRepo(email, taskCompletion);
     }
+
+    @Override
+    public void signOutDataRepo() {
+        mAccountRepo.signOutAccRepo();
+    }
+
 }

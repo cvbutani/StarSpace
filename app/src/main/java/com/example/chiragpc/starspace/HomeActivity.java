@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -25,16 +26,18 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.navigation_albums:
-                    mToolbar.setTitle("Songs");
+                case R.id.navigation_home:
+                    mToolbar.setTitle("Star Space");
                     return true;
-                case R.id.navigation_artists:
-                    Toast.makeText(HomeActivity.this, "Artists", Toast.LENGTH_SHORT).show();
+                case R.id.navigation_friends:
+                    Toast.makeText(HomeActivity.this, "Friends", Toast.LENGTH_SHORT).show();
                     mToolbar.setTitle("Artists");
                     return true;
-                case R.id.navigation_songs:
-                    Toast.makeText(HomeActivity.this, "Songs", Toast.LENGTH_SHORT).show();
-                    mToolbar.setTitle("Songs");
+                case R.id.navigation_settings:
+                    SettingsFragment settings = new SettingsFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, settings).commit();
+                    Toast.makeText(HomeActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                    mToolbar.setTitle("Settings");
                     return true;
             }
             return false;

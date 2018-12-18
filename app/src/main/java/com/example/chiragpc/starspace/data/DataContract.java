@@ -10,4 +10,5 @@ public interface DataContract {
 
     void resetPasswordDataRepo(String email, OnTaskCompletion.ResetPassword taskCompletion);
 
+    void signOutDataRepo();
 }
