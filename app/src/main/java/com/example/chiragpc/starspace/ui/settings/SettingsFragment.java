@@ -14,6 +14,7 @@ import com.orhanobut.logger.Logger;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
@@ -35,7 +36,6 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
 
         mPresenter = new SettingsPresenter();
         mPresenter.attachView(this);
-
         Logger.addLogAdapter(new AndroidLogAdapter());
     }
 

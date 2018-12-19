@@ -2,10 +2,15 @@ package com.example.chiragpc.starspace.data;
 
 
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
+import com.example.chiragpc.starspace.model.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -26,7 +31,7 @@ class AccountRepo {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            taskCompletion.onSuccess();
+                            taskCompletion.onSuccess(task.getResult().getUser().getUid());
                         } else {
                             taskCompletion.onFailure(task.getException().getMessage());
                         }
@@ -46,10 +51,10 @@ class AccountRepo {
                                 boolean success =
                                         registerUserToDatabase(user, username);
                                 if (success) {
-                                    taskCompletion.onSuccess();
+                                    taskCompletion.onSuccess(user.getUid());
                                 }
                             }
-                        }else {
+                        } else {
                             taskCompletion.onFailure(task.getException().getMessage());
                         }
                     }
@@ -75,7 +80,7 @@ class AccountRepo {
         mFirebaseRepo.getFirebaseAuthInstance().signOut();
     }
 
-    private Boolean registerUserToDatabase(@NonNull FirebaseUser firebaseUser, String username) {
+    private boolean registerUserToDatabase(@NonNull FirebaseUser firebaseUser, String username) {
         String userId = firebaseUser.getUid();
 
         HashMap<String, String> userPair = new HashMap<>();
@@ -86,5 +91,21 @@ class AccountRepo {
                 .child(userId)
                 .setValue(userPair)
                 .isSuccessful();
+    }
+
+    public void userAccountInstace(String userId, OnTaskCompletion.UserAccountInfo taskCompletion) {
+        mFirebaseRepo.getUserDatabaseReferenceInstance()
+                .child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserAccount user = dataSnapshot.getValue(UserAccount.class);
+                taskCompletion.onCurrentUserInfoSuccess(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                taskCompletion.onCurrentUserInfoFailure(databaseError.toString());
+            }
+        });
     }
 }

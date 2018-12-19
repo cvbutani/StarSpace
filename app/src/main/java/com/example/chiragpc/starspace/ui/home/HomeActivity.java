@@ -1,10 +1,13 @@
-package com.example.chiragpc.starspace;
+package com.example.chiragpc.starspace.ui.home;
 
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.chiragpc.starspace.R;
+import com.example.chiragpc.starspace.base.BaseActivity;
+import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -12,11 +15,11 @@ import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity implements HomeContract.View {
 
-    ActionBar mToolbar;
+    Toolbar mToolbar;
 
     BottomNavigationView mNavigation;
 
@@ -31,7 +34,11 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_friends:
                     Toast.makeText(HomeActivity.this, "Friends", Toast.LENGTH_SHORT).show();
-                    mToolbar.setTitle("Artists");
+                    mToolbar.setTitle("Friends");
+                    return true;
+                case R.id.navigation_users:
+                    Toast.makeText(HomeActivity.this, "All Users", Toast.LENGTH_SHORT).show();
+                    mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
                     SettingsFragment settings = new SettingsFragment();
@@ -44,20 +51,53 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
 
+    HomePresenter mPresenter;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         viewHolder();
 
-        Logger.addLogAdapter(new AndroidLogAdapter());
+        setSupportActionBar(mToolbar);
 
-        mToolbar = getSupportActionBar();
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        String userId="abc";
+        if (getIntent().hasExtra("userid")) {
+            userId = getIntent().getStringExtra("userid");
+        }
+
         mNavigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
+
+        mPresenter = new HomePresenter();
+        mPresenter.attachView(this);
+        mPresenter.userAccount(userId);
     }
 
     private void viewHolder() {
+        mToolbar = findViewById(R.id.home_toolbar);
+
         mNavigation = findViewById(R.id.navigation_view);
+    }
+
+    @Override
+    public void userAccountSuccess(UserAccount account) {
+        mToolbar.setTitle(account.getUserName());
+    }
+
+    @Override
+    public void userAccountFailure(String error) {
+
+    }
+
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
     }
 }

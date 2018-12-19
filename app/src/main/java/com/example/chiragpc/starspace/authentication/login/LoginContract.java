@@ -4,7 +4,7 @@ import com.example.chiragpc.starspace.base.MvpView;
 
 public interface LoginContract {
     interface View extends MvpView {
-        void signInSuccess();
+        void signInSuccess(String userId);
 
         void resetPasswordSuccess();
 

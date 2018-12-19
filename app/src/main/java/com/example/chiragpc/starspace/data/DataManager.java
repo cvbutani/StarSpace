@@ -44,4 +44,9 @@ public class DataManager implements DataContract {
         mAccountRepo.signOutAccRepo();
     }
 
+    @Override
+    public void userAccountDataRepo(String userId, OnTaskCompletion.UserAccountInfo taskCompletion) {
+        mAccountRepo.userAccountInstace(userId, taskCompletion);
+    }
+
 }

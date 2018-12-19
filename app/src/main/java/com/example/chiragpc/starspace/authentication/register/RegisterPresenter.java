@@ -33,9 +33,9 @@ public class RegisterPresenter
         getView().showProgressBar();
         mDataManager.registerDataRepo(username, email, password, new OnTaskCompletion() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String userId) {
                 getView().hideProgressBar();
-                getView().registerSuccess();
+                getView().registerSuccess(userId);
             }
 
             @Override

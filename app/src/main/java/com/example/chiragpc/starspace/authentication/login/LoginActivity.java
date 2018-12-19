@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
-import com.example.chiragpc.starspace.HomeActivity;
+import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
@@ -29,6 +30,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     LoginPresenter mPresenter;
 
+    Toolbar mToolBar;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         viewHolder();
 
+        setSupportActionBar(mToolBar);
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
 
@@ -72,6 +76,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     private void viewHolder() {
+        mToolBar = findViewById(R.id.login_toolbar);
+
         mEmail = findViewById(R.id.login_email_address);
         mPassword = findViewById(R.id.login_password);
 
@@ -83,8 +89,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     @Override
-    public void signInSuccess() {
-        startActivity(new Intent(this, HomeActivity.class)
+    public void signInSuccess(String userID) {
+        startActivity(new Intent(this, HomeActivity.class).putExtra("userid", userID)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }

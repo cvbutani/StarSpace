@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.chiragpc.starspace.HomeActivity;
+import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 /**
@@ -20,6 +21,8 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
  * Project - StarSpace
  */
 public class RegisterActivity extends BaseActivity implements RegisterContract.View {
+
+    Toolbar mToolbar;
 
     EditText mUsername;
     EditText mEmail;
@@ -37,6 +40,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         setContentView(R.layout.activity_register);
 
         viewHolder();
+
+        setSupportActionBar(mToolbar);
 
         mPresenter = new RegisterPresenter();
         mPresenter.attachView(this);
@@ -66,6 +71,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     private void viewHolder() {
+        mToolbar = findViewById(R.id.register_toolbar);
+
         mUsername = findViewById(R.id.register_display_name);
         mEmail = findViewById(R.id.register_email_address);
         mPassword = findViewById(R.id.register_password);
@@ -76,8 +83,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     @Override
-    public void registerSuccess() {
-        startActivity(new Intent(this, HomeActivity.class)
+    public void registerSuccess(String userId) {
+        startActivity(new Intent(this, HomeActivity.class).putExtra("userid", userId)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
