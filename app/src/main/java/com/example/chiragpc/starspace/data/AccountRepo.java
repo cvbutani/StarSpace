@@ -12,7 +12,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 
@@ -105,6 +107,25 @@ class AccountRepo {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 taskCompletion.onCurrentUserInfoFailure(databaseError.toString());
+            }
+        });
+    }
+
+    public void userRegisteredInfo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
+        mFirebaseRepo.getUserDatabaseReferenceInstance().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<UserAccount> userAccountsList = new ArrayList<>();
+                for (DataSnapshot user : dataSnapshot.getChildren()) {
+                    UserAccount userAccount = user.getValue(UserAccount.class);
+                    userAccountsList.add(userAccount);
+                }
+                taskCompletion.onAllUserInfoSuccess(userAccountsList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                taskCompletion.onAllUserInfoFailure(databaseError.toString());
             }
         });
     }
