@@ -9,6 +9,7 @@ import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
+import com.example.chiragpc.starspace.ui.user.AllUsersFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -37,7 +38,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     mToolbar.setTitle("Friends");
                     return true;
                 case R.id.navigation_users:
-                    Toast.makeText(HomeActivity.this, "All Users", Toast.LENGTH_SHORT).show();
+                    AllUsersFragment allUsers = new AllUsersFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, allUsers).commit();
                     mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
@@ -63,7 +65,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setSupportActionBar(mToolbar);
 
         Logger.addLogAdapter(new AndroidLogAdapter());
-        String userId="abc";
+        String userId = "abc";
         if (getIntent().hasExtra("userid")) {
             userId = getIntent().getStringExtra("userid");
         }

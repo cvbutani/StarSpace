@@ -1,26 +1,39 @@
 package com.example.chiragpc.starspace.data;
 
 
+import android.util.Log;
+
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 import androidx.annotation.NonNull;
 
 class AccountRepo {
 
     private FirebaseRepo mFirebaseRepo;
+    private UserAccount mUserAccount;
 
     AccountRepo(FirebaseRepo firebaseRepo) {
         this.mFirebaseRepo = firebaseRepo;
@@ -90,43 +103,64 @@ class AccountRepo {
         userPair.put("username", username);
 
         return mFirebaseRepo.getUserDatabaseReferenceInstance()
-                .child(userId)
-                .setValue(userPair)
+                .document()
+                .set(userPair)
                 .isSuccessful();
     }
 
     public void userAccountInstace(String userId, OnTaskCompletion.UserAccountInfo taskCompletion) {
         mFirebaseRepo.getUserDatabaseReferenceInstance()
-                .child(userId).addValueEventListener(new ValueEventListener() {
+                .whereEqualTo("id", userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                UserAccount account = snapshot.toObject(UserAccount.class);
+                                taskCompletion.onCurrentUserInfoSuccess(account);
+                            }
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserAccount user = dataSnapshot.getValue(UserAccount.class);
-                taskCompletion.onCurrentUserInfoSuccess(user);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                taskCompletion.onCurrentUserInfoFailure(databaseError.toString());
+            public void onFailure(@NonNull Exception e) {
+                taskCompletion.onCurrentUserInfoFailure(e.getMessage());
             }
         });
     }
 
     public void userRegisteredInfo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
-        mFirebaseRepo.getUserDatabaseReferenceInstance().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<UserAccount> userAccountsList = new ArrayList<>();
-                for (DataSnapshot user : dataSnapshot.getChildren()) {
-                    UserAccount userAccount = user.getValue(UserAccount.class);
-                    userAccountsList.add(userAccount);
-                }
-                taskCompletion.onAllUserInfoSuccess(userAccountsList);
-            }
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        mFirebaseRepo.getUserDatabaseReferenceInstance()
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<UserAccount> userAccounts = new ArrayList<>();
+                            QuerySnapshot snapshot = task.getResult();
+                            for (DocumentSnapshot documentSnapshot : snapshot.getDocuments()) {
+                                mFirebaseRepo.getUserDatabaseReferenceInstance()
+                                        .document(documentSnapshot.getId()).get().getResult().getDocumentReference(documentSnapshot.getId());
+                            }
+                            taskCompletion.onAllUserInfoSuccess(userAccounts);
+                        }
+                    }
+                });
+    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                taskCompletion.onAllUserInfoFailure(databaseError.toString());
-            }
-        });
+    private UserAccount getUserFromId(String id) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        mFirebaseRepo.getUserDatabaseReferenceInstance().document(id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot snapshot = task.getResult();
+                        mUserAccount = snapshot.toObject(UserAccount.class);
+                    }
+                });
+        Logger.i(mUserAccount.getUserName());
+        return mUserAccount;
     }
 }

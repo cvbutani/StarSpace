@@ -13,4 +13,6 @@ public interface DataContract {
     void signOutDataRepo();
 
     void userAccountDataRepo(String userID, OnTaskCompletion.UserAccountInfo taskCompletion);
+
+    void allUserAccountDataRepo(OnTaskCompletion.userRegisteredInfo taskCompletion);
 }

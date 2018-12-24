@@ -49,4 +49,9 @@ public class DataManager implements DataContract {
         mAccountRepo.userAccountInstace(userId, taskCompletion);
     }
 
+    @Override
+    public void allUserAccountDataRepo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
+        mAccountRepo.userRegisteredInfo(taskCompletion);
+    }
+
 }
