@@ -33,15 +33,26 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
 
     private MaterialProgressBar mProgressBar;
 
+    private AllUserAdapter mAdapter;
+    UserAccount account;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+//        mPresenter = new AllUsersPresenter();
+//        mPresenter.attachView(this);
+//        mPresenter.allUser();
+
+        Logger.addLogAdapter(new AndroidLogAdapter());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         mPresenter = new AllUsersPresenter();
         mPresenter.attachView(this);
         mPresenter.allUser();
-
-        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     @Nullable
@@ -51,15 +62,15 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         mRecyclerView = rootView.findViewById(R.id.all_user_recycler_view);
         mProgressBar = rootView.findViewById(R.id.all_user_progressBar);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return rootView;
     }
 
     @Override
     public void allUserSuccess(List<UserAccount> userAccountList) {
-
-        AllUserAdapter adapter = new AllUserAdapter(userAccountList, this, getContext());
-        mRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        mAdapter = new AllUserAdapter(userAccountList, this, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

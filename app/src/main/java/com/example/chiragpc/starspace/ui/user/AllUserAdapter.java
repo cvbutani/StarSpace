@@ -51,9 +51,8 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull AllUserAdapter.ViewHolder holder, int position) {
         UserAccount user = mUsers.get(position);
-
-        holder.mUsername.setText(user.getUserName());
-        Logger.i(user.getUserName());
+        holder.mUsername.setText(user.getUsername());
+        Logger.i(user.getUsername());
     }
 
     @Override

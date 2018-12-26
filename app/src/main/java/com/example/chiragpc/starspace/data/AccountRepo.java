@@ -22,6 +22,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.FormatFlagsConversionMismatchException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,20 +132,15 @@ class AccountRepo {
     }
 
     public void userRegisteredInfo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        mFirebaseRepo.getUserDatabaseReferenceInstance()
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<UserAccount> userAccounts = new ArrayList<>();
-                            QuerySnapshot snapshot = task.getResult();
-                            for (DocumentSnapshot documentSnapshot : snapshot.getDocuments()) {
-                                mFirebaseRepo.getUserDatabaseReferenceInstance()
-                                        .document(documentSnapshot.getId()).get().getResult().getDocumentReference(documentSnapshot.getId());
-                            }
-                            taskCompletion.onAllUserInfoSuccess(userAccounts);
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            List<UserAccount> account = task.getResult().toObjects(UserAccount.class);
+                            taskCompletion.onAllUserInfoSuccess(account);
                         }
                     }
                 });
@@ -160,7 +156,7 @@ class AccountRepo {
                         mUserAccount = snapshot.toObject(UserAccount.class);
                     }
                 });
-        Logger.i(mUserAccount.getUserName());
+        Logger.i(mUserAccount.getUsername());
         return mUserAccount;
     }
 }

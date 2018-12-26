@@ -7,14 +7,14 @@ package com.example.chiragpc.starspace.model;
 public class UserAccount {
     private String id;
 
-    private String userName;
+    private String username;
 
     public UserAccount() {
     }
 
-    public UserAccount(String id, String userName) {
+    public UserAccount(String id, String username) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
     }
 
     public String getId() {
@@ -25,11 +25,11 @@ public class UserAccount {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

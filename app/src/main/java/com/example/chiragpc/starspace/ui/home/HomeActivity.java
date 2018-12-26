@@ -85,7 +85,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     @Override
     public void userAccountSuccess(UserAccount account) {
-        mToolbar.setTitle(account.getUserName());
+        mToolbar.setTitle(account.getUsername());
     }
 
     @Override
