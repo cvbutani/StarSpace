@@ -13,6 +13,8 @@ public interface AllUsersContract {
     interface View extends MvpView {
         void allUserSuccess(List<UserAccount> userAccountList);
 
+        void friendRequestStatus(boolean isSuccess);
+
         void allUserFailure(String error);
 
         void showProgressBar();
@@ -21,6 +23,7 @@ public interface AllUsersContract {
     }
 
     interface Presenter {
-        void allUser();
+        void allUser(String userId);
+        void sendFriendRequest (boolean isFriend, String senderUserId, String receiverUserId);
     }
 }

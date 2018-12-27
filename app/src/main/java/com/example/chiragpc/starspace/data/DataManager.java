@@ -5,7 +5,7 @@ import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 public class DataManager implements DataContract {
 
     private AccountRepo mAccountRepo;
-    private FirebaseRepo mFirebaseRepo;
+    private FriendRepo mFriendRepo;
     private static DataManager INSTANCE;
 
     public static DataManager getInstance() {
@@ -20,8 +20,9 @@ public class DataManager implements DataContract {
     }
 
     private DataManager() {
-        mFirebaseRepo = new FirebaseRepo();
-        mAccountRepo = new AccountRepo(mFirebaseRepo);
+        FirebaseRepo firebaseRepo = new FirebaseRepo();
+        mAccountRepo = new AccountRepo(firebaseRepo);
+        mFriendRepo = new FriendRepo(firebaseRepo);
     }
 
     @Override
@@ -50,8 +51,18 @@ public class DataManager implements DataContract {
     }
 
     @Override
-    public void allUserAccountDataRepo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
-        mAccountRepo.userRegisteredInfo(taskCompletion);
+    public void allUserAccountDataRepo(String userId, OnTaskCompletion.userRegisteredInfo taskCompletion) {
+        mAccountRepo.userRegisteredInfo(userId, taskCompletion);
+    }
+
+    @Override
+    public void userAccountByUId(String uId, OnTaskCompletion.UserByUniqueId taskCompletion) {
+        mFriendRepo.userAccountByUId(uId, taskCompletion);
+    }
+
+    @Override
+    public void sendFriendRequest(boolean isFriend, String senderUId, String receiverUId, OnTaskCompletion.FriendRequest taskCompletion) {
+        mFriendRepo.sendFriendRequest(isFriend, senderUId, receiverUId, taskCompletion);
     }
 
 }

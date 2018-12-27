@@ -27,4 +27,12 @@ public interface OnTaskCompletion {
 
         void onAllUserInfoFailure(String error);
     }
+
+    interface FriendRequest {
+        void onFriendRequestSuccess(boolean isSuccess);
+    }
+
+    interface UserByUniqueId {
+        void onUserSuccess(UserAccount account);
+    }
 }

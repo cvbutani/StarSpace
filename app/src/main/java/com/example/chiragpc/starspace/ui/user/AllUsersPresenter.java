@@ -32,9 +32,9 @@ public class AllUsersPresenter
     }
 
     @Override
-    public void allUser() {
+    public void allUser(String userId) {
         getView().showProgressBar();
-        mDataManager.allUserAccountDataRepo(new OnTaskCompletion.userRegisteredInfo() {
+        mDataManager.allUserAccountDataRepo(userId, new OnTaskCompletion.userRegisteredInfo() {
             @Override
             public void onAllUserInfoSuccess(List<UserAccount> useraccount) {
                 getView().hideProgressBar();
@@ -45,6 +45,18 @@ public class AllUsersPresenter
             public void onAllUserInfoFailure(String error) {
                 getView().hideProgressBar();
                 getView().allUserFailure(error);
+            }
+        });
+    }
+
+    @Override
+    public void sendFriendRequest(boolean isFriend, String senderUserId, String receiverUserId) {
+        getView().showProgressBar();
+        mDataManager.sendFriendRequest(isFriend, senderUserId, receiverUserId, new OnTaskCompletion.FriendRequest() {
+            @Override
+            public void onFriendRequestSuccess(boolean isSuccess) {
+                getView().hideProgressBar();
+                getView().friendRequestStatus(isSuccess);
             }
         });
     }

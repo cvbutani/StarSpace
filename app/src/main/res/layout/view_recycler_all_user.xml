@@ -40,6 +40,6 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="Send Friend Request" />
+            android:text="@string/send_friend_request" />
     </RelativeLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

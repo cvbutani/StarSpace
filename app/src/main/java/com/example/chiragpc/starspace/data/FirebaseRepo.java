@@ -5,6 +5,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import static com.example.chiragpc.starspace.config.AppConfig.FIREBASE_NODE;
+
 public class FirebaseRepo {
 
     FirebaseRepo() {
@@ -21,6 +23,10 @@ public class FirebaseRepo {
 
     CollectionReference getUserDatabaseReferenceInstance() {
         return FirebaseFirestore.getInstance().collection("user");
+    }
+
+    CollectionReference getFriendRequestDatabaseReferenceInstance() {
+        return FirebaseFirestore.getInstance().collection(FIREBASE_NODE);
     }
 
 }

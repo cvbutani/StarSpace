@@ -1,47 +1,32 @@
 package com.example.chiragpc.starspace.data;
 
-
-import android.util.Log;
-
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
-import java.util.FormatFlagsConversionMismatchException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.Nullable;
 
 import androidx.annotation.NonNull;
 
 class AccountRepo {
 
     private FirebaseRepo mFirebaseRepo;
-    private UserAccount mUserAccount;
 
     AccountRepo(FirebaseRepo firebaseRepo) {
         this.mFirebaseRepo = firebaseRepo;
     }
 
     void signInAccRepo(String email, String password, OnTaskCompletion taskCompletion) {
-        mFirebaseRepo.getFirebaseAuthInstance()
+        mFirebaseRepo
+                .getFirebaseAuthInstance()
                 .signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -56,7 +41,8 @@ class AccountRepo {
     }
 
     void registerAccRepo(String username, String email, String password, OnTaskCompletion taskCompletion) {
-        mFirebaseRepo.getFirebaseAuthInstance()
+        mFirebaseRepo
+                .getFirebaseAuthInstance()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -78,7 +64,8 @@ class AccountRepo {
     }
 
     void resetPasswordAccRepo(String email, OnTaskCompletion.ResetPassword taskCompletion) {
-        mFirebaseRepo.getFirebaseAuthInstance()
+        mFirebaseRepo
+                .getFirebaseAuthInstance()
                 .sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -103,14 +90,16 @@ class AccountRepo {
         userPair.put("id", userId);
         userPair.put("username", username);
 
-        return mFirebaseRepo.getUserDatabaseReferenceInstance()
-                .document()
+        return mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
+                .document(userId)
                 .set(userPair)
                 .isSuccessful();
     }
 
-    public void userAccountInstace(String userId, OnTaskCompletion.UserAccountInfo taskCompletion) {
-        mFirebaseRepo.getUserDatabaseReferenceInstance()
+    void userAccountInstace(String userId, OnTaskCompletion.UserAccountInfo taskCompletion) {
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
                 .whereEqualTo("id", userId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -131,7 +120,7 @@ class AccountRepo {
         });
     }
 
-    public void userRegisteredInfo(OnTaskCompletion.userRegisteredInfo taskCompletion) {
+    void userRegisteredInfo(String userId, OnTaskCompletion.userRegisteredInfo taskCompletion) {
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
                 .get()
@@ -139,24 +128,11 @@ class AccountRepo {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
-                            List<UserAccount> account = task.getResult().toObjects(UserAccount.class);
-                            taskCompletion.onAllUserInfoSuccess(account);
+                            List<UserAccount> accountList = task.getResult().toObjects(UserAccount.class);
+                            taskCompletion.onAllUserInfoSuccess(accountList);
                         }
                     }
                 });
     }
 
-    private UserAccount getUserFromId(String id) {
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        mFirebaseRepo.getUserDatabaseReferenceInstance().document(id).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot snapshot = task.getResult();
-                        mUserAccount = snapshot.toObject(UserAccount.class);
-                    }
-                });
-        Logger.i(mUserAccount.getUsername());
-        return mUserAccount;
-    }
 }

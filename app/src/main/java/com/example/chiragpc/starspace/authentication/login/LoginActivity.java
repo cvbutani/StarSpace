@@ -17,6 +17,8 @@ import com.google.android.material.button.MaterialButton;
 import androidx.annotation.Nullable;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
+
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     EditText mEmail;
@@ -90,7 +92,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void signInSuccess(String userID) {
-        startActivity(new Intent(this, HomeActivity.class).putExtra("userid", userID)
+        startActivity(new Intent(this, HomeActivity.class).putExtra(USER_ID, userID)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }

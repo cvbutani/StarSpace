@@ -18,11 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
+import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
+
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
     Toolbar mToolbar;
 
     BottomNavigationView mNavigation;
+
+    String userId = "";
 
     //  Bottom Navigation View
     private BottomNavigationView.OnNavigationItemSelectedListener mItemSelectedListener
@@ -39,6 +43,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     return true;
                 case R.id.navigation_users:
                     AllUsersFragment allUsers = new AllUsersFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(USER_ID, userId);
+                    allUsers.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, allUsers).commit();
                     mToolbar.setTitle("All Users");
                     return true;
@@ -65,9 +72,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         setSupportActionBar(mToolbar);
 
         Logger.addLogAdapter(new AndroidLogAdapter());
-        String userId = "abc";
-        if (getIntent().hasExtra("userid")) {
-            userId = getIntent().getStringExtra("userid");
+
+        if (getIntent().hasExtra(USER_ID)) {
+            userId = getIntent().getStringExtra(USER_ID);
         }
 
         mNavigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
