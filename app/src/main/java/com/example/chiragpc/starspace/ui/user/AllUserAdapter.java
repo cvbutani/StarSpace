@@ -32,12 +32,15 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
 
     private boolean isPressed = false;
 
+    private String mCurrentUser;
+
     public interface OnItemClickListener {
         void onItemClick(String uId, boolean isFriend);
     }
 
-    AllUserAdapter(List<UserAccount> mUsers, OnItemClickListener mOnClickListener, Context context) {
+    AllUserAdapter(String user, List<UserAccount> mUsers, OnItemClickListener mOnClickListener, Context context) {
         this.mUsers = mUsers;
+        this.mCurrentUser = user;
         this.mOnClickListener = mOnClickListener;
         this.mContext = context;
         Logger.addLogAdapter(new AndroidLogAdapter());
@@ -54,6 +57,20 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
     public void onBindViewHolder(@NonNull AllUserAdapter.ViewHolder holder, int position) {
         UserAccount user = mUsers.get(position);
         holder.mUsername.setText(user.getUsername());
+
+        if (user.getFriendRequestSender() != null) {
+            for (String requests : user.getFriendRequestSender()) {
+                if (mCurrentUser.equals(requests)) {
+                    holder.mFriendRequestButton.setText(mContext.getString(R.string.accept));
+                }
+            }
+        } else if (user.getFriendRequestReceived() != null) {
+            for (String requsets : user.getFriendRequestReceived()) {
+                if (mCurrentUser.equals(requsets)) {
+                    holder.mFriendRequestButton.setText(mContext.getString(R.string.cancel_friend_request));
+                }
+            }
+        }
 
         if (!isPressed) {
             holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {

@@ -67,7 +67,7 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
 
     @Override
     public void allUserSuccess(List<UserAccount> userAccountList) {
-        mAdapter = new AllUserAdapter(userAccountList, this, getContext());
+        mAdapter = new AllUserAdapter(senderUserId, userAccountList, this, getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
