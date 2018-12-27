@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.chiragpc.starspace.authentication.login.LoginActivity;
 import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
@@ -64,7 +65,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                     mUsername.setError(getString(R.string.username_enter));
                 } else {
                     mPresenter.registerUser(username, email, password);
-                    Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -83,8 +83,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     @Override
-    public void registerSuccess(String userId) {
-        startActivity(new Intent(this, HomeActivity.class).putExtra("userid", userId)
+    public void registerNewUserSuccess(String userId) {
+        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }

@@ -36,7 +36,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
         void onItemClick(String uId, boolean isFriend);
     }
 
-    public AllUserAdapter(List<UserAccount> mUsers, OnItemClickListener mOnClickListener, Context context) {
+    AllUserAdapter(List<UserAccount> mUsers, OnItemClickListener mOnClickListener, Context context) {
         this.mUsers = mUsers;
         this.mOnClickListener = mOnClickListener;
         this.mContext = context;
@@ -82,7 +82,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatImageView mUserProfilePic;
         AppCompatTextView mUsername;
@@ -93,7 +93,6 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
             mUserProfilePic = itemView.findViewById(R.id.view_user_profile_pic);
             mUsername = itemView.findViewById(R.id.view_user_name);
             mFriendRequestButton = itemView.findViewById(R.id.view_user_friend_request);
-
         }
     }
 }

@@ -50,11 +50,8 @@ class AccountRepo {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mFirebaseRepo.getFirebaseAuthInstance().getCurrentUser();
                             if (user != null) {
-                                boolean success =
-                                        registerUserToDatabase(user, username);
-                                if (success) {
-                                    taskCompletion.onSuccess(user.getUid());
-                                }
+                                registerUserToDatabase(user, username);
+                                taskCompletion.onSuccess(user.getUid());
                             }
                         } else {
                             taskCompletion.onFailure(task.getException().getMessage());
@@ -83,14 +80,16 @@ class AccountRepo {
         mFirebaseRepo.getFirebaseAuthInstance().signOut();
     }
 
-    private boolean registerUserToDatabase(@NonNull FirebaseUser firebaseUser, String username) {
+    private void registerUserToDatabase(@NonNull FirebaseUser firebaseUser, String username) {
         String userId = firebaseUser.getUid();
 
         HashMap<String, String> userPair = new HashMap<>();
         userPair.put("id", userId);
         userPair.put("username", username);
+        userPair.put("friendRequestReceived", null);
+        userPair.put("friendRequestSent", null);
 
-        return mFirebaseRepo
+        mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
                 .document(userId)
                 .set(userPair)

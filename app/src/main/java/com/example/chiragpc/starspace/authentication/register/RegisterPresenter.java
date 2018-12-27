@@ -35,7 +35,7 @@ public class RegisterPresenter
             @Override
             public void onSuccess(String userId) {
                 getView().hideProgressBar();
-                getView().registerSuccess(userId);
+                getView().registerNewUserSuccess(userId);
             }
 
             @Override
