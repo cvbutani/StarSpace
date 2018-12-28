@@ -1,7 +1,11 @@
 package com.example.chiragpc.starspace.ui.settings;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +19,16 @@ import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.appcompat.widget.Toolbar;
+
 import androidx.fragment.app.Fragment;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static android.app.Activity.RESULT_OK;
+import static com.example.chiragpc.starspace.config.AppConfig.CAMERA_PROFILE_PIC;
+import static com.example.chiragpc.starspace.config.AppConfig.GALLERY_PROFILE_PIC;
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 /**
@@ -29,15 +37,15 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
  */
 public class SettingsFragment extends Fragment implements SettingsContract.View, View.OnClickListener {
 
-    LinearLayoutCompat mLinearLayout;
+    private LinearLayoutCompat mLinearLayout;
 
-    SettingsPresenter mPresenter;
+    private SettingsPresenter mPresenter;
 
-    MaterialProgressBar mProgressBar;
+    private MaterialProgressBar mProgressBar;
 
-    AppCompatTextView mUsername;
+    private AppCompatTextView mUsername;
 
-    CircularImageView mUserProfilePic;
+    private CircularImageView mUserProfilePic;
 
     private static SettingsFragment sSettingsFragment;
 
@@ -114,9 +122,49 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
                 break;
             case R.id.settings_profile_pic:
                 Logger.i("Profile Pic");
+                startProfilePicIntent();
                 break;
         }
     }
 
+    private void startProfilePicIntent() {
+        final CharSequence[] items = {"Camera", "Gallery", "Cancel"};
+        AlertDialog.Builder profilePicDialog = new AlertDialog.Builder(getContext());
+        profilePicDialog.setTitle("Upload Pictures Options");
+        profilePicDialog.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (items[which].equals("Camera")) {
 
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_PROFILE_PIC);
+
+                } else if (items[which].equals("Gallery")) {
+
+                    Intent galleryIntent
+                            = new Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    galleryIntent.setType("image/*");
+                    startActivityForResult(galleryIntent.createChooser(galleryIntent, "Select Image"), GALLERY_PROFILE_PIC);
+
+                } else if (items[which].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        }).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == CAMERA_PROFILE_PIC) {
+            Bundle bundle = data.getExtras();
+            final Bitmap bitmap = (Bitmap) bundle.get("data");
+            mUserProfilePic.setImageBitmap(bitmap);
+        } else if (resultCode == RESULT_OK && requestCode == GALLERY_PROFILE_PIC){
+            Uri selectedImageUri = data.getData();
+            mUserProfilePic.setImageURI(selectedImageUri);
+        }
+    }
 }

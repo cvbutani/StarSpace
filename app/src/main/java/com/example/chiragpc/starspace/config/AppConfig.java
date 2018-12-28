@@ -13,4 +13,7 @@ public class AppConfig {
     public static final String FRIEND_REQUEST_TYPE = "friendRequests";
     public static final String FRIEND_REQUEST_SENT = "requestSent";
     public static final String FRIEND_REQUEST_RECEIVED = "requestReceived";
+
+    public static final int GALLERY_PROFILE_PIC = 100;
+    public static final int CAMERA_PROFILE_PIC = 101;
 }
