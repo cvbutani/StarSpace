@@ -72,4 +72,9 @@ public class DataManager implements DataContract {
         mAccountRepo.uploadUserProfilePic(userId, imageUri);
     }
 
+    @Override
+    public void userFriendRequestDataRepo(String userId, OnTaskCompletion.UserFriendRequestInfo taskCompletion) {
+        mFriendRepo.friendRequestReceived(userId, taskCompletion);
+    }
+
 }

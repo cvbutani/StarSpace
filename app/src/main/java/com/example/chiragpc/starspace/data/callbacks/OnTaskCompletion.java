@@ -35,4 +35,10 @@ public interface OnTaskCompletion {
     interface UserByUniqueId {
         void onUserSuccess(UserAccount account);
     }
+
+    interface UserFriendRequestInfo {
+        void onFriendRequestInfoSuccess(List<UserAccount> account);
+
+        void onFriendRequestInfoFailure(String error);
+    }
 }

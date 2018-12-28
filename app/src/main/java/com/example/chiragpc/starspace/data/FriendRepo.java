@@ -6,6 +6,7 @@ import com.example.chiragpc.starspace.model.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -126,5 +127,43 @@ class FriendRepo {
                 Logger.i(e.getMessage());
             }
         });
+    }
+
+    void friendRequestReceived(String userId, OnTaskCompletion.UserFriendRequestInfo taskCompletion) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
+                .document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            UserAccount userAccount = task.getResult().toObject(UserAccount.class);
+
+                            if (userAccount != null && userAccount.getRequestReceived() != null) {
+                                List<UserAccount> accountList = new ArrayList<>();
+
+                                for (String receivedUserId : userAccount.getRequestReceived()) {
+                                    Logger.i(receivedUserId);
+                                    mFirebaseRepo
+                                            .getUserDatabaseReferenceInstance()
+                                            .document(receivedUserId)
+                                            .get()
+                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful() && task.getResult() != null) {
+                                                        UserAccount user = task.getResult().toObject(UserAccount.class);
+                                                        accountList.add(user);
+                                                        taskCompletion.onFriendRequestInfoSuccess(accountList);
+                                                    }
+                                                }
+                                            });
+                                }
+                            }
+                        }
+                    }
+                });
     }
 }

@@ -7,15 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
+import com.example.chiragpc.starspace.model.UserAccount;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements FriendsContract.View, FriendsAdapter.OnItemClickListener {
 
     private static FriendsFragment sFriendsFragment;
+
+    private FriendsPresenter mPresenter;
+
+    private FriendsAdapter mAdapter;
+
+    private RecyclerView mRecyclerView;
 
     private String mUserId;
 
@@ -40,12 +51,47 @@ public class FriendsFragment extends Fragment {
         if (getArguments() != null) {
             mUserId = getArguments().getString(USER_ID);
         }
+
+        mPresenter = new FriendsPresenter();
+        mPresenter.attachView(this);
+        mPresenter.getfriendRequest(mUserId);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        mRecyclerView = rootView.findViewById(R.id.friends_recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        return rootView;
+    }
+
+    @Override
+    public void friendRequestsReceived(List<UserAccount> userAccountList) {
+        mAdapter = new FriendsAdapter(userAccountList, this, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void friendRequestFailure(String error) {
+
+    }
+
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 }

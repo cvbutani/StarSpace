@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.ui.user.AllUserAdapter;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     private List<UserAccount> mUser;
 
-    private AllUserAdapter.OnItemClickListener mOnClickListener;
+    private FriendsAdapter.OnItemClickListener mOnClickListener;
 
     private Context mContext;
 
@@ -32,7 +33,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         void onItemClick(View view, int position);
     }
 
-    public FriendsAdapter(List<UserAccount> mUser, AllUserAdapter.OnItemClickListener mOnClickListener, Context mContext) {
+    public FriendsAdapter(List<UserAccount> mUser, FriendsAdapter.OnItemClickListener mOnClickListener, Context mContext) {
         this.mUser = mUser;
         this.mOnClickListener = mOnClickListener;
         this.mContext = mContext;
@@ -56,24 +57,19 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         return mUser.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatImageView mUserProfilePic;
         AppCompatTextView mUserName, mUserStatus;
+        MaterialButton mAccpetRequest;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mUserName = itemView.findViewById(R.id.view_user_name);
             mUserStatus = itemView.findViewById(R.id.view_user_status);
             mUserProfilePic = itemView.findViewById(R.id.view_user_profile_pic);
+            mAccpetRequest = itemView.findViewById(R.id.view_request_accept);
 
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int clickedPosition = getAdapterPosition();
-//            mOnClickListener.onItemClick(v, clickedPosition);
         }
     }
 }

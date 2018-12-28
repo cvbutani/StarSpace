@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.example.chiragpc.starspace.ui.friends.FriendsFragment;
 import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
 import com.example.chiragpc.starspace.ui.user.AllUsersFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -38,7 +39,8 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     mToolbar.setTitle("Star Space");
                     return true;
                 case R.id.navigation_friends:
-                    Toast.makeText(HomeActivity.this, "Friends", Toast.LENGTH_SHORT).show();
+                    FriendsFragment friends = FriendsFragment.newInstance(userId);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, friends).commit();
                     mToolbar.setTitle("Friends");
                     return true;
                 case R.id.navigation_users:
