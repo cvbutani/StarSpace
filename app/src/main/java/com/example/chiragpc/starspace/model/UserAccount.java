@@ -19,14 +19,18 @@ public class UserAccount {
     @Nullable
     private List<String> requestReceived;
 
+    @Nullable
+    private String profilePic;
+
     public UserAccount() {
     }
 
-    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived) {
+    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived, @Nullable String profilePic) {
         this.id = id;
         this.username = username;
         this.requestSent = requestSent;
         this.requestReceived = requestReceived;
+        this.profilePic = profilePic;
     }
 
     public String getId() {
@@ -61,5 +65,14 @@ public class UserAccount {
 
     public void setRequestReceived(@Nullable List<String> requestReceived) {
         this.requestReceived = requestReceived;
+    }
+
+    @Nullable
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(@Nullable String profilePic) {
+        this.profilePic = profilePic;
     }
 }

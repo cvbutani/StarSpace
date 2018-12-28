@@ -1,5 +1,7 @@
 package com.example.chiragpc.starspace.data;
 
+import android.net.Uri;
+
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 
 public class DataManager implements DataContract {
@@ -63,6 +65,11 @@ public class DataManager implements DataContract {
     @Override
     public void sendFriendRequest(boolean isFriend, String senderUId, String receiverUId, OnTaskCompletion.FriendRequest taskCompletion) {
         mFriendRepo.sendFriendRequest(isFriend, senderUId, receiverUId, taskCompletion);
+    }
+
+    @Override
+    public void profilePicDataRepo(String userId, Uri imageUri) {
+        mAccountRepo.uploadUserProfilePic(userId, imageUri);
     }
 
 }

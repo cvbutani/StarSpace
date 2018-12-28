@@ -96,6 +96,10 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     @Override
     public void getCurrentuser(UserAccount account) {
         mUsername.setText(account.getUsername());
+        if (account.getProfilePic() != null) {
+            Uri uri = Uri.parse(account.getProfilePic());
+            mUserProfilePic.setImageURI(uri);
+        }
     }
 
     @Override
@@ -165,6 +169,7 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PROFILE_PIC){
             Uri selectedImageUri = data.getData();
             mUserProfilePic.setImageURI(selectedImageUri);
+            mPresenter.profilePic(mUserId, selectedImageUri);
         }
     }
 }

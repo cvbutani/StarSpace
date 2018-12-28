@@ -1,5 +1,7 @@
 package com.example.chiragpc.starspace.ui.settings;
 
+import android.net.Uri;
+
 import com.example.chiragpc.starspace.base.BasePresenter;
 import com.example.chiragpc.starspace.data.DataManager;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
@@ -49,5 +51,10 @@ public class SettingsPresenter
                 getView().getCurrentUserFailure(error);
             }
         });
+    }
+
+    @Override
+    public void profilePic(String userId, Uri userUri) {
+        mDataManager.profilePicDataRepo(userId, userUri);
     }
 }

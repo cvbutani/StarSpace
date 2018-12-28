@@ -1,7 +1,10 @@
 package com.example.chiragpc.starspace.data;
 
+import android.net.Uri;
+
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -9,6 +12,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -132,6 +140,44 @@ class AccountRepo {
                         if (task.isSuccessful() && task.getResult() != null) {
                             List<UserAccount> accountList = task.getResult().toObjects(UserAccount.class);
                             taskCompletion.onAllUserInfoSuccess(accountList);
+                        }
+                    }
+                });
+    }
+
+    void uploadUserProfilePic(String userId, Uri picUri) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        StorageReference ref = mFirebaseRepo
+                .getProfileStorageReference()
+                .child(userId + ".jpg");
+
+        ref.putFile(picUri)
+                .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+                        return ref.getDownloadUrl();
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            Uri downloadUri = task.getResult();
+                            HashMap<String, String> profileImage = new HashMap<>();
+                            profileImage.put("profilePic", downloadUri.toString());
+                            mFirebaseRepo
+                                    .getUserDatabaseReferenceInstance()
+                                    .document(userId)
+                                    .set(profileImage, SetOptions.mergeFields("profilePic"))
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Logger.i("Successfully Uploaded");
+                                        }
+                                    });
                         }
                     }
                 });

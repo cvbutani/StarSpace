@@ -1,5 +1,7 @@
 package com.example.chiragpc.starspace.ui.settings;
 
+import android.net.Uri;
+
 import com.example.chiragpc.starspace.base.MvpView;
 import com.example.chiragpc.starspace.model.UserAccount;
 
@@ -24,5 +26,7 @@ public interface SettingsContract {
         void logout();
 
         void userAccount(String userId);
+
+        void profilePic(String userId, Uri userUri);
     }
 }

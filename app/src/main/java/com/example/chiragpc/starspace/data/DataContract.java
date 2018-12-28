@@ -1,5 +1,7 @@
 package com.example.chiragpc.starspace.data;
 
+import android.net.Uri;
+
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 
 public interface DataContract {
@@ -19,4 +21,6 @@ public interface DataContract {
     void userAccountByUId(String uId, OnTaskCompletion.UserByUniqueId taskCompletion);
 
     void sendFriendRequest(boolean isFriend, String senderUId, String receiverUId, OnTaskCompletion.FriendRequest taskCompletion);
+
+    void profilePicDataRepo(String userId, Uri imageUri);
 }
