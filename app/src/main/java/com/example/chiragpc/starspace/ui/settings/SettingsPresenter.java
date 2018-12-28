@@ -2,6 +2,8 @@ package com.example.chiragpc.starspace.ui.settings;
 
 import com.example.chiragpc.starspace.base.BasePresenter;
 import com.example.chiragpc.starspace.data.DataManager;
+import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
+import com.example.chiragpc.starspace.model.UserAccount;
 
 /**
  * Created by Chirag on 12/17/2018 at 21:19.
@@ -32,5 +34,20 @@ public class SettingsPresenter
         getView().showProgressBar();
         mDataManager.signOutDataRepo();
         getView().hideProgressBar();
+    }
+
+    @Override
+    public void userAccount(String userId) {
+        mDataManager.userAccountDataRepo(userId, new OnTaskCompletion.UserAccountInfo() {
+            @Override
+            public void onCurrentUserInfoSuccess(UserAccount account) {
+                getView().getCurrentuser(account);
+            }
+
+            @Override
+            public void onCurrentUserInfoFailure(String error) {
+                getView().getCurrentUserFailure(error);
+            }
+        });
     }
 }

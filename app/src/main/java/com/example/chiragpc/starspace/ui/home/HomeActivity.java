@@ -50,7 +50,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
-                    SettingsFragment settings = new SettingsFragment();
+                    SettingsFragment settings = SettingsFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, settings).commit();
                     Toast.makeText(HomeActivity.this, "Settings", Toast.LENGTH_SHORT).show();
                     mToolbar.setTitle("Settings");
@@ -108,5 +108,11 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public void hideProgressBar() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userId = "";
     }
 }
