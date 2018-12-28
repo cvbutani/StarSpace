@@ -14,19 +14,19 @@ public class UserAccount {
     private String username;
 
     @Nullable
-    private List<String> friendRequestReceived;
+    private List<String> requestSent;
 
     @Nullable
-    private List<String> friendRequestSent;
+    private List<String> requestReceived;
 
     public UserAccount() {
     }
 
-    public UserAccount(String id, String username, @Nullable List<String> friendRequestReceived, @Nullable List<String> friendRequestSender) {
+    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived) {
         this.id = id;
         this.username = username;
-        this.friendRequestReceived = friendRequestReceived;
-        this.friendRequestSent = friendRequestSender;
+        this.requestSent = requestSent;
+        this.requestReceived = requestReceived;
     }
 
     public String getId() {
@@ -46,20 +46,20 @@ public class UserAccount {
     }
 
     @Nullable
-    public List<String> getFriendRequestReceived() {
-        return friendRequestReceived;
+    public List<String> getRequestSent() {
+        return requestSent;
     }
 
-    public void setFriendRequestReceived(@Nullable List<String> friendRequestReceived) {
-        this.friendRequestReceived = friendRequestReceived;
+    public void setRequestSent(@Nullable List<String> requestSent) {
+        this.requestSent = requestSent;
     }
 
     @Nullable
-    public List<String> getFriendRequestSender() {
-        return friendRequestSent;
+    public List<String> getRequestReceived() {
+        return requestReceived;
     }
 
-    public void setFriendRequestSender(@Nullable List<String> friendRequestSender) {
-        this.friendRequestSent = friendRequestSender;
+    public void setRequestReceived(@Nullable List<String> requestReceived) {
+        this.requestReceived = requestReceived;
     }
 }

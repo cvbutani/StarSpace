@@ -58,14 +58,14 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
         UserAccount user = mUsers.get(position);
         holder.mUsername.setText(user.getUsername());
 
-        if (user.getFriendRequestSender() != null) {
-            for (String requests : user.getFriendRequestSender()) {
+        if (user.getRequestSent() != null) {
+            for (String requests : user.getRequestSent()) {
                 if (mCurrentUser.equals(requests)) {
                     holder.mFriendRequestButton.setText(mContext.getString(R.string.accept));
                 }
             }
-        } else if (user.getFriendRequestReceived() != null) {
-            for (String requsets : user.getFriendRequestReceived()) {
+        } else if (user.getRequestReceived() != null) {
+            for (String requsets : user.getRequestReceived()) {
                 if (mCurrentUser.equals(requsets)) {
                     holder.mFriendRequestButton.setText(mContext.getString(R.string.cancel_friend_request));
                 }

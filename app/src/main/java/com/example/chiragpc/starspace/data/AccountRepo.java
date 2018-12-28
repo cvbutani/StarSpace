@@ -16,6 +16,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_RECEIVED;
+import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_SENT;
+
 class AccountRepo {
 
     private FirebaseRepo mFirebaseRepo;
@@ -86,8 +89,8 @@ class AccountRepo {
         HashMap<String, String> userPair = new HashMap<>();
         userPair.put("id", userId);
         userPair.put("username", username);
-        userPair.put("friendRequestReceived", null);
-        userPair.put("friendRequestSent", null);
+        userPair.put(FRIEND_REQUEST_RECEIVED, null);
+        userPair.put(FRIEND_REQUEST_SENT, null);
 
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
