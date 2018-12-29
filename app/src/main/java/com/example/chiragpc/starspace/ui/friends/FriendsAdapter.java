@@ -35,7 +35,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         void onItemClick(String userId, int requestType);
     }
 
-    public FriendsAdapter(List<UserAccount> mUser, FriendsAdapter.OnItemClickListener mOnClickListener, Context mContext) {
+    FriendsAdapter(List<UserAccount> mUser, FriendsAdapter.OnItemClickListener mOnClickListener, Context mContext) {
         this.mUser = mUser;
         this.mOnClickListener = mOnClickListener;
         this.mContext = mContext;

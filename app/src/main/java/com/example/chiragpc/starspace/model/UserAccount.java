@@ -22,15 +22,19 @@ public class UserAccount {
     @Nullable
     private String profilePic;
 
+    @Nullable
+    private List<String> friends;
+
     public UserAccount() {
     }
 
-    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived, @Nullable String profilePic) {
+    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived, @Nullable String profilePic, @Nullable List<String> friends) {
         this.id = id;
         this.username = username;
         this.requestSent = requestSent;
         this.requestReceived = requestReceived;
         this.profilePic = profilePic;
+        this.friends = friends;
     }
 
     public String getId() {
@@ -74,5 +78,14 @@ public class UserAccount {
 
     public void setProfilePic(@Nullable String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    @Nullable
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(@Nullable List<String> friends) {
+        this.friends = friends;
     }
 }
