@@ -41,4 +41,10 @@ public interface OnTaskCompletion {
 
         void onFriendRequestInfoFailure(String error);
     }
+
+    interface FriendRequestAccepted {
+        void onFriendRequestAcceptedSuccess(boolean isSuccess);
+
+        void onFriendRequestFailure(String error);
+    }
 }

@@ -166,4 +166,63 @@ class FriendRepo {
                     }
                 });
     }
+
+    void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequestAccepted taskCompletion) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
+                .document(accountId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            UserAccount userAccount = task.getResult().toObject(UserAccount.class);
+
+                            if (userAccount != null && userAccount.getRequestReceived() != null) {
+                                List<String> request = new ArrayList<>();
+                                for (String receiverUserId : userAccount.getRequestReceived()) {
+                                    if (requesterId.equals(receiverUserId)) {
+
+                                        HashMap<String, String> acceptedFriend = new HashMap<>();
+                                        acceptedFriend.put("friends", receiverUserId);
+
+                                        mFirebaseRepo
+                                                .getUserDatabaseReferenceInstance()
+                                                .document(accountId)
+                                                .set(acceptedFriend, SetOptions.mergeFields("friends"))
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+
+                                                        }
+                                                    }
+                                                });
+
+                                    }
+                                    request.add(receiverUserId);
+                                    HashMap<String, List<String>> requestNotAccepted = new HashMap<>();
+                                    requestNotAccepted.put(FRIEND_REQUEST_RECEIVED, request);
+
+                                    mFirebaseRepo
+                                            .getUserDatabaseReferenceInstance()
+                                            .document(accountId)
+                                            .set(requestNotAccepted, SetOptions.mergeFields(FRIEND_REQUEST_RECEIVED))
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+
+                                                    }
+                                                }
+                                            });
+
+
+                                }
+                            }
+                        }
+                    }
+                });
+    }
 }

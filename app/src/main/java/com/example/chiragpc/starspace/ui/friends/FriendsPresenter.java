@@ -4,6 +4,8 @@ import com.example.chiragpc.starspace.base.BasePresenter;
 import com.example.chiragpc.starspace.data.DataManager;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class FriendsPresenter
     extends BasePresenter<FriendsContract.View>
     implements FriendsContract.Presenter{
 
-    DataManager mDataManager;
+    private DataManager mDataManager;
 
     FriendsPresenter() {
         mDataManager = DataManager.getInstance();
@@ -45,6 +47,23 @@ public class FriendsPresenter
             public void onFriendRequestInfoFailure(String error) {
                 getView().hideProgressBar();
                 getView().friendRequestFailure(error);
+            }
+        });
+    }
+
+    @Override
+    public void friendRequestAccepted(String accountId, String requestId) {
+        getView().showProgressBar();
+        mDataManager.accceptFriendRequest(accountId, requestId, new OnTaskCompletion.FriendRequestAccepted() {
+            @Override
+            public void onFriendRequestAcceptedSuccess(boolean isSuccess) {
+                Logger.addLogAdapter(new AndroidLogAdapter());
+                Logger.i("Updated - " + isSuccess);
+            }
+
+            @Override
+            public void onFriendRequestFailure(String error) {
+
             }
         });
     }

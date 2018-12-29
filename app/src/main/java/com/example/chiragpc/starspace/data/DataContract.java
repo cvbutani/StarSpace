@@ -25,4 +25,6 @@ public interface DataContract {
     void profilePicDataRepo(String userId, Uri imageUri);
 
     void userFriendRequestDataRepo(String userId, OnTaskCompletion.UserFriendRequestInfo taskCompletion);
+
+    void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequestAccepted taskCompletion);
 }

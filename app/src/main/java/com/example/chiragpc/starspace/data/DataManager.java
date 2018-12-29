@@ -77,4 +77,9 @@ public class DataManager implements DataContract {
         mFriendRepo.friendRequestReceived(userId, taskCompletion);
     }
 
+    @Override
+    public void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequestAccepted taskCompletion) {
+        mFriendRepo.accceptFriendRequest(accountId, requesterId, taskCompletion);
+    }
+
 }

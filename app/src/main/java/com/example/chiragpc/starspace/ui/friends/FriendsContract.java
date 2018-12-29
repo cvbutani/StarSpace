@@ -22,5 +22,7 @@ public interface FriendsContract {
 
     interface Presenter {
         void getfriendRequest(String userId);
+
+        void  friendRequestAccepted(String accountId, String requestId);
     }
 }
