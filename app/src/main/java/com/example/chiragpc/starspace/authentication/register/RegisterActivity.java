@@ -12,6 +12,8 @@ import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -84,6 +86,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void registerNewUserSuccess(String userId) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(userId);
         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));

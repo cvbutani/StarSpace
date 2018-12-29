@@ -51,6 +51,7 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         }
         mPresenter.allUser(senderUserId);
         Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(senderUserId);
     }
 
     @Nullable

@@ -68,6 +68,8 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         if (getArguments() != null) {
             mUserId = getArguments().getString(USER_ID);
         }
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(mUserId);
         mPresenter = new SettingsPresenter();
         mPresenter.attachView(this);
         mPresenter.userAccount(mUserId);
@@ -90,7 +92,8 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     @Override
     public void logoutSuccess() {
         mPresenter.logout();
-        startActivity(new Intent(getContext(), SplashActivity.class));
+        startActivity(new Intent(getContext(), SplashActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     @Override
@@ -166,10 +169,16 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
             Bundle bundle = data.getExtras();
             final Bitmap bitmap = (Bitmap) bundle.get("data");
             mUserProfilePic.setImageBitmap(bitmap);
-        } else if (resultCode == RESULT_OK && requestCode == GALLERY_PROFILE_PIC){
+        } else if (resultCode == RESULT_OK && requestCode == GALLERY_PROFILE_PIC) {
             Uri selectedImageUri = data.getData();
             mUserProfilePic.setImageURI(selectedImageUri);
             mPresenter.profilePic(mUserId, selectedImageUri);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sSettingsFragment = null;
     }
 }

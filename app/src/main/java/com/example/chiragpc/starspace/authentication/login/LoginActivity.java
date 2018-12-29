@@ -13,6 +13,8 @@ import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import androidx.annotation.Nullable;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -92,6 +94,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void signInSuccess(String userID) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(userID);
         startActivity(new Intent(this, HomeActivity.class).putExtra(USER_ID, userID)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();

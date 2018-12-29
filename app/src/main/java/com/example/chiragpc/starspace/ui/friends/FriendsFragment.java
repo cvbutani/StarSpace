@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -52,6 +54,9 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
             mUserId = getArguments().getString(USER_ID);
         }
 
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(mUserId);
+
         mPresenter = new FriendsPresenter();
         mPresenter.attachView(this);
         mPresenter.getfriendRequest(mUserId);
@@ -93,5 +98,11 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
     @Override
     public void onItemClick(View view, int position) {
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sFriendsFragment = null;
     }
 }

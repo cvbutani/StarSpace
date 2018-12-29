@@ -27,14 +27,6 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/splash_sign_in"
-        app:layout_constraintEnd_toEndOf="@+id/splash_sign_in"
-        app:layout_constraintStart_toStartOf="@+id/splash_sign_in" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/splash_sign_in"
         android:layout_width="match_parent"

@@ -16,7 +16,6 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
@@ -40,6 +39,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     return true;
                 case R.id.navigation_friends:
                     FriendsFragment friends = FriendsFragment.newInstance(userId);
+                    Logger.i("FRIENDS -------- " + userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, friends).commit();
                     mToolbar.setTitle("Friends");
                     return true;
@@ -73,11 +73,12 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
         setSupportActionBar(mToolbar);
 
-        Logger.addLogAdapter(new AndroidLogAdapter());
-
         if (getIntent().hasExtra(USER_ID)) {
             userId = getIntent().getStringExtra(USER_ID);
         }
+
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Logger.i(userId);
 
         mNavigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
 
@@ -115,6 +116,5 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userId = "";
     }
 }

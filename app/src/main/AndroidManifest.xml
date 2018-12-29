@@ -17,10 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".base.BaseActivity" />
-        <activity android:name=".authentication.login.LoginActivity" />
-        <activity android:name=".ui.home.HomeActivity" />
-        <activity android:name=".authentication.register.RegisterActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".base.BaseActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".authentication.login.LoginActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".ui.home.HomeActivity" />
+        <activity
+            android:theme="@style/AppTheme"
+            android:name=".authentication.register.RegisterActivity" />
     </application>
 
 </manifest>
