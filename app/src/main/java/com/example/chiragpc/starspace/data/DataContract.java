@@ -26,5 +26,5 @@ public interface DataContract {
 
     void userFriendRequestDataRepo(String userId, OnTaskCompletion.UserFriendRequestInfo taskCompletion);
 
-    void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequestAccepted taskCompletion);
+    void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequest taskCompletion);
 }

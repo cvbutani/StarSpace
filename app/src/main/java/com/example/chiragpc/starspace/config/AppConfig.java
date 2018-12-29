@@ -9,7 +9,7 @@ public class AppConfig {
 
 
     public static final String FIREBASE_NODE = "Friend_Requests";
-    public static final String CURRENT_FRIEND_STATUS = "not_friends";
+    public static final String FRIEND_STATUS = "friends";
     public static final String FRIEND_REQUEST_TYPE = "friendRequests";
     public static final String FRIEND_REQUEST_SENT = "requestSent";
     public static final String FRIEND_REQUEST_RECEIVED = "requestReceived";

@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_RECEIVED;
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_SENT;
+import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_STATUS;
 
 class AccountRepo {
 
@@ -95,10 +96,12 @@ class AccountRepo {
         String userId = firebaseUser.getUid();
 
         HashMap<String, String> userPair = new HashMap<>();
+
         userPair.put("id", userId);
         userPair.put("username", username);
         userPair.put(FRIEND_REQUEST_RECEIVED, null);
         userPair.put(FRIEND_REQUEST_SENT, null);
+        userPair.put(FRIEND_STATUS, null);
 
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()

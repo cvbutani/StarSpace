@@ -30,6 +30,8 @@ public interface OnTaskCompletion {
 
     interface FriendRequest {
         void onFriendRequestSuccess(boolean isSuccess);
+
+        void onFriendRequestFailure(String error);
     }
 
     interface UserByUniqueId {

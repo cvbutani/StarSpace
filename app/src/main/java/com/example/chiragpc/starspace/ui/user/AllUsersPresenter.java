@@ -58,6 +58,11 @@ public class AllUsersPresenter
                 getView().hideProgressBar();
                 getView().friendRequestStatus(isSuccess);
             }
+
+            @Override
+            public void onFriendRequestFailure(String error) {
+
+            }
         });
     }
 }

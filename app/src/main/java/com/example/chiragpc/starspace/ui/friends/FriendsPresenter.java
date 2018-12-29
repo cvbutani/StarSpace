@@ -54,9 +54,9 @@ public class FriendsPresenter
     @Override
     public void friendRequestAccepted(String accountId, String requestId) {
         getView().showProgressBar();
-        mDataManager.accceptFriendRequest(accountId, requestId, new OnTaskCompletion.FriendRequestAccepted() {
+        mDataManager.accceptFriendRequest(accountId, requestId, new OnTaskCompletion.FriendRequest() {
             @Override
-            public void onFriendRequestAcceptedSuccess(boolean isSuccess) {
+            public void onFriendRequestSuccess(boolean isSuccess) {
                 Logger.addLogAdapter(new AndroidLogAdapter());
                 Logger.i("Updated - " + isSuccess);
             }
