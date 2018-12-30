@@ -23,6 +23,6 @@ public interface FriendsContract {
     interface Presenter {
         void getfriendRequest(String userId);
 
-        void  friendRequestAccepted(String accountId, String requestId, boolean isAccepted);
+        void  friendRequestAccepted(String accountId, String requestId, int userResponse);
     }
 }

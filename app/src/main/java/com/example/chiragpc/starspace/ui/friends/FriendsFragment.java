@@ -100,18 +100,19 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
 
     @Override
     public void onItemClick(String userId, int requestType) {
-        switch(requestType) {
+        switch (requestType) {
             case ACCEPT_REQUEST:
-                mPresenter.friendRequestAccepted(mUserId, userId, true);
+                mPresenter.friendRequestAccepted(mUserId, userId, ACCEPT_REQUEST);
                 break;
             case DECLINE_REQUEST:
-                mPresenter.friendRequestAccepted(mUserId,userId,false);
+                mPresenter.friendRequestAccepted(mUserId, userId, DECLINE_REQUEST);
                 break;
             case UNFRIEND:
-
+                mPresenter.friendRequestAccepted(mUserId, userId, UNFRIEND);
                 break;
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();

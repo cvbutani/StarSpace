@@ -17,7 +17,7 @@ public class AppConfig {
     public static final int GALLERY_PROFILE_PIC = 100;
     public static final int CAMERA_PROFILE_PIC = 101;
 
-    public static final int UNFRIEND = -1;
+    public static final int UNFRIEND = 2;
     public static final int ACCEPT_REQUEST = 0;
     public static final int DECLINE_REQUEST = 1;
 }
