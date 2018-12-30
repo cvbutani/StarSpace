@@ -3,6 +3,9 @@ package com.example.chiragpc.starspace.data;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -12,6 +15,8 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_RECEIVED;
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_SENT;
@@ -146,7 +151,7 @@ class FriendRepo {
                 });
     }
 
-    void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequest taskCompletion) {
+    void accceptFriendRequest(String accountId, String requesterId, boolean isAccepted, OnTaskCompletion.FriendRequest taskCompletion) {
         Logger.addLogAdapter(new AndroidLogAdapter());
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
@@ -159,23 +164,28 @@ class FriendRepo {
                             for (String receiverUserId : userAccount.getRequestReceived()) {
                                 if (requesterId.equals(receiverUserId)) {
                                     //  Current User Database Update
-                                    List<String> request = userAccount.getFriends();
+                                    if (isAccepted) {
+                                        List<String> request = userAccount.getFriends();
 
-                                    if (request == null) {
-                                        request = new ArrayList<>();
+                                        if (request == null) {
+                                            request = new ArrayList<>();
+                                        }
+                                        request.add(receiverUserId);
+
+                                        HashMap<String, List<String>> acceptedFriend = new HashMap<>();
+                                        acceptedFriend.put(FRIEND_STATUS, request);
+
+                                        addFriendToDatabase(acceptedFriend, accountId, FRIEND_STATUS, taskCompletion);
+
+                                        removeFriendFromDatabase(accountId, FRIEND_REQUEST_RECEIVED, receiverUserId, taskCompletion);
+
+                                        //  Accepted User database update
+                                        addAcceptedFriendToDatabase(accountId, requesterId, taskCompletion);
+                                    } else {
+                                        removeFriendFromDatabase(accountId, FRIEND_REQUEST_RECEIVED, receiverUserId, taskCompletion);
+
+                                        removeFriendFromDatabase(requesterId, FRIEND_REQUEST_SENT, accountId, taskCompletion);
                                     }
-                                    request.add(receiverUserId);
-
-                                    HashMap<String, List<String>> acceptedFriend = new HashMap<>();
-                                    acceptedFriend.put(FRIEND_STATUS, request);
-
-                                    addFriendToDatabase(acceptedFriend, accountId, FRIEND_STATUS, taskCompletion);
-
-                                    removeFriendFromDatabase(accountId, FRIEND_REQUEST_RECEIVED, receiverUserId, taskCompletion);
-
-                                    //  Accepted User database update
-                                    addAcceptedFriendToDatabase(accountId, requesterId, taskCompletion);
-
                                 }
                             }
                         }
@@ -183,6 +193,18 @@ class FriendRepo {
                 });
     }
 
+    //    void declineFriendRequestUpdate(String accountId, String declinedUserId, OnTaskCompletion.FriendRequest taskCompletion) {
+//        mFirebaseRepo
+//                .getUserDatabaseReferenceInstance()
+//                .document(accountId)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//
+//                    }
+//                })
+//    }
     private void addAcceptedFriendToDatabase(String accountId, String requesterId, OnTaskCompletion.FriendRequest taskCompletion) {
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()

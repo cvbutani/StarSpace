@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.ACCEPT_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.DECLINE_REQUEST;
+import static com.example.chiragpc.starspace.config.AppConfig.UNFRIEND;
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 public class FriendsFragment extends Fragment implements FriendsContract.View, FriendsAdapter.OnItemClickListener {
@@ -99,10 +100,16 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
 
     @Override
     public void onItemClick(String userId, int requestType) {
-        if (requestType == ACCEPT_REQUEST) {
-            mPresenter.friendRequestAccepted(mUserId, userId);
-        } else if (requestType == DECLINE_REQUEST) {
+        switch(requestType) {
+            case ACCEPT_REQUEST:
+                mPresenter.friendRequestAccepted(mUserId, userId, true);
+                break;
+            case DECLINE_REQUEST:
+                mPresenter.friendRequestAccepted(mUserId,userId,false);
+                break;
+            case UNFRIEND:
 
+                break;
         }
     }
     @Override

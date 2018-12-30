@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.example.chiragpc.starspace.config.AppConfig.ACCEPT_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.DECLINE_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_STATUS;
+import static com.example.chiragpc.starspace.config.AppConfig.UNFRIEND;
 
 /**
  * Created by Chirag on 12/26/2018 at 17:37.
@@ -55,10 +56,20 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         holder.mUserName.setText(userAccount.getUsername());
         if (userAccount.getType() != null && userAccount.getType().equals(FRIEND_STATUS)) {
             holder.mAccepetRequest.setVisibility(View.GONE);
-            holder.mCancelRequest.setVisibility(View.GONE);
+
+            //  UNFRIEND USER
+            holder.mCancelRequest.setText(mContext.getString(R.string.unfriend));
+            holder.mCancelRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onItemClick(userAccount.getId(), UNFRIEND);
+                }
+            });
+
         } else {
             holder.mAccepetRequest.setVisibility(View.VISIBLE);
-            holder.mCancelRequest.setVisibility(View.VISIBLE);
+
+            //  ACCEPT FRIEND REQUEST
             holder.mAccepetRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -66,6 +77,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                 }
             });
 
+            //  DECLINE FRIEND REQUEST
+            holder.mCancelRequest.setText(mContext.getString(R.string.decline));
             holder.mCancelRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

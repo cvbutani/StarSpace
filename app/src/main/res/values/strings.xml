@@ -20,4 +20,6 @@
     <string name="send_friend_request">Send Friend Request</string>
     <string name="cancel_friend_request">Cancel Friend Request</string>
     <string name="accept">Accept</string>
+    <string name="unfriend">UnFriend</string>
+    <string name="decline">Decline</string>
 </resources>
