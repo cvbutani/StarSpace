@@ -107,6 +107,25 @@ class FriendRepo {
                         if (userAccount != null && userAccount.getRequestReceived() != null) {
                             List<UserAccount> accountList = new ArrayList<>();
 
+                            if (userAccount.getFriends() != null) {
+                                for (String friends : userAccount.getFriends()) {
+                                    mFirebaseRepo
+                                            .getUserDatabaseReferenceInstance()
+                                            .document(friends)
+                                            .get()
+                                            .addOnCompleteListener(newTask -> {
+                                                if (newTask.isSuccessful() && newTask.getResult() != null) {
+                                                    UserAccount user = newTask.getResult().toObject(UserAccount.class);
+                                                    if (user != null) {
+                                                        user.setType(FRIEND_STATUS);
+                                                    }
+                                                    accountList.add(user);
+                                                    taskCompletion.onFriendRequestInfoSuccess(accountList);
+                                                }
+                                            });
+                                }
+                            }
+
                             for (String receivedUserId : userAccount.getRequestReceived()) {
                                 Logger.i(receivedUserId);
                                 mFirebaseRepo

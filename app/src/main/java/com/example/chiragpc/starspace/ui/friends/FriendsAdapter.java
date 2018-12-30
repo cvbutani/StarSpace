@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.ACCEPT_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.DECLINE_REQUEST;
+import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_STATUS;
 
 /**
  * Created by Chirag on 12/26/2018 at 17:37.
@@ -52,21 +53,26 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         UserAccount userAccount = mUser.get(position);
         holder.mUserName.setText(userAccount.getUsername());
+        if (userAccount.getType() != null && userAccount.getType().equals(FRIEND_STATUS)) {
+            holder.mAccepetRequest.setVisibility(View.GONE);
+            holder.mCancelRequest.setVisibility(View.GONE);
+        } else {
+            holder.mAccepetRequest.setVisibility(View.VISIBLE);
+            holder.mCancelRequest.setVisibility(View.VISIBLE);
+            holder.mAccepetRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onItemClick(userAccount.getId(), ACCEPT_REQUEST);
+                }
+            });
 
-        holder.mAccepetRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnClickListener.onItemClick(userAccount.getId(), ACCEPT_REQUEST);
-            }
-        });
-
-        holder.mCancelRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnClickListener.onItemClick(userAccount.getId(), DECLINE_REQUEST);
-            }
-        });
-
+            holder.mCancelRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onItemClick(userAccount.getId(), DECLINE_REQUEST);
+                }
+            });
+        }
 
     }
 
