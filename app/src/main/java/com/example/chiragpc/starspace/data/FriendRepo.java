@@ -3,13 +3,8 @@ package com.example.chiragpc.starspace.data;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -17,8 +12,6 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_RECEIVED;
 import static com.example.chiragpc.starspace.config.AppConfig.FRIEND_REQUEST_SENT;
@@ -41,13 +34,10 @@ class FriendRepo {
                 .getUserDatabaseReferenceInstance()
                 .whereEqualTo("id", uId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            List<UserAccount> account = task.getResult().toObjects(UserAccount.class);
-                            taskCompletion.onUserSuccess(account.get(0));
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<UserAccount> account = task.getResult().toObjects(UserAccount.class);
+                        taskCompletion.onUserSuccess(account.get(0));
                     }
                 });
 
@@ -59,25 +49,22 @@ class FriendRepo {
                     .getUserDatabaseReferenceInstance()
                     .whereEqualTo("id", senderUId)
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && task.getResult() != null) {
-                                for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                    UserAccount account = snapshot.toObject(UserAccount.class);
-                                    List<String> receiverid = account.getRequestSent();
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                UserAccount account = snapshot.toObject(UserAccount.class);
+                                List<String> receiverid = account.getRequestSent();
 
-                                    if (receiverid == null) {
-                                        receiverid = new ArrayList<>();
-                                    }
-
-                                    HashMap<String, List<String>> requestSent = new HashMap<>();
-
-                                    receiverid.add(receiverUId);
-                                    requestSent.put(FRIEND_REQUEST_SENT, receiverid);
-
-                                    addFriendToDatabase(requestSent, senderUId, FRIEND_REQUEST_SENT, taskCompletion);
+                                if (receiverid == null) {
+                                    receiverid = new ArrayList<>();
                                 }
+
+                                HashMap<String, List<String>> requestSent = new HashMap<>();
+
+                                receiverid.add(receiverUId);
+                                requestSent.put(FRIEND_REQUEST_SENT, receiverid);
+
+                                addFriendToDatabase(requestSent, senderUId, FRIEND_REQUEST_SENT, taskCompletion);
                             }
                         }
                     });
@@ -86,26 +73,23 @@ class FriendRepo {
                     .getUserDatabaseReferenceInstance()
                     .whereEqualTo("id", receiverUId)
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful() && task.getResult() != null) {
-                                for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                    UserAccount account = snapshot.toObject(UserAccount.class);
-                                    List<String> senderId = account.getRequestReceived();
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful() && task.getResult() != null) {
+                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                                UserAccount account = snapshot.toObject(UserAccount.class);
+                                List<String> senderId = account.getRequestReceived();
 
-                                    HashMap<String, List<String>> requestReceived = new HashMap<>();
-                                    if (senderId == null) {
-                                        senderId = new ArrayList<>();
-                                    }
-                                    senderId.add(senderUId);
-                                    requestReceived.put(FRIEND_REQUEST_RECEIVED, senderId);
-
-                                    addFriendToDatabase(requestReceived, receiverUId, FRIEND_REQUEST_RECEIVED, taskCompletion);
+                                HashMap<String, List<String>> requestReceived = new HashMap<>();
+                                if (senderId == null) {
+                                    senderId = new ArrayList<>();
                                 }
-                            }
+                                senderId.add(senderUId);
+                                requestReceived.put(FRIEND_REQUEST_RECEIVED, senderId);
 
+                                addFriendToDatabase(requestReceived, receiverUId, FRIEND_REQUEST_RECEIVED, taskCompletion);
+                            }
                         }
+
                     });
         }
     }
@@ -116,32 +100,26 @@ class FriendRepo {
                 .getUserDatabaseReferenceInstance()
                 .document(userId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            UserAccount userAccount = task.getResult().toObject(UserAccount.class);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        UserAccount userAccount = task.getResult().toObject(UserAccount.class);
 
-                            if (userAccount != null && userAccount.getRequestReceived() != null) {
-                                List<UserAccount> accountList = new ArrayList<>();
+                        if (userAccount != null && userAccount.getRequestReceived() != null) {
+                            List<UserAccount> accountList = new ArrayList<>();
 
-                                for (String receivedUserId : userAccount.getRequestReceived()) {
-                                    Logger.i(receivedUserId);
-                                    mFirebaseRepo
-                                            .getUserDatabaseReferenceInstance()
-                                            .document(receivedUserId)
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful() && task.getResult() != null) {
-                                                        UserAccount user = task.getResult().toObject(UserAccount.class);
-                                                        accountList.add(user);
-                                                        taskCompletion.onFriendRequestInfoSuccess(accountList);
-                                                    }
-                                                }
-                                            });
-                                }
+                            for (String receivedUserId : userAccount.getRequestReceived()) {
+                                Logger.i(receivedUserId);
+                                mFirebaseRepo
+                                        .getUserDatabaseReferenceInstance()
+                                        .document(receivedUserId)
+                                        .get()
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task1.isSuccessful() && task1.getResult() != null) {
+                                                UserAccount user = task1.getResult().toObject(UserAccount.class);
+                                                accountList.add(user);
+                                                taskCompletion.onFriendRequestInfoSuccess(accountList);
+                                            }
+                                        });
                             }
                         }
                     }
@@ -149,29 +127,64 @@ class FriendRepo {
     }
 
     void accceptFriendRequest(String accountId, String requesterId, OnTaskCompletion.FriendRequest taskCompletion) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
                 .document(accountId)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            UserAccount userAccount = task.getResult().toObject(UserAccount.class);
-                            if (userAccount != null && userAccount.getRequestReceived() != null) {
-                                for (String receiverUserId : userAccount.getRequestReceived()) {
-                                    if (requesterId.equals(receiverUserId)) {
-                                        //  Current User Database Update
-                                        List<String> request;
-                                        HashMap<String, List<String>> acceptedFriend = new HashMap<>();
-                                        request = userAccount.getFriends();
-                                        request.add(receiverUserId);
-                                        acceptedFriend.put(FRIEND_STATUS, request);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        UserAccount userAccount = task.getResult().toObject(UserAccount.class);
+                        if (userAccount != null && userAccount.getRequestReceived() != null) {
+                            for (String receiverUserId : userAccount.getRequestReceived()) {
+                                if (requesterId.equals(receiverUserId)) {
+                                    //  Current User Database Update
+                                    List<String> request = userAccount.getFriends();
 
-                                        addFriendToDatabase(acceptedFriend, accountId, FRIEND_STATUS, taskCompletion);
-
-                                        removeFriendFromDatabase(accountId, FRIEND_REQUEST_RECEIVED, receiverUserId, taskCompletion);
+                                    if (request == null) {
+                                        request = new ArrayList<>();
                                     }
+                                    request.add(receiverUserId);
+
+                                    HashMap<String, List<String>> acceptedFriend = new HashMap<>();
+                                    acceptedFriend.put(FRIEND_STATUS, request);
+
+                                    addFriendToDatabase(acceptedFriend, accountId, FRIEND_STATUS, taskCompletion);
+
+                                    removeFriendFromDatabase(accountId, FRIEND_REQUEST_RECEIVED, receiverUserId, taskCompletion);
+
+                                    //  Accepted User database update
+                                    addAcceptedFriendToDatabase(accountId, requesterId, taskCompletion);
+
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void addAcceptedFriendToDatabase(String accountId, String requesterId, OnTaskCompletion.FriendRequest taskCompletion) {
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
+                .document(requesterId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        UserAccount userAccounts = task.getResult().toObject(UserAccount.class);
+                        if (userAccounts != null && userAccounts.getRequestSent() != null) {
+                            for (String sentUserId : userAccounts.getRequestSent()) {
+                                if (accountId.equals(sentUserId)) {
+                                    List<String> sent = userAccounts.getFriends();
+                                    if (sent == null) {
+                                        sent = new ArrayList<>();
+                                    }
+                                    sent.add(sentUserId);
+                                    HashMap<String, List<String>> acceptedFriend = new HashMap<>();
+                                    acceptedFriend.put(FRIEND_STATUS, sent);
+
+                                    addFriendToDatabase(acceptedFriend, requesterId, FRIEND_STATUS, taskCompletion);
+                                    removeFriendFromDatabase(requesterId, FRIEND_REQUEST_SENT, accountId, taskCompletion);
+
                                 }
                             }
                         }
@@ -185,19 +198,11 @@ class FriendRepo {
                 .getUserDatabaseReferenceInstance()
                 .document(id)
                 .set(request, SetOptions.mergeFields(requester))
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            taskCompletion.onFriendRequestSuccess(task.isSuccessful());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        taskCompletion.onFriendRequestSuccess(task.isSuccessful());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                taskCompletion.onFriendRequestFailure(e.getMessage());
-            }
-        });
+                }).addOnFailureListener(e -> taskCompletion.onFriendRequestFailure(e.getMessage()));
     }
 
     private void removeFriendFromDatabase(String id, String requester, String userIdRemove, OnTaskCompletion.FriendRequest taskCompletion) {
@@ -205,18 +210,10 @@ class FriendRepo {
                 .getUserDatabaseReferenceInstance()
                 .document(id)
                 .update(requester, FieldValue.arrayRemove(userIdRemove))
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            taskCompletion.onFriendRequestSuccess(task.isSuccessful());
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        taskCompletion.onFriendRequestSuccess(task.isSuccessful());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                taskCompletion.onFriendRequestFailure(e.getMessage());
-            }
-        });
+                }).addOnFailureListener(e -> taskCompletion.onFriendRequestFailure(e.getMessage()));
     }
 }
