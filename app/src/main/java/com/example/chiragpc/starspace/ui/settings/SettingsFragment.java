@@ -40,7 +40,7 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
  */
 public class SettingsFragment extends Fragment implements SettingsContract.View, View.OnClickListener {
 
-    private LinearLayoutCompat mLinearLayout;
+    private AppCompatTextView mSignOut;
 
     private SettingsPresenter mPresenter;
 
@@ -82,11 +82,11 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        mLinearLayout = rootView.findViewById(R.id.settings_logout);
+        mSignOut = rootView.findViewById(R.id.settings_logout);
         mUsername = rootView.findViewById(R.id.settings_username);
         mUserProfilePic = rootView.findViewById(R.id.settings_profile_pic);
         mProgressBar = rootView.findViewById(R.id.settings_progressBar);
-        mLinearLayout.setOnClickListener(this);
+        mSignOut.setOnClickListener(this);
         mUserProfilePic.setOnClickListener(this);
         return rootView;
     }
