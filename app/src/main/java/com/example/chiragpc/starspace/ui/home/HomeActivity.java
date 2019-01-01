@@ -55,7 +55,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 //                    mToolbar.setTitle("Settings");
                     SettingsFragment settings = SettingsFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, settings).commit();
-                    Toast.makeText(HomeActivity.this, "Settings", Toast.LENGTH_SHORT).show();
                     return true;
             }
             return false;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -22,69 +22,71 @@
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/googlesans_regular"
                 android:text="Create an account" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.card.MaterialCardView
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cardview_email"
-        app:layout_constraintEnd_toEndOf="@id/cardview_email"
-        app:layout_constraintStart_toStartOf="@id/cardview_email">
+        app:layout_constraintBottom_toTopOf="@+id/cardview_email"
+        app:layout_constraintEnd_toEndOf="@+id/cardview_email"
+        app:layout_constraintStart_toStartOf="@+id/cardview_email">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_display_name"
             style="@style/EditorFieldStyle"
+            android:fontFamily="@font/googlesans_regular"
             android:hint="@string/display_name"
             android:inputType="text"
             android:selectAllOnFocus="false" />
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cardview_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/cardview_signup"
-        app:layout_constraintEnd_toEndOf="@id/cardview_signup"
-        app:layout_constraintStart_toStartOf="@id/cardview_signup">
+        app:layout_constraintBottom_toTopOf="@+id/cardview_signup"
+        app:layout_constraintEnd_toEndOf="@+id/cardview_signup"
+        app:layout_constraintStart_toStartOf="@+id/cardview_signup">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_email_address"
             style="@style/EditorFieldStyle"
+            android:fontFamily="@font/googlesans_regular"
             android:hint="@string/email_address"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="false" />
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cardview_signup"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/register_signup"
-        app:layout_constraintEnd_toEndOf="@id/register_signup"
-        app:layout_constraintStart_toStartOf="@id/register_signup">
+        app:layout_constraintBottom_toTopOf="@+id/register_signup"
+        app:layout_constraintEnd_toEndOf="@+id/register_signup"
+        app:layout_constraintStart_toStartOf="@+id/register_signup">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/register_password"
             style="@style/EditorFieldStyle"
             android:baselineAligned="false"
+            android:fontFamily="@font/googlesans_regular"
             android:hint="@string/pass_word"
             android:inputType="textPassword" />
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_signup"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

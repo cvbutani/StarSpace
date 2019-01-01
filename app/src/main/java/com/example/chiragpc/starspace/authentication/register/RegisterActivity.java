@@ -12,6 +12,7 @@ import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -27,9 +28,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     Toolbar mToolbar;
 
-    EditText mUsername;
-    EditText mEmail;
-    EditText mPassword;
+    TextInputEditText mUsername;
+    TextInputEditText mEmail;
+    TextInputEditText mPassword;
 
     MaterialButton mSignUp;
 

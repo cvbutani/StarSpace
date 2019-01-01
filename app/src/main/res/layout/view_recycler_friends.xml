@@ -22,6 +22,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/view_user_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -30,7 +31,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/googlesans_regular"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="#2B3D4D"
         app:layout_constraintStart_toEndOf="@+id/view_user_profile_pic"
@@ -39,13 +40,14 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/view_user_status"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_toEndOf="@+id/view_user_name"
         android:layout_toRightOf="@+id/view_user_name"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceSmall"
+        android:fontFamily="@font/googlesans_medium"
+        android:textAppearance="?android:textAppearanceMedium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/view_user_name"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,6 +58,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/view_request_accept"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -67,6 +70,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/view_request_decline"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

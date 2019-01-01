@@ -14,19 +14,25 @@
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Settings"
             android:background="@color/colorPrimaryDark"
-            app:titleTextAppearance="?android:textAppearanceMedium"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/AppTheme.Home">
+            app:popupTheme="@style/AppTheme.Home"
+            app:titleTextAppearance="?android:textAppearanceMedium">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_title"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/googlesans_regular"
+                android:text="Settings" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        style="@style/Widget.MaterialComponents.CardView"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
@@ -60,24 +66,19 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/settings_username"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:textSize="24sp"
-                android:textColor="#FFF"
-                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="@font/googlesans_bold"
                 app:layout_constraintBottom_toBottomOf="@+id/settings_profile_pic"
                 app:layout_constraintStart_toEndOf="@+id/settings_profile_pic"
                 app:layout_constraintTop_toTopOf="@+id/settings_profile_pic"
                 tools:text="Sonic Star" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </com.google.android.material.card.MaterialCardView>
-
 
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -100,6 +101,7 @@
             android:src="@drawable/ic_logout" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -107,8 +109,10 @@
             android:layout_marginLeft="16dp"
             android:text="Logout"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
