@@ -22,7 +22,7 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
-    Toolbar mToolbar;
+//    Toolbar mToolbar;
 
     BottomNavigationView mNavigation;
 
@@ -35,13 +35,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
-                    mToolbar.setTitle("Star Space");
+//                    mToolbar.setTitle("Star Space");
                     return true;
                 case R.id.navigation_friends:
                     FriendsFragment friends = FriendsFragment.newInstance(userId);
                     Logger.i("FRIENDS -------- " + userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, friends).commit();
-                    mToolbar.setTitle("Friends");
+//                    mToolbar.setTitle("Friends");
                     return true;
                 case R.id.navigation_users:
                     AllUsersFragment allUsers = new AllUsersFragment();
@@ -49,13 +49,13 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     bundle.putString(USER_ID, userId);
                     allUsers.setArguments(bundle);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, allUsers).commit();
-                    mToolbar.setTitle("All Users");
+//                    mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
+//                    mToolbar.setTitle("Settings");
                     SettingsFragment settings = SettingsFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, settings).commit();
                     Toast.makeText(HomeActivity.this, "Settings", Toast.LENGTH_SHORT).show();
-                    mToolbar.setTitle("Settings");
                     return true;
             }
             return false;
@@ -71,7 +71,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
         viewHolder();
 
-        setSupportActionBar(mToolbar);
+//        setSupportActionBar(mToolbar);
 
         if (getIntent().hasExtra(USER_ID)) {
             userId = getIntent().getStringExtra(USER_ID);
@@ -88,14 +88,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     }
 
     private void viewHolder() {
-        mToolbar = findViewById(R.id.home_toolbar);
+//        mToolbar = findViewById(R.id.home_toolbar);
 
         mNavigation = findViewById(R.id.navigation_view);
     }
 
     @Override
     public void userAccountSuccess(UserAccount account) {
-        mToolbar.setTitle(account.getUsername());
+//        mToolbar.setTitle(account.getUsername());
     }
 
     @Override

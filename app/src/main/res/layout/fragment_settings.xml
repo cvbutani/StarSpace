@@ -14,40 +14,71 @@
             android:id="@+id/settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:title="Settings"
             android:background="@color/colorPrimaryDark"
+            app:titleTextAppearance="?android:textAppearanceMedium"
             android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/AppTheme.Home">
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/settings_profile_pic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/pic"
-        app:civ_border_color="#EEEEEE"
-        app:civ_border_width="1dp"
-        app:civ_shadow_radius="0.5"
-        app:layout_constraintStart_toStartOf="@+id/appbar"
-        app:layout_constraintTop_toBottomOf="@+id/appbar" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appbar">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/settings_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="#2B3D4D"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/settings_profile_pic"
-        app:layout_constraintStart_toEndOf="@+id/settings_profile_pic"
-        app:layout_constraintTop_toTopOf="@+id/settings_profile_pic"
-        tools:text="Sonic Star" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/settings_profile_pic"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/pic"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="0dp"
+                app:civ_shadow_radius="0.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/settings_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:textSize="24sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/settings_profile_pic"
+                app:layout_constraintStart_toEndOf="@+id/settings_profile_pic"
+                app:layout_constraintTop_toTopOf="@+id/settings_profile_pic"
+                tools:text="Sonic Star" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/settings_logout"

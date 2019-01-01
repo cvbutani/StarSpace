@@ -16,6 +16,9 @@ import com.example.chiragpc.starspace.splash.SplashActivity;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,7 +76,6 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         mPresenter = new SettingsPresenter();
         mPresenter.attachView(this);
         mPresenter.userAccount(mUserId);
-        Logger.addLogAdapter(new AndroidLogAdapter());
     }
 
     @Nullable
@@ -100,8 +102,7 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     public void getCurrentuser(UserAccount account) {
         mUsername.setText(account.getUsername());
         if (account.getProfilePic() != null) {
-            Uri uri = Uri.parse(account.getProfilePic());
-            mUserProfilePic.setImageURI(uri);
+            Picasso.get().load(Uri.parse(account.getProfilePic())).into(mUserProfilePic);
         }
     }
 
@@ -171,7 +172,7 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
             mUserProfilePic.setImageBitmap(bitmap);
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PROFILE_PIC) {
             Uri selectedImageUri = data.getData();
-            mUserProfilePic.setImageURI(selectedImageUri);
+//            mUserProfilePic.setImageURI(selectedImageUri);
             mPresenter.profilePic(mUserId, selectedImageUri);
         }
     }

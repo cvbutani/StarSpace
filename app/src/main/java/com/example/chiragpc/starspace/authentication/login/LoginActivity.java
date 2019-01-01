@@ -1,18 +1,20 @@
 package com.example.chiragpc.starspace.authentication.login;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -23,10 +25,10 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
-    EditText mEmail;
-    EditText mPassword;
+    TextInputEditText mEmail;
+    TextInputEditText mPassword;
 
-    TextView mPasswordReset;
+    AppCompatTextView mPasswordReset;
 
     MaterialProgressBar mProgressBar;
 
@@ -77,6 +79,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
             mPassword.setVisibility(View.GONE);
             mSignIn.setText(getString(R.string.send));
         });
+
+//        Typeface googleSans = Typeface.createFromAsset(getApplicationContext().getAssets(), "googlesans_regular.ttf");
+//        mSignIn.setTypeface(googleSans);
     }
 
     private void viewHolder() {

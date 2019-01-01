@@ -111,6 +111,7 @@ class FriendRepo {
     }
 
     private void updateFriendRequest(String id, List<UserAccount> account, String status, OnTaskCompletion.UserFriendRequestInfo taskCompletion) {
+
         mFirebaseRepo
                 .getUserDatabaseReferenceInstance()
                 .document(id)
@@ -125,7 +126,7 @@ class FriendRepo {
                         }
                         account.add(user);
                         taskCompletion.onFriendRequestInfoSuccess(account);
-                    }
+                        }
                 });
     }
 
