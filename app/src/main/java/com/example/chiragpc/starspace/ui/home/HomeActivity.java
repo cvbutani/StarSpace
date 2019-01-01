@@ -39,9 +39,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
                     return true;
                 case R.id.navigation_friends:
                     FriendsFragment friends = FriendsFragment.newInstance(userId);
-                    Logger.i("FRIENDS -------- " + userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, friends).commit();
-//                    mToolbar.setTitle("Friends");
                     return true;
                 case R.id.navigation_users:
                     AllUsersFragment allUsers = new AllUsersFragment();
@@ -52,7 +50,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 //                    mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
-//                    mToolbar.setTitle("Settings");
                     SettingsFragment settings = SettingsFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, settings).commit();
                     return true;

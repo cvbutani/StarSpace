@@ -70,10 +70,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:fontFamily="@font/googlesans_regular"
-        android:textStyle="bold"
         android:text="sonicstar@starspace.com"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_email_address_label" />
 
@@ -98,10 +98,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:fontFamily="@font/googlesans_regular"
-        android:textStyle="bold"
         android:text="4th July 1991"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_date_birth_label" />
 
@@ -126,10 +126,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:fontFamily="@font/googlesans_regular"
-        android:textStyle="bold"
         android:text="Male"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_gender_label" />
 
@@ -137,7 +137,6 @@
         android:id="@+id/settings_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
@@ -146,6 +145,19 @@
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:text="Edit"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar

@@ -4,18 +4,22 @@
     <item
         android:id="@+id/navigation_home"
         android:title="Home"
+        android:icon="@drawable/ic_home"
         />
 
     <item
         android:id="@+id/navigation_friends"
-        android:title="Friends"/>
+        android:title="Friends"
+        android:icon="@drawable/ic_friends"/>
 
     <item
         android:id="@+id/navigation_users"
-        android:title="All Users"/>
+        android:title="Search"
+        android:icon="@drawable/ic_search"/>
 
     <item
         android:id="@+id/navigation_settings"
-        android:title="Settings"/>
+        android:title="Settings"
+        android:icon="@drawable/ic_user"/>
 
 </menu>
