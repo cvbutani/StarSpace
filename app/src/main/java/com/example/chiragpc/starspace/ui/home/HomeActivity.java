@@ -35,19 +35,14 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
-//                    mToolbar.setTitle("Star Space");
                     return true;
                 case R.id.navigation_friends:
                     FriendsFragment friends = FriendsFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, friends).commit();
                     return true;
                 case R.id.navigation_users:
-                    AllUsersFragment allUsers = new AllUsersFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(USER_ID, userId);
-                    allUsers.setArguments(bundle);
+                    AllUsersFragment allUsers = AllUsersFragment.newInstance(userId);
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, allUsers).commit();
-//                    mToolbar.setTitle("All Users");
                     return true;
                 case R.id.navigation_settings:
                     SettingsFragment settings = SettingsFragment.newInstance(userId);

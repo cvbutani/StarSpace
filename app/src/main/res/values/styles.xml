@@ -8,6 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DatePickerTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="showTitle">false</item>
+        <item name="colorControlActivated">#ffea00</item>
+        <item name="android:selectableItemBackground">@color/colorPrimary</item>
+        <item name="colorControlHighlight">#c51162</item>
+        <item name="android:headerBackground">#00c853</item>
+    </style>
+
+    <style name="DatePickerTheme.DatePicker" parent="Theme.AppCompat.Light">
+        <item name="android:datePickerDialogTheme">@style/DatePickerTheme</item>
+    </style>
+
     <style name="EditorFieldStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>

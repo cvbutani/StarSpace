@@ -36,6 +36,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
 
     public interface OnItemClickListener {
         void onItemClick(String uId, boolean isFriend);
+        void onProfileClick(String id);
     }
 
     AllUserAdapter(String user, List<UserAccount> mUsers, OnItemClickListener mOnClickListener, Context context) {
@@ -57,6 +58,12 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
     public void onBindViewHolder(@NonNull AllUserAdapter.ViewHolder holder, int position) {
         UserAccount user = mUsers.get(position);
         holder.mUsername.setText(user.getUsername());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnClickListener.onProfileClick(user.getId());
+            }
+        });
 
         if (user.getRequestSent() != null) {
             for (String requests : user.getRequestSent()) {
@@ -99,7 +106,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder{
 
         AppCompatImageView mUserProfilePic;
         AppCompatTextView mUsername;

@@ -1,5 +1,6 @@
 package com.example.chiragpc.starspace.ui.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.example.chiragpc.starspace.ui.profile.ProfileActivity;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -37,8 +39,21 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
 
     String senderUserId;
 
+    private static AllUsersFragment sAllUserFragment;
+
     public AllUsersFragment() {
         // Required empty public constructor
+    }
+
+    public static AllUsersFragment newInstance(String userId) {
+        if (sAllUserFragment == null) {
+            AllUsersFragment fragment = new AllUsersFragment();
+            Bundle args = new Bundle();
+            args.putString(USER_ID, userId);
+            fragment.setArguments(args);
+            sAllUserFragment = fragment;
+        }
+        return sAllUserFragment;
     }
 
     @Override
@@ -50,8 +65,6 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
             senderUserId = this.getArguments().getString(USER_ID);
         }
         mPresenter.allUser(senderUserId);
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        Logger.i(senderUserId);
     }
 
     @Nullable
@@ -64,6 +77,12 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        sAllUserFragment = null;
     }
 
     @Override
@@ -102,5 +121,12 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         } else {
             mPresenter.sendFriendRequest(isFriend, senderUserId, receiverUserId);
         }
+    }
+
+    @Override
+    public void onProfileClick(String id) {
+        Intent intent = new Intent(getContext(), ProfileActivity.class);
+        intent.putExtra(USER_ID, id);
+        startActivity(intent);
     }
 }

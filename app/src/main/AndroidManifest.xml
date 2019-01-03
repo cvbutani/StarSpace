@@ -18,17 +18,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme"
-            android:name=".base.BaseActivity" />
+            android:name=".base.BaseActivity"
+            android:theme="@style/AppTheme" />
         <activity
-            android:theme="@style/AppTheme"
-            android:name=".authentication.login.LoginActivity" />
+            android:name=".authentication.login.LoginActivity"
+            android:theme="@style/AppTheme" />
         <activity
-            android:theme="@style/AppTheme"
-            android:name=".ui.home.HomeActivity" />
+            android:name=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme" />
         <activity
-            android:theme="@style/AppTheme"
-            android:name=".authentication.register.RegisterActivity" />
+            android:name=".authentication.register.RegisterActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
