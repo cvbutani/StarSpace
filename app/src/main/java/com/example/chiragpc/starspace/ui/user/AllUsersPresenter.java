@@ -65,4 +65,21 @@ public class AllUsersPresenter
             }
         });
     }
+
+    @Override
+    public void friendRequestResponse(String accountId, String requestId, int userResponse) {
+        getView().showProgressBar();
+        mDataManager.accceptFriendRequest(accountId, requestId, userResponse, new OnTaskCompletion.FriendRequest() {
+            @Override
+            public void onFriendRequestSuccess(boolean isSuccess) {
+                getView().hideProgressBar();
+                getView().friendRequestStatus(isSuccess);
+            }
+
+            @Override
+            public void onFriendRequestFailure(String error) {
+
+            }
+        });
+    }
 }

@@ -25,5 +25,7 @@ public interface AllUsersContract {
     interface Presenter {
         void allUser(String userId);
         void sendFriendRequest (boolean isFriend, String senderUserId, String receiverUserId);
+
+        void  friendRequestResponse(String accountId, String requestId, int userResponse);
     }
 }

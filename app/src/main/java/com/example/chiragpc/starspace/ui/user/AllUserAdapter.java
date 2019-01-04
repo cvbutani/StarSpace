@@ -30,12 +30,13 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
 
     private Context mContext;
 
-    private boolean isPressed = false;
+    private boolean isPressed;
 
     private String mCurrentUser;
 
     public interface OnItemClickListener {
         void onItemClick(String uId, boolean isFriend);
+
         void onProfileClick(String id);
     }
 
@@ -65,21 +66,63 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
             }
         });
 
+        holder.mFriendRequestButton.setVisibility(View.VISIBLE);
+        holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.mFriendRequestButton.getText().equals(mContext.getString(R.string.send_friend_request))) {
+                    holder.mFriendRequestButton.setText(mContext.getString(R.string.cancel_friend_request));
+                    mOnClickListener.onItemClick(user.getId(), false);
+                    isPressed = true;
+                } else if (holder.mFriendRequestButton.getText().equals(mContext.getString(R.string.cancel_friend_request))){
+                    holder.mFriendRequestButton.setText(mContext.getString(R.string.send_friend_request));
+                    mOnClickListener.onItemClick(user.getId(), true);
+                    isPressed = false;
+                }
+            }
+        });
+//
+//            holder.mFriendRequestButton.setVisibility(View.VISIBLE);
+//            holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    holder.mFriendRequestButton.setText(mContext.getString(R.string.send_friend_request));
+//                    mOnClickListener.onItemClick(user.getId(), isPressed);
+//                    isPressed = false;
+//                }
+//            });
+
         if (user.getRequestSent() != null) {
             for (String requests : user.getRequestSent()) {
                 if (mCurrentUser.equals(requests)) {
                     holder.mFriendRequestButton.setText(mContext.getString(R.string.accept));
                 }
             }
-        } else if (user.getRequestReceived() != null) {
+        }
+        if (user.getRequestReceived() != null) {
             for (String requsets : user.getRequestReceived()) {
                 if (mCurrentUser.equals(requsets)) {
                     holder.mFriendRequestButton.setText(mContext.getString(R.string.cancel_friend_request));
                 }
             }
         }
+        if (user.getFriends() != null) {
+            for (String friends : user.getFriends()) {
+                if (mCurrentUser.equals(friends)) {
+                    holder.mFriendRequestButton.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
 
+    @Override
+    public int getItemCount() {
+        return mUsers.size();
+    }
+
+    private void buttonAction(AllUserAdapter.ViewHolder holder, UserAccount user) {
         if (!isPressed) {
+            holder.mFriendRequestButton.setVisibility(View.VISIBLE);
             holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,6 +132,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
                 }
             });
         } else {
+            holder.mFriendRequestButton.setVisibility(View.VISIBLE);
             holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,13 +144,8 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return mUsers.size();
-    }
 
-
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatImageView mUserProfilePic;
         AppCompatTextView mUsername;

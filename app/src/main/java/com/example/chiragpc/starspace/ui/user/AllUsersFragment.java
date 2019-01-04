@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static com.example.chiragpc.starspace.config.AppConfig.DECLINE_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 /**
@@ -117,7 +118,7 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         // isFriend = false means that they are not friend.
 
         if (isFriend) {
-
+            mPresenter.friendRequestResponse(receiverUserId, senderUserId, DECLINE_REQUEST);
         } else {
             mPresenter.sendFriendRequest(isFriend, senderUserId, receiverUserId);
         }
