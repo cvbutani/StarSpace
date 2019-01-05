@@ -48,6 +48,24 @@ public class ProfilePresenter
     }
 
     @Override
+    public void authorizedUserAccount(String userId) {
+        getView().showProgressBar();
+        mDataManager.userAccountDataRepo(userId, new OnTaskCompletion.UserAccountInfo() {
+            @Override
+            public void onCurrentUserInfoSuccess(UserAccount account) {
+                getView().hideProgressBar();
+                getView().getAuthorizedUser(account);
+            }
+
+            @Override
+            public void onCurrentUserInfoFailure(String error) {
+                getView().hideProgressBar();
+                getView().getCurrentUserFailure(error);
+            }
+        });
+    }
+
+    @Override
     public void friendRequest(boolean isFriend, String senderUserId, String receiverUserId) {
         getView().showProgressBar();
         mDataManager.sendFriendRequest(isFriend, senderUserId, receiverUserId, new OnTaskCompletion.FriendRequest() {

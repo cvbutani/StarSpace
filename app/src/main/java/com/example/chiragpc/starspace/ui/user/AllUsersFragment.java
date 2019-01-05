@@ -120,7 +120,7 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
         if (isFriend) {
             mPresenter.friendRequestResponse(receiverUserId, senderUserId, DECLINE_REQUEST);
         } else {
-            mPresenter.sendFriendRequest(isFriend, senderUserId, receiverUserId);
+            mPresenter.sendFriendRequest(false, senderUserId, receiverUserId);
         }
     }
 
@@ -128,6 +128,7 @@ public class AllUsersFragment extends Fragment implements AllUsersContract.View,
     public void onProfileClick(String id) {
         Intent intent = new Intent(getContext(), ProfileActivity.class);
         intent.putExtra(USER_ID, id);
+        intent.putExtra("current_user", senderUserId);
         startActivity(intent);
     }
 }

@@ -12,6 +12,8 @@ public interface ProfileContract {
 
         void getCurrentuser(UserAccount account);
 
+        void getAuthorizedUser(UserAccount account);
+
         void friendRequestStatus(boolean isSuccess);
 
         void getCurrentUserFailure(String error);
@@ -24,6 +26,8 @@ public interface ProfileContract {
     interface Presenter {
 
         void userAccount(String userId);
+
+        void authorizedUserAccount(String userId);
 
         void friendRequest (boolean isFriend, String senderUserId, String receiverUserId);
     }

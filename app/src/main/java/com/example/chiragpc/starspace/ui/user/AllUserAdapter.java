@@ -81,16 +81,6 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.ViewHold
                 }
             }
         });
-//
-//            holder.mFriendRequestButton.setVisibility(View.VISIBLE);
-//            holder.mFriendRequestButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    holder.mFriendRequestButton.setText(mContext.getString(R.string.send_friend_request));
-//                    mOnClickListener.onItemClick(user.getId(), isPressed);
-//                    isPressed = false;
-//                }
-//            });
 
         if (user.getRequestSent() != null) {
             for (String requests : user.getRequestSent()) {

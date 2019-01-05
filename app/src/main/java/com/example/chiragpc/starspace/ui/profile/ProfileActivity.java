@@ -23,7 +23,7 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
  */
 public class ProfileActivity
         extends BaseActivity
-implements ProfileContract.View{
+        implements ProfileContract.View {
 
     private AppCompatTextView mSignOut, mEdit, mUserName;
 
@@ -35,29 +35,27 @@ implements ProfileContract.View{
 
     private MaterialButton mSendFriendRequest, mCancelFriendRequest;
 
-    private String mUserId;
+    private String mUserId, mSenderUId;
+
+    private UserAccount mAuthorizedUserAccount, mCurrentUserAccount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_settings);
 
-        if (getIntent() != null){
+        if (getIntent() != null) {
             mUserId = getIntent().getStringExtra(USER_ID);
+            mSenderUId = getIntent().getStringExtra("current_user");
         }
 
         viewHolder();
 
-        mSendFriendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         mPresenter = new ProfilePresenter();
         mPresenter.attachView(this);
+        mPresenter.authorizedUserAccount(mSenderUId);
         mPresenter.userAccount(mUserId);
+
     }
 
     private void viewHolder() {
@@ -76,10 +74,33 @@ implements ProfileContract.View{
 
     @Override
     public void getCurrentuser(UserAccount account) {
+        mCurrentUserAccount = account;
         mUserName.setText(account.getUsername());
         if (account.getProfilePic() != null) {
             Picasso.get().load(account.getProfilePic()).into(mUserProfilePic);
         }
+        if (account.getRequestSent() != null || account.getRequestReceived() != null) {
+            if (account.getRequestSent() != null) {
+                for (String requestId : account.getRequestSent()) {
+                    if (mAuthorizedUserAccount.getId().equals(requestId)) {
+                        mSendFriendRequest.setVisibility(View.GONE);
+                    }
+                }
+            }
+            if (account.getRequestReceived() != null) {
+                for (String requestId : account.getRequestReceived()) {
+                    if (mAuthorizedUserAccount.getId().equals(requestId)) {
+                        mSendFriendRequest.setVisibility(View.GONE);
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void getAuthorizedUser(UserAccount account) {
+        mAuthorizedUserAccount = account;
     }
 
     @Override
