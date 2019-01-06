@@ -11,6 +11,8 @@ import com.google.android.material.button.MaterialButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -55,7 +57,6 @@ public class ProfileActivity
         mPresenter.attachView(this);
         mPresenter.authorizedUserAccount(mSenderUId);
         mPresenter.userAccount(mUserId);
-
     }
 
     private void viewHolder() {
@@ -79,23 +80,30 @@ public class ProfileActivity
         if (account.getProfilePic() != null) {
             Picasso.get().load(account.getProfilePic()).into(mUserProfilePic);
         }
-        if (account.getRequestSent() != null || account.getRequestReceived() != null) {
-            if (account.getRequestSent() != null) {
-                for (String requestId : account.getRequestSent()) {
-                    if (mAuthorizedUserAccount.getId().equals(requestId)) {
-                        mSendFriendRequest.setVisibility(View.GONE);
-                    }
-                }
-            }
-            if (account.getRequestReceived() != null) {
-                for (String requestId : account.getRequestReceived()) {
-                    if (mAuthorizedUserAccount.getId().equals(requestId)) {
-                        mSendFriendRequest.setVisibility(View.GONE);
-                    }
-                }
-            }
+        if (account.getRequestSent() != null) {
+            sendFriendRequest(account.getRequestSent());
         }
+        if (account.getRequestReceived() != null) {
+            sendFriendRequest(account.getRequestReceived());
+        }
+    }
 
+    private void sendFriendRequest(List<String> account) {
+        if (account != null) {
+            for (String requestId : account) {
+                if (mAuthorizedUserAccount.getId().equals(requestId)) {
+                    mSendFriendRequest.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            mSendFriendRequest.setVisibility(View.VISIBLE);
+            mSendFriendRequest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.friendRequest(false, mAuthorizedUserAccount.getId(), mCurrentUserAccount.getId());
+                }
+            });
+        }
     }
 
     @Override

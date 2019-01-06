@@ -29,6 +29,8 @@ public interface ProfileContract {
 
         void authorizedUserAccount(String userId);
 
-        void friendRequest (boolean isFriend, String senderUserId, String receiverUserId);
+        void friendRequest(boolean isFriend, String senderUserId, String receiverUserId);
+
+        void friendRequestResponse(String accountId, String requestId, int userResponse);
     }
 }
