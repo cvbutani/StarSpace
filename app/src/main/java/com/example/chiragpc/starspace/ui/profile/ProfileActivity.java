@@ -8,6 +8,7 @@ import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static com.example.chiragpc.starspace.config.AppConfig.DECLINE_REQUEST;
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
 /**
@@ -39,7 +41,7 @@ public class ProfileActivity
 
     private String mUserId, mSenderUId;
 
-    private UserAccount mAuthorizedUserAccount, mCurrentUserAccount;
+    private UserAccount mCurrentUserAccount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class ProfileActivity
         mUserProfilePic = findViewById(R.id.settings_profile_pic);
 
         mCancelFriendRequest = findViewById(R.id.profile_cancel_request);
+        mCancelFriendRequest.setVisibility(View.GONE);
         mSendFriendRequest = findViewById(R.id.profile_friend_request);
     }
 
@@ -80,39 +83,57 @@ public class ProfileActivity
         if (account.getProfilePic() != null) {
             Picasso.get().load(account.getProfilePic()).into(mUserProfilePic);
         }
+        cancelFriendRequest();
         if (account.getRequestSent() != null) {
-            sendFriendRequest(account.getRequestSent());
+            if (account.getRequestSent().contains(mSenderUId)) {
+                mSendFriendRequest.setVisibility(View.GONE);
+            }
+        } else {
+            sendFriendRequest();
         }
         if (account.getRequestReceived() != null) {
-            sendFriendRequest(account.getRequestReceived());
-        }
-    }
-
-    private void sendFriendRequest(List<String> account) {
-        if (account != null) {
-            for (String requestId : account) {
-                if (mAuthorizedUserAccount.getId().equals(requestId)) {
+            for (String requestId : account.getRequestReceived()) {
+                if (mSenderUId.equals(requestId)) {
                     mSendFriendRequest.setVisibility(View.GONE);
+//                    mCancelFriendRequest.setText("DECLINE FRIEND REQUEST");
                 }
             }
         } else {
-            mSendFriendRequest.setVisibility(View.VISIBLE);
-            mSendFriendRequest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mPresenter.friendRequest(false, mAuthorizedUserAccount.getId(), mCurrentUserAccount.getId());
-                }
-            });
+            sendFriendRequest();
         }
+    }
+
+    private void sendFriendRequest() {
+        mSendFriendRequest.setVisibility(View.VISIBLE);
+        mSendFriendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.friendRequest(false, mSenderUId, mUserId);
+
+            }
+        });
+    }
+
+    private void cancelFriendRequest() {
+        mCancelFriendRequest.setVisibility(View.VISIBLE);
+        mCancelFriendRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.friendRequestResponse(mUserId, mSenderUId, DECLINE_REQUEST);
+            }
+        });
     }
 
     @Override
     public void getAuthorizedUser(UserAccount account) {
-        mAuthorizedUserAccount = account;
     }
 
     @Override
     public void friendRequestStatus(boolean isSuccess) {
+        if (isSuccess) {
+            mSendFriendRequest.setVisibility(View.GONE);
+            cancelFriendRequest();
+        }
 
     }
 
