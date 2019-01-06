@@ -133,6 +133,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_gender_label" />
 
+    <!--<androidx.appcompat.widget.AppCompatTextView-->
+        <!--android:id="@+id/settings_friends_label"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginLeft="16dp"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:fontFamily="@font/googlesans_regular"-->
+        <!--android:text="Friends"-->
+        <!--android:textAppearance="?android:textAppearanceSmall"-->
+        <!--android:textColor="@color/colorPrimaryDark"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/settings_gender" />-->
+
+    <!--<GridLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:columnCount="3"-->
+        <!--android:rowCount="2"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/settings_friends_label">-->
+
+        <!---->
+
+    <!--</GridLayout>-->
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settings_logout"
         android:layout_width="wrap_content"

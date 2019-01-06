@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.splash.SplashActivity;
+import com.google.android.material.button.MaterialButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -50,6 +51,8 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
 
     private CircularImageView mUserProfilePic;
 
+    private MaterialButton mSendFriendRequest, mCancelFriendRequest;
+
     private static SettingsFragment sSettingsFragment;
 
     private String mUserId;
@@ -86,6 +89,12 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         mUsername = rootView.findViewById(R.id.settings_username);
         mUserProfilePic = rootView.findViewById(R.id.settings_profile_pic);
         mProgressBar = rootView.findViewById(R.id.settings_progressBar);
+
+        mCancelFriendRequest = rootView.findViewById(R.id.profile_cancel_request);
+        mCancelFriendRequest.setVisibility(View.GONE);
+        mSendFriendRequest = rootView.findViewById(R.id.profile_friend_request);
+        mSendFriendRequest.setVisibility(View.GONE);
+
         mSignOut.setOnClickListener(this);
         mUserProfilePic.setOnClickListener(this);
         return rootView;

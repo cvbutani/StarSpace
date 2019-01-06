@@ -12,6 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,13 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                     mOnClickListener.onItemClick(userAccount.getId(), UNFRIEND);
                 }
             });
+            holder.mChatButton.setVisibility(View.VISIBLE);
+            holder.mChatButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnClickListener.onItemClick(userAccount.getId(), 100);
+                }
+            });
 
         } else {
             holder.mAccepetRequest.setVisibility(View.VISIBLE);
@@ -79,6 +87,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
             //  DECLINE FRIEND REQUEST
             holder.mCancelRequest.setText(mContext.getString(R.string.decline));
+            holder.mChatButton.setVisibility(View.GONE);
             holder.mCancelRequest.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,14 +108,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         AppCompatImageView mUserProfilePic;
         AppCompatTextView mUserName, mUserStatus;
         MaterialButton mAccepetRequest, mCancelRequest;
+        AppCompatImageButton mChatButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mUserName = itemView.findViewById(R.id.view_user_name);
-            mUserStatus = itemView.findViewById(R.id.view_user_status);
+//            mUserStatus = itemView.findViewById(R.id.view_user_status);
             mUserProfilePic = itemView.findViewById(R.id.view_user_profile_pic);
             mAccepetRequest = itemView.findViewById(R.id.view_request_accept);
             mCancelRequest = itemView.findViewById(R.id.view_request_decline);
+            mChatButton = itemView.findViewById(R.id.view_chat);
         }
     }
 }

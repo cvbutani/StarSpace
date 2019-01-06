@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_search_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_date_range_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,11 +33,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="assetType" value="IMAGE" />
                                       <entry key="imageAsset" value="C:\Users\Chirag PC\Downloads\user.png" />
-                                      <entry key="outputName" value="ic_user" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="000000" />
+                                      <entry key="outputName" value="ic_date" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="d81b60" />
                                     </map>
                                   </option>
                                 </PersistentState>

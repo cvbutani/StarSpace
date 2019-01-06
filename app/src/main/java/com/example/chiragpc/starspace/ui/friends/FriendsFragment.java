@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.google.android.material.snackbar.Snackbar;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -110,6 +111,8 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
             case UNFRIEND:
                 mPresenter.friendRequestAccepted(mUserId, userId, UNFRIEND);
                 break;
+            case 100 :
+                Snackbar.make(getView(),"Chat Clicked", Snackbar.LENGTH_SHORT).show();
         }
     }
 

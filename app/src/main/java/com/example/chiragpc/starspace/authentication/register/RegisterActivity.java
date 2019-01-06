@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Calendar;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -38,11 +39,11 @@ public class RegisterActivity
     TextInputEditText mEmail;
     TextInputEditText mPassword;
 
-    MaterialButton mDatePicker;
+    AppCompatImageView mDatePicker;
 
     MaterialButton mSignUp;
 
-    AppCompatTextView mDatePicked;
+    TextInputEditText mDatePicked;
 
     MaterialProgressBar mProgressBar;
 
@@ -115,7 +116,7 @@ public class RegisterActivity
         mToolbar = findViewById(R.id.register_toolbar);
 
         mDatePicker = findViewById(R.id.register_date_picker);
-        mDatePicked = findViewById(R.id.date_picked);
+        mDatePicked = findViewById(R.id.register_date_picked);
         mUsername = findViewById(R.id.register_display_name);
         mEmail = findViewById(R.id.register_email_address);
         mPassword = findViewById(R.id.register_password);

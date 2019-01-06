@@ -72,8 +72,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_signup"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout123"
         app:layout_constraintEnd_toEndOf="@+id/register_signup"
         app:layout_constraintStart_toStartOf="@+id/register_signup"
         app:passwordToggleEnabled="true">
@@ -87,31 +86,81 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/register_date_picker"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout123"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Date Picker"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-        app:layout_constraintStart_toStartOf="@+id/textInputLayout" />
+        app:layout_constraintBottom_toTopOf="@+id/register_gender"
+        app:layout_constraintEnd_toStartOf="@+id/register_date_picker"
+        app:layout_constraintStart_toStartOf="@+id/register_signup">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_date_picked"
+            style="@style/EditorFieldStyle"
+            android:fontFamily="@font/googlesans_regular"
+            android:hint="Date of Birth"
+            android:selectAllOnFocus="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/register_date_picker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_date"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout123"
+        app:layout_constraintEnd_toEndOf="@+id/register_signup"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout123" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/date_picked"
+        android:id="@+id/register_gender_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/register_date_picker"
-        app:layout_constraintEnd_toEndOf="@+id/register_date_picker"
-        app:layout_constraintStart_toStartOf="@+id/register_date_picker"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:gravity="center_horizontal"
+        android:text="Gender :"
+        android:textAppearance="?android:textAppearanceLarge"
+        app:layout_constraintBottom_toTopOf="@+id/register_signup"
+        app:layout_constraintStart_toStartOf="@+id/register_signup" />
+
+    <RadioGroup
+        android:id="@+id/register_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/register_gender_label"
+        app:layout_constraintStart_toEndOf="@+id/register_gender_label"
+        app:layout_constraintTop_toTopOf="@+id/register_gender_label">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/register_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/register_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:text="Female" />
+
+    </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/register_signup"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="49dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
