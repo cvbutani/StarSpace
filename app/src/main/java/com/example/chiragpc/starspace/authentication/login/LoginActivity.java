@@ -14,6 +14,7 @@ import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -28,7 +29,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     TextInputEditText mEmail;
     TextInputEditText mPassword;
 
-    AppCompatTextView mPasswordReset;
+    AppCompatTextView mPasswordReset, mLoginTitle;
 
     MaterialProgressBar mProgressBar;
 
@@ -45,7 +46,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         viewHolder();
 
-        setSupportActionBar(mToolBar);
         mPresenter = new LoginPresenter();
         mPresenter.attachView(this);
 
@@ -76,6 +76,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         });
 
         mPasswordReset.setOnClickListener(v -> {
+            mLoginTitle.setText("Reset Password");
             mPassword.setVisibility(View.GONE);
             mSignIn.setText(getString(R.string.send));
         });
@@ -85,13 +86,12 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     private void viewHolder() {
-        mToolBar = findViewById(R.id.login_toolbar);
 
         mEmail = findViewById(R.id.login_email_address);
         mPassword = findViewById(R.id.login_password);
 
         mPasswordReset = findViewById(R.id.login_password_reset);
-
+        mLoginTitle = findViewById(R.id.login_title);
         mProgressBar = findViewById(R.id.login_progressBar);
 
         mSignIn = findViewById(R.id.login_signin);
@@ -99,8 +99,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     public void signInSuccess(String userID) {
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        Logger.i(userID);
         startActivity(new Intent(this, HomeActivity.class).putExtra(USER_ID, userID)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
@@ -133,6 +131,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     private void showToast(String message) {
-        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+       Snackbar.make(getCurrentFocus(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

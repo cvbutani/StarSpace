@@ -33,8 +33,6 @@ public class RegisterActivity
         extends BaseActivity
         implements RegisterContract.View {
 
-    Toolbar mToolbar;
-
     TextInputEditText mUsername;
     TextInputEditText mEmail;
     TextInputEditText mPassword;
@@ -57,8 +55,6 @@ public class RegisterActivity
         setContentView(R.layout.activity_register);
 
         viewHolder();
-
-        setSupportActionBar(mToolbar);
 
         mPresenter = new RegisterPresenter();
         mPresenter.attachView(this);
@@ -113,7 +109,6 @@ public class RegisterActivity
     }
 
     private void viewHolder() {
-        mToolbar = findViewById(R.id.register_toolbar);
 
         mDatePicker = findViewById(R.id.register_date_picker);
         mDatePicked = findViewById(R.id.register_date_picked);

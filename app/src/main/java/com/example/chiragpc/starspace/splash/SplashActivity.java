@@ -19,8 +19,6 @@ import androidx.appcompat.widget.Toolbar;
  */
 public class SplashActivity extends AppCompatActivity {
 
-    Toolbar mToolbar;
-
     MaterialButton register;
     MaterialButton signIn;
 
@@ -29,9 +27,6 @@ public class SplashActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
-        mToolbar = findViewById(R.id.splash_toolbar);
-        setSupportActionBar(mToolbar);
 
         register = findViewById(R.id.splash_register);
         signIn = findViewById(R.id.splash_sign_in);
