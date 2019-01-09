@@ -21,4 +21,10 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="How are you doing?" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/view_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
