@@ -28,6 +28,11 @@ public class DataManager implements DataContract {
     }
 
     @Override
+    public void currentUserDataRepo(OnTaskCompletion.CurrentUserInfo taskCompletion) {
+        mAccountRepo.currentUserAccRepo(taskCompletion);
+    }
+
+    @Override
     public void signInDataRepo(String email, String password, OnTaskCompletion taskCompletion) {
         mAccountRepo.signInAccRepo(email, password, taskCompletion);
     }

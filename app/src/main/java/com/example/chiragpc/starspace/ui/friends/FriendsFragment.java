@@ -1,6 +1,7 @@
 package com.example.chiragpc.starspace.ui.friends;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.example.chiragpc.starspace.ui.chat.ChatActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -112,7 +114,8 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
                 mPresenter.friendRequestAccepted(mUserId, userId, UNFRIEND);
                 break;
             case 100 :
-                Snackbar.make(getView(),"Chat Clicked", Snackbar.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), ChatActivity.class));
+                break;
         }
     }
 

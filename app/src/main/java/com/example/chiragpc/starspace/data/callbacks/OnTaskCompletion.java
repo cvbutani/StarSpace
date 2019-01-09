@@ -1,6 +1,7 @@
 package com.example.chiragpc.starspace.data.callbacks;
 
 import com.example.chiragpc.starspace.model.UserAccount;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -9,6 +10,10 @@ public interface OnTaskCompletion {
     void onSuccess(String userId);
 
     void onFailure(String errorMessage);
+
+    interface CurrentUserInfo {
+        void onCurrentUserSuccess(FirebaseUser user);
+    }
 
     interface ResetPassword {
         void onResetPasswordSuccess();

@@ -36,6 +36,13 @@ class AccountRepo {
         this.mFirebaseRepo = firebaseRepo;
     }
 
+    void currentUserAccRepo(OnTaskCompletion.CurrentUserInfo taskCompletion) {
+        FirebaseUser user = mFirebaseRepo.getFirebaseAuthInstance().getCurrentUser();
+        if (user !=  null) {
+            taskCompletion.onCurrentUserSuccess(user);
+        }
+    }
+
     void signInAccRepo(String email, String password, OnTaskCompletion taskCompletion) {
         mFirebaseRepo
                 .getFirebaseAuthInstance()
