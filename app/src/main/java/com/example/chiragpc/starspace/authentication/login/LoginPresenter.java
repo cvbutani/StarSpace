@@ -29,9 +29,9 @@ public class LoginPresenter
         getView().showProgressBar();
         mDataManager.signInDataRepo(email, password, new OnTaskCompletion() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String userId) {
                 getView().hideProgressBar();
-                getView().signInSuccess();
+                getView().signInSuccess(userId);
             }
 
             @Override

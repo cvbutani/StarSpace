@@ -1,33 +1,43 @@
 package com.example.chiragpc.starspace.authentication.login;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.chiragpc.starspace.HomeActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.chiragpc.starspace.ui.home.HomeActivity;
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import androidx.annotation.Nullable;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
+import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
+
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
-    EditText mEmail;
-    EditText mPassword;
+    TextInputEditText mEmail;
+    TextInputEditText mPassword;
 
-    TextView mPasswordReset;
+    AppCompatTextView mPasswordReset, mLoginTitle;
 
     MaterialProgressBar mProgressBar;
 
     MaterialButton mSignIn;
 
     LoginPresenter mPresenter;
+
+    Toolbar mToolBar;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,25 +76,30 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         });
 
         mPasswordReset.setOnClickListener(v -> {
+            mLoginTitle.setText("Reset Password");
             mPassword.setVisibility(View.GONE);
             mSignIn.setText(getString(R.string.send));
         });
+
+//        Typeface googleSans = Typeface.createFromAsset(getApplicationContext().getAssets(), "googlesans_regular.ttf");
+//        mSignIn.setTypeface(googleSans);
     }
 
     private void viewHolder() {
+
         mEmail = findViewById(R.id.login_email_address);
         mPassword = findViewById(R.id.login_password);
 
         mPasswordReset = findViewById(R.id.login_password_reset);
-
+        mLoginTitle = findViewById(R.id.login_title);
         mProgressBar = findViewById(R.id.login_progressBar);
 
         mSignIn = findViewById(R.id.login_signin);
     }
 
     @Override
-    public void signInSuccess() {
-        startActivity(new Intent(this, HomeActivity.class)
+    public void signInSuccess(String userID) {
+        startActivity(new Intent(this, HomeActivity.class).putExtra(USER_ID, userID)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         finish();
     }
@@ -116,6 +131,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     }
 
     private void showToast(String message) {
-        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+       Snackbar.make(getCurrentFocus(), message, Snackbar.LENGTH_SHORT).show();
     }
 }

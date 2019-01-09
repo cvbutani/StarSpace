@@ -8,7 +8,7 @@ import com.example.chiragpc.starspace.base.MvpView;
  */
 public interface RegisterContract {
     interface View extends MvpView {
-        void registerSuccess();
+        void registerNewUserSuccess(String userId);
 
         void registerFailure(String error);
 

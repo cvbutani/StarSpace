@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher">
 
@@ -17,10 +17,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".base.BaseActivity" />
-        <activity android:name=".authentication.login.LoginActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".authentication.register.RegisterActivity" />
+        <activity
+            android:name=".base.BaseActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".authentication.login.LoginActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".authentication.register.RegisterActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.chat.ChatActivity" />
     </application>
 
 </manifest>
