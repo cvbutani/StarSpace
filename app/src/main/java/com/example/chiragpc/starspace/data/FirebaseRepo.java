@@ -35,4 +35,8 @@ public class FirebaseRepo {
         return FirebaseStorage.getInstance().getReference().child("user_profile");
     }
 
+    CollectionReference getChatDatabaseReferenceInstace() {
+        return FirebaseFirestore.getInstance().collection("chats");
+    }
+
 }

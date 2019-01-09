@@ -22,6 +22,7 @@ public class ChatActivity extends BaseActivity {
 
         Toolbar toolbar = findViewById(R.id.chat_toolbar);
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -37,9 +38,4 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
-//    @Override
-//    public boolean onSupportNavigateUp() {
-//        onBackPressed();
-//        return true;
-//    }
 }

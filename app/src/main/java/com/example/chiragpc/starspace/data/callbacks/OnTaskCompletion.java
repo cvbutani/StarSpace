@@ -54,4 +54,9 @@ public interface OnTaskCompletion {
 
         void onFriendRequestFailure(String error);
     }
+
+    interface SaveMessages {
+        void onSaveMessageSuccess(boolean isSuccess);
+        void onSaveMessageFailure(String error);
+    }
 }

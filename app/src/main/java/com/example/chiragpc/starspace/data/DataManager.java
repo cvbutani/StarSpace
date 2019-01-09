@@ -3,11 +3,13 @@ package com.example.chiragpc.starspace.data;
 import android.net.Uri;
 
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
+import com.example.chiragpc.starspace.model.ChatMessage;
 
 public class DataManager implements DataContract {
 
     private AccountRepo mAccountRepo;
     private FriendRepo mFriendRepo;
+    private ChatRepo mChatRepo;
     private static DataManager INSTANCE;
 
     public static DataManager getInstance() {
@@ -25,6 +27,7 @@ public class DataManager implements DataContract {
         FirebaseRepo firebaseRepo = new FirebaseRepo();
         mAccountRepo = new AccountRepo(firebaseRepo);
         mFriendRepo = new FriendRepo(firebaseRepo);
+        mChatRepo = new ChatRepo(firebaseRepo);
     }
 
     @Override
@@ -85,6 +88,11 @@ public class DataManager implements DataContract {
     @Override
     public void accceptFriendRequest(String accountId, String requesterId, int userResponse, OnTaskCompletion.FriendRequest taskCompletion) {
         mFriendRepo.friendAcceptDeclineUnFriendResponse(accountId, requesterId, userResponse, taskCompletion);
+    }
+
+    @Override
+    public void saveMessagesDataRepo(ChatMessage message, OnTaskCompletion.SaveMessages taskCompletion) {
+        mChatRepo.saveMessagesChatRepo(message, taskCompletion);
     }
 
 }

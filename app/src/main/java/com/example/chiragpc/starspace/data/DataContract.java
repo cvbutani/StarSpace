@@ -3,6 +3,7 @@ package com.example.chiragpc.starspace.data;
 import android.net.Uri;
 
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
+import com.example.chiragpc.starspace.model.ChatMessage;
 
 public interface DataContract {
 
@@ -29,4 +30,6 @@ public interface DataContract {
     void userFriendRequestDataRepo(String userId, OnTaskCompletion.UserFriendRequestInfo taskCompletion);
 
     void accceptFriendRequest(String accountId, String requesterId, int userResponse, OnTaskCompletion.FriendRequest taskCompletion);
+
+    void saveMessagesDataRepo(ChatMessage message, OnTaskCompletion.SaveMessages taskCompletion);
 }
