@@ -48,7 +48,9 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         } else {
             imageMessage.setVisibility(View.GONE);
             chatMessages.setVisibility(View.VISIBLE);
-            chatMessages.setText(message.getTextMessage());
+            if (message.getMessageTimes() != null) {
+                chatMessages.setText(message.getMessageTimes().get(0).getTextMessage());
+            }
         }
 
         return convertView;

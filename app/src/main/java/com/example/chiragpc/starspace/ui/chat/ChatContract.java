@@ -15,6 +15,6 @@ public interface ChatContract {
     }
 
     interface Presenter {
-        void sendMessage(ChatMessage message);
+        void sendMessage(String message, String senderId, String receiverId);
     }
 }

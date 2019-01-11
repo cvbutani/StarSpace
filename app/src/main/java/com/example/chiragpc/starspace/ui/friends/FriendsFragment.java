@@ -114,7 +114,7 @@ public class FriendsFragment extends Fragment implements FriendsContract.View, F
                 mPresenter.friendRequestAccepted(mUserId, userId, UNFRIEND);
                 break;
             case 100 :
-                startActivity(new Intent(getContext(), ChatActivity.class));
+                startActivity(new Intent(getContext(), ChatActivity.class).putExtra(USER_ID, mUserId).putExtra("receiver_user_id", userId));
                 break;
         }
     }

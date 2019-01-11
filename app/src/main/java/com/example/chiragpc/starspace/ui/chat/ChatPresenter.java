@@ -30,8 +30,8 @@ public class ChatPresenter
     }
 
     @Override
-    public void sendMessage(ChatMessage message) {
-        mDataManager.saveMessagesDataRepo(message, new OnTaskCompletion.SaveMessages() {
+    public void sendMessage(String message, String senderId, String receiverId) {
+        mDataManager.saveMessagesDataRepo(message, senderId, receiverId, new OnTaskCompletion.SaveMessages() {
             @Override
             public void onSaveMessageSuccess(boolean isSuccess) {
                 getView().sendingMessageSuccess(isSuccess);
