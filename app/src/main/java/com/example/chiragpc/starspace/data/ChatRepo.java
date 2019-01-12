@@ -7,12 +7,21 @@ import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import androidx.annotation.NonNull;
 
@@ -29,8 +38,6 @@ public class ChatRepo {
     }
 
     void saveMessagesChatRepo(String message, String senderId, String receiverId, OnTaskCompletion.SaveMessages taskCompletion) {
-
-
         mFirebaseRepo.getChatDatabaseReferenceInstace()
                 .document(senderId + receiverId)
                 .get()
@@ -67,6 +74,27 @@ public class ChatRepo {
                         }
                     }
                 });
+    }
 
+    void getMessagesChatRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        mFirebaseRepo.getChatDatabaseReferenceInstace()
+                .document(senderId + receiverId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            List<MessageTime> listMessages = new ArrayList<>();
+                            if (documentSnapshot.toObject(ChatMessage.class) != null) {
+                                listMessages = documentSnapshot.toObject(ChatMessage.class).getMessageTimes();
+                                taskCompletion.onGetMessagesSuccess(listMessages);
+                            }
+                        }
+
+                        if (e != null) {
+                            taskCompletion.onGetMessagesFailure(e.getMessage());
+                        }
+                    }
+                });
     }
 }

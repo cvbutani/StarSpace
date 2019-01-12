@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.ChatMessage;
+import com.example.chiragpc.starspace.model.MessageTime;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,9 +22,9 @@ import androidx.appcompat.widget.AppCompatTextView;
  * Created by Chirag on 1/8/2019 at 21:31.
  * Project - StarSpace
  */
-public class ChatAdapter extends ArrayAdapter<ChatMessage> {
+public class ChatAdapter extends ArrayAdapter<MessageTime> {
 
-    public ChatAdapter(@NonNull Context context, int resource, @NonNull List<ChatMessage> objects) {
+    public ChatAdapter(@NonNull Context context, int resource, @NonNull List<MessageTime> objects) {
         super(context, resource, objects);
     }
 
@@ -38,20 +39,20 @@ public class ChatAdapter extends ArrayAdapter<ChatMessage> {
         AppCompatTextView chatMessages = convertView.findViewById(R.id.view_message);
         AppCompatImageView imageMessage = convertView.findViewById(R.id.view_image);
 
-        ChatMessage message = getItem(position);
+        MessageTime message = getItem(position);
 
-        boolean isPhoto = message.getImageUrl() != null;
-        if (isPhoto) {
-            chatMessages.setVisibility(View.GONE);
-            imageMessage.setVisibility(View.VISIBLE);
-            Picasso.get().load(message.getImageUrl()).into(imageMessage);
-        } else {
+//        boolean isPhoto = message.getImageUrl() != null;
+//        if (isPhoto) {
+//            chatMessages.setVisibility(View.GONE);
+//            imageMessage.setVisibility(View.VISIBLE);
+//            Picasso.get().load(message.getImageUrl()).into(imageMessage);
+//        } else {
             imageMessage.setVisibility(View.GONE);
             chatMessages.setVisibility(View.VISIBLE);
-            if (message.getMessageTimes() != null) {
-                chatMessages.setText(message.getMessageTimes().get(0).getTextMessage());
+            if (message.getTextMessage() != null) {
+                chatMessages.setText(message.getTextMessage());
             }
-        }
+//        }
 
         return convertView;
     }

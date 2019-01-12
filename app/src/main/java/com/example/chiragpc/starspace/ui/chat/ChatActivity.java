@@ -6,6 +6,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
@@ -33,6 +34,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     AppCompatImageButton mSendButton;
     TextInputEditText mMessage;
     String mMessageSenderId, mMessegeReceiverId;
+    private ChatAdapter mChatAdapter;
+    private ListView mChatListView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,20 +86,21 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                MessageTime time = new MessageTime (mMessage.getText().toString(), System.currentTimeMillis());
-//                List<MessageTime> messageTimes = new ArrayList<>();
-//                messageTimes.add(time);
-//                ChatMessage chatMessage = new ChatMessage(messageTimes, null, mMessageSenderId, mMessegeReceiverId);
                 mPresenter.sendMessage(mMessage.getText().toString(), mMessageSenderId, mMessegeReceiverId);
                 mMessage.setText("");
+                mChatAdapter.clear();
             }
         });
-
+        mPresenter.getMessage(mMessageSenderId, mMessegeReceiverId);
+        List<MessageTime> messageTimes = new ArrayList<>();
+        mChatAdapter = new ChatAdapter(this, R.layout.view_recycler_chat, messageTimes);
+        mChatListView.setAdapter(mChatAdapter);
     }
 
     private void viewHolder() {
         mSendButton = findViewById(R.id.chat_send);
         mMessage = findViewById(R.id.chat_message);
+        mChatListView = findViewById(R.id.chat_listview);
     }
 
     @Override
@@ -116,7 +120,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
     @Override
-    public void sendingMessageFailure(String error) {
+    public void messageFailure(String error) {
 
+    }
+
+    @Override
+    public void getMessageSuccess(List<MessageTime> messages) {
+        for (MessageTime messageTime : messages) {
+            mChatAdapter.add(messageTime);
+        }
     }
 }

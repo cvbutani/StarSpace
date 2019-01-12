@@ -95,4 +95,9 @@ public class DataManager implements DataContract {
         mChatRepo.saveMessagesChatRepo(message, senderId, receiverId, taskCompletion);
     }
 
+    @Override
+    public void getMessagesDataRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
+        mChatRepo.getMessagesChatRepo(senderId, receiverId, taskCompletion);
+    }
+
 }

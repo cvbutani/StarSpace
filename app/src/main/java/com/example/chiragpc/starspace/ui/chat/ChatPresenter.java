@@ -4,6 +4,9 @@ import com.example.chiragpc.starspace.base.BasePresenter;
 import com.example.chiragpc.starspace.data.DataManager;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
+import com.example.chiragpc.starspace.model.MessageTime;
+
+import java.util.List;
 
 /**
  * Created by Chirag on 1/8/2019 at 20:06.
@@ -39,7 +42,22 @@ public class ChatPresenter
 
             @Override
             public void onSaveMessageFailure(String error) {
-                getView().sendingMessageFailure(error);
+                getView().messageFailure(error);
+            }
+        });
+    }
+
+    @Override
+    public void getMessage(String senderId, String receiverId) {
+        mDataManager.getMessagesDataRepo(senderId, receiverId, new OnTaskCompletion.GetMessages() {
+            @Override
+            public void onGetMessagesSuccess(List<MessageTime> messages) {
+                getView().getMessageSuccess(messages);
+            }
+
+            @Override
+            public void onGetMessagesFailure(String error) {
+                getView().messageFailure(error);
             }
         });
     }
