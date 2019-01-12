@@ -37,65 +37,75 @@ public class ChatRepo {
         this.mFirebaseRepo = firebaseRepo;
     }
 
-    void saveMessagesChatRepo(String message, String senderId, String receiverId, OnTaskCompletion.SaveMessages taskCompletion) {
+    void saveMessagesChatRepo(String message, String senderId, String receiverId) {
+        //  Add Messages in Sender User Firestore Account
         mFirebaseRepo.getChatDatabaseReferenceInstace()
                 .document(senderId + receiverId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<MessageTime> sentText = null;
-                            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
-                                sentText = task.getResult().toObject(ChatMessage.class).getSentMessages();
-                            }
-                            sendReceiveMessage(message, receiverId, senderId, sentText, "sentMessages");
-                        }
+                        sendReceiveMessage(message, receiverId, senderId, task, "sentMessages");
                     }
                 });
-
+        //  Add Messages in Receiver User Firestore Account
         mFirebaseRepo.getChatDatabaseReferenceInstace()
                 .document(receiverId + senderId)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<MessageTime> ReceivedText = null;
-                            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
-                                ReceivedText = task.getResult().toObject(ChatMessage.class).getReceivedMessages();
-                            }
-                            sendReceiveMessage(message, senderId, receiverId, ReceivedText, "receivedMessages");
-                        }
+                        sendReceiveMessage(message, senderId, receiverId, task, "receivedMessages");
                     }
                 });
     }
 
-    private void sendReceiveMessage(String message, String userSRId, String userRSId, List<MessageTime> sentReceiveText, String messageType) {
-        if (sentReceiveText == null) {
-            HashMap<String, String> messageLabel = new HashMap<>();
-            messageLabel.put(messageType, null);
+    private void sendReceiveMessage(String message,
+                                    String senderReceiverId,
+                                    String ReceiverSenderId,
+                                    Task<DocumentSnapshot> task,
+                                    String messageType) {
+
+        if (task.isSuccessful()) {
+            List<MessageTime> sentReceiveText = null;
+            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
+                sentReceiveText = task.getResult().toObject(ChatMessage.class).getMessages();
+            }
+            if (sentReceiveText == null) {
+                HashMap<String, String> messageLabel = new HashMap<>();
+                messageLabel.put("messages", null);
+                mFirebaseRepo
+                        .getChatDatabaseReferenceInstace()
+                        .document(ReceiverSenderId + senderReceiverId)
+                        .set(messageLabel, SetOptions.merge());
+            }
+
+            HashMap<String, List<MessageTime>> messageText = new HashMap<>();
+
+            List<MessageTime> textMessage = new ArrayList<>();
+
+            switch (messageType) {
+                case "sentMessages":
+                    messageType = "sentMessages";
+                    break;
+                case "receivedMessages":
+                    messageType = "receivedMessages";
+                    break;
+            }
+
+            MessageTime text = new MessageTime(message, System.currentTimeMillis(), messageType, ReceiverSenderId, senderReceiverId);
+
+            if (sentReceiveText != null) {
+                textMessage = sentReceiveText;
+            }
+            textMessage.add(text);
+            messageText.put("messages", textMessage);
+
             mFirebaseRepo
                     .getChatDatabaseReferenceInstace()
-                    .document(userRSId + userSRId)
-                    .set(messageLabel, SetOptions.merge());
+                    .document(ReceiverSenderId + senderReceiverId)
+                    .set(messageText, SetOptions.mergeFields("messages"));
         }
-
-        HashMap<String, List<MessageTime>> messageText = new HashMap<>();
-
-        List<MessageTime> textMessage = new ArrayList<>();
-
-        MessageTime text = new MessageTime(message, System.currentTimeMillis());
-
-        if (sentReceiveText != null) {
-            textMessage = sentReceiveText;
-        }
-        textMessage.add(text);
-        messageText.put(messageType, textMessage);
-        mFirebaseRepo
-                .getChatDatabaseReferenceInstace()
-                .document(userRSId + userSRId)
-                .set(messageText, SetOptions.mergeFields(messageType));
     }
 
     void getMessagesChatRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
@@ -106,9 +116,8 @@ public class ChatRepo {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
-                            List<MessageTime> listMessages = new ArrayList<>();
                             if (documentSnapshot.toObject(ChatMessage.class) != null) {
-                                listMessages = documentSnapshot.toObject(ChatMessage.class).getSentMessages();
+                                List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
                                 taskCompletion.onGetMessagesSuccess(listMessages);
                             }
                         }

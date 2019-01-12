@@ -11,33 +11,21 @@ import androidx.annotation.Nullable;
 public class ChatMessage {
 
     @Nullable
-    private List<MessageTime> sentMessages;
-    @Nullable
-    private List<MessageTime> receivedMessages;
+    private List<MessageTime> messages;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(@Nullable List<MessageTime> sentMessages, @Nullable List<MessageTime> receivedMessages) {
-        this.sentMessages = sentMessages;
-        this.receivedMessages = receivedMessages;
+    public ChatMessage(@Nullable List<MessageTime> messages) {
+        this.messages = messages;
     }
 
     @Nullable
-    public List<MessageTime> getSentMessages() {
-        return sentMessages;
+    public List<MessageTime> getMessages() {
+        return messages;
     }
 
-    public void setSentMessages(@Nullable List<MessageTime> sentMessages) {
-        this.sentMessages = sentMessages;
-    }
-
-    @Nullable
-    public List<MessageTime> getReceivedMessages() {
-        return receivedMessages;
-    }
-
-    public void setReceivedMessages(@Nullable List<MessageTime> receivedMessages) {
-        this.receivedMessages = receivedMessages;
+    public void setSentMessages(@Nullable List<MessageTime> messages) {
+        this.messages = messages;
     }
 }

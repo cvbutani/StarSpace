@@ -115,11 +115,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
     @Override
-    public void sendingMessageSuccess(boolean isSuccess) {
-
-    }
-
-    @Override
     public void messageFailure(String error) {
 
     }

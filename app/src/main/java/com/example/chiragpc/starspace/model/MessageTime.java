@@ -7,13 +7,19 @@ package com.example.chiragpc.starspace.model;
 public class MessageTime {
     private String textMessage;
     private long timestamp;
+    private String messageType;
+    private String senderId;
+    private String receiverId;
 
     public MessageTime() {
     }
 
-    public MessageTime(String textMessage, long timestamp) {
+    public MessageTime(String textMessage, long timestamp, String messageType, String senderId, String receiverId) {
         this.textMessage = textMessage;
         this.timestamp = timestamp;
+        this.messageType = messageType;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
     }
 
     public String getTextMessage() {
@@ -30,5 +36,29 @@ public class MessageTime {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getReceiverId() {
+        return receiverId;
+    }
+
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId;
     }
 }

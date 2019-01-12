@@ -2,6 +2,7 @@ package com.example.chiragpc.starspace.ui.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -49,7 +50,12 @@ public class ChatAdapter extends ArrayAdapter<MessageTime> {
 //        } else {
             imageMessage.setVisibility(View.GONE);
             chatMessages.setVisibility(View.VISIBLE);
-            if (message.getTextMessage() != null) {
+            if (message != null && message.getTextMessage() != null) {
+                if (message.getMessageType().equals("sentMessages")) {
+                    chatMessages.setGravity(Gravity.END);
+                } else if (message.getMessageType().equals("receivedMessages")) {
+                    chatMessages.setGravity(Gravity.START);
+                }
                 chatMessages.setText(message.getTextMessage());
             }
 //        }

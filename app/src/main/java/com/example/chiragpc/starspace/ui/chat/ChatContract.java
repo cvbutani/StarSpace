@@ -12,7 +12,6 @@ import java.util.List;
  */
 public interface ChatContract {
     interface View extends MvpView {
-        void sendingMessageSuccess(boolean isSuccess);
 
         void messageFailure(String error);
 

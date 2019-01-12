@@ -34,17 +34,7 @@ public class ChatPresenter
 
     @Override
     public void sendMessage(String message, String senderId, String receiverId) {
-        mDataManager.saveMessagesDataRepo(message, senderId, receiverId, new OnTaskCompletion.SaveMessages() {
-            @Override
-            public void onSaveMessageSuccess(boolean isSuccess) {
-                getView().sendingMessageSuccess(isSuccess);
-            }
-
-            @Override
-            public void onSaveMessageFailure(String error) {
-                getView().messageFailure(error);
-            }
-        });
+        mDataManager.saveMessagesDataRepo(message, senderId, receiverId);
     }
 
     @Override

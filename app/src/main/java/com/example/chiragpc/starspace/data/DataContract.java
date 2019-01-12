@@ -31,7 +31,7 @@ public interface DataContract {
 
     void accceptFriendRequest(String accountId, String requesterId, int userResponse, OnTaskCompletion.FriendRequest taskCompletion);
 
-    void saveMessagesDataRepo(String message, String senderId, String receiverId, OnTaskCompletion.SaveMessages taskCompletion);
+    void saveMessagesDataRepo(String message, String senderId, String receiverId);
 
     void getMessagesDataRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion);
 }
