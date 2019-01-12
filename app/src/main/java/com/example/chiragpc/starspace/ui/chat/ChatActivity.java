@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
@@ -35,7 +37,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     TextInputEditText mMessage;
     String mMessageSenderId, mMessegeReceiverId;
     private ChatAdapter mChatAdapter;
-    private ListView mChatListView;
+    private RecyclerView mChatView;
+
+    List<MessageTime> messageTimes = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,19 +92,17 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
             public void onClick(View v) {
                 mPresenter.sendMessage(mMessage.getText().toString(), mMessageSenderId, mMessegeReceiverId);
                 mMessage.setText("");
-                mChatAdapter.clear();
             }
         });
         mPresenter.getMessage(mMessageSenderId, mMessegeReceiverId);
-        List<MessageTime> messageTimes = new ArrayList<>();
-        mChatAdapter = new ChatAdapter(this, R.layout.view_recycler_chat, messageTimes);
-        mChatListView.setAdapter(mChatAdapter);
+        mChatView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     private void viewHolder() {
         mSendButton = findViewById(R.id.chat_send);
         mMessage = findViewById(R.id.chat_message);
-        mChatListView = findViewById(R.id.chat_listview);
+        mChatView = findViewById(R.id.chat_recycler_view);
     }
 
     @Override
@@ -121,10 +123,22 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     public void getMessageSuccess(List<MessageTime> messages) {
-        if (messages != null) {
-            for (MessageTime messageTime : messages) {
-                mChatAdapter.add(messageTime);
-            }
-        }
+//        if (messageTimes == null) {
+//            if (messages != null) {
+//                for (MessageTime messageTime : messages) {
+        mChatAdapter = new ChatAdapter(messages, this);
+        mChatView.setAdapter(mChatAdapter);
+        mChatAdapter.notifyDataSetChanged();
+//                }
+//            }
+//            messageTimes = messages;
+//        } else {
+//            for (MessageTime messageTime : messages) {
+//                if (!messageTimes.contains(messageTime)) {
+//                    mChatAdapter.add(messageTime);
+//                }
+//            }
+//            messageTimes = messages;
+//        }
     }
 }
