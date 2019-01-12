@@ -126,8 +126,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     public void getMessageSuccess(List<MessageTime> messages) {
-        for (MessageTime messageTime : messages) {
-            mChatAdapter.add(messageTime);
+        if (messages != null) {
+            for (MessageTime messageTime : messages) {
+                mChatAdapter.add(messageTime);
+            }
         }
     }
 }

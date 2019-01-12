@@ -45,35 +45,57 @@ public class ChatRepo {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            List<MessageTime> chatMessage = null;
+                            List<MessageTime> sentText = null;
                             if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
-                                chatMessage = task.getResult().toObject(ChatMessage.class).getMessageTimes();
+                                sentText = task.getResult().toObject(ChatMessage.class).getSentMessages();
                             }
-                            if (chatMessage == null) {
-                                HashMap<String, String> messages = new HashMap<>();
-                                messages.put("senderId", senderId);
-                                messages.put("receiverId", receiverId);
-                                messages.put("messageTimes", null);
-                                mFirebaseRepo
-                                        .getChatDatabaseReferenceInstace()
-                                        .document(senderId + receiverId)
-                                        .set(messages);
-                            }
-
-                            HashMap<String, List<MessageTime>> messageText = new HashMap<>();
-                            List<MessageTime> time = new ArrayList<>();
-                            MessageTime m = new MessageTime(message, System.currentTimeMillis());
-                            if (chatMessage != null) {
-                                time = chatMessage;
-                            }
-                            time.add(m);
-                            messageText.put("messageTimes", time);
-                            mFirebaseRepo
-                                    .getChatDatabaseReferenceInstace()
-                                    .document(senderId + receiverId).set(messageText, SetOptions.mergeFields("messageTimes"));
+                            sendReceiveMessage(message, receiverId, senderId, sentText, "sentMessages");
                         }
                     }
                 });
+
+        mFirebaseRepo.getChatDatabaseReferenceInstace()
+                .document(receiverId + senderId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<MessageTime> ReceivedText = null;
+                            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
+                                ReceivedText = task.getResult().toObject(ChatMessage.class).getReceivedMessages();
+                            }
+                            sendReceiveMessage(message, senderId, receiverId, ReceivedText, "receivedMessages");
+                        }
+                    }
+                });
+    }
+
+    private void sendReceiveMessage(String message, String userSRId, String userRSId, List<MessageTime> sentReceiveText, String messageType) {
+        if (sentReceiveText == null) {
+            HashMap<String, String> messageLabel = new HashMap<>();
+            messageLabel.put(messageType, null);
+            mFirebaseRepo
+                    .getChatDatabaseReferenceInstace()
+                    .document(userRSId + userSRId)
+                    .set(messageLabel, SetOptions.merge());
+        }
+
+        HashMap<String, List<MessageTime>> messageText = new HashMap<>();
+
+        List<MessageTime> textMessage = new ArrayList<>();
+
+        MessageTime text = new MessageTime(message, System.currentTimeMillis());
+
+        if (sentReceiveText != null) {
+            textMessage = sentReceiveText;
+        }
+        textMessage.add(text);
+        messageText.put(messageType, textMessage);
+        mFirebaseRepo
+                .getChatDatabaseReferenceInstace()
+                .document(userRSId + userSRId)
+                .set(messageText, SetOptions.mergeFields(messageType));
     }
 
     void getMessagesChatRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
@@ -86,7 +108,7 @@ public class ChatRepo {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             List<MessageTime> listMessages = new ArrayList<>();
                             if (documentSnapshot.toObject(ChatMessage.class) != null) {
-                                listMessages = documentSnapshot.toObject(ChatMessage.class).getMessageTimes();
+                                listMessages = documentSnapshot.toObject(ChatMessage.class).getSentMessages();
                                 taskCompletion.onGetMessagesSuccess(listMessages);
                             }
                         }

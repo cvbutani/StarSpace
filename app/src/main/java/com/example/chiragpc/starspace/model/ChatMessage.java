@@ -11,57 +11,33 @@ import androidx.annotation.Nullable;
 public class ChatMessage {
 
     @Nullable
-    private List<MessageTime> messageTimes;
+    private List<MessageTime> sentMessages;
     @Nullable
-    private String imageUrl;
-    @Nullable
-    private String senderId;
-    @Nullable
-    private String receiverId;
+    private List<MessageTime> receivedMessages;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(@Nullable List<MessageTime> messageTimes, @Nullable String imageUrl, @Nullable String senderId, @Nullable String receiverId) {
-        this.messageTimes = messageTimes;
-        this.imageUrl = imageUrl;
-        this.senderId = senderId;
-        this.receiverId = receiverId;
+    public ChatMessage(@Nullable List<MessageTime> sentMessages, @Nullable List<MessageTime> receivedMessages) {
+        this.sentMessages = sentMessages;
+        this.receivedMessages = receivedMessages;
     }
 
     @Nullable
-    public List<MessageTime> getMessageTimes() {
-        return messageTimes;
+    public List<MessageTime> getSentMessages() {
+        return sentMessages;
     }
 
-    public void setMessageTimes(@Nullable List<MessageTime> messageTimes) {
-        this.messageTimes = messageTimes;
-    }
-
-    @Nullable
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(@Nullable String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setSentMessages(@Nullable List<MessageTime> sentMessages) {
+        this.sentMessages = sentMessages;
     }
 
     @Nullable
-    public String getSenderId() {
-        return senderId;
+    public List<MessageTime> getReceivedMessages() {
+        return receivedMessages;
     }
 
-    public void setSenderId(@Nullable String senderId) {
-        this.senderId = senderId;
-    }
-
-    @Nullable
-    public String getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(@Nullable String receiverId) {
-        this.receiverId = receiverId;
+    public void setReceivedMessages(@Nullable List<MessageTime> receivedMessages) {
+        this.receivedMessages = receivedMessages;
     }
 }
