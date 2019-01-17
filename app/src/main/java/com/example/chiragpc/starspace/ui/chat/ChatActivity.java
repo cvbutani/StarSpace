@@ -1,5 +1,6 @@
 package com.example.chiragpc.starspace.ui.chat;
 
+import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -12,7 +13,10 @@ import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
 import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
+import com.example.chiragpc.starspace.model.UserAccount;
 import com.google.android.material.textfield.TextInputEditText;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,7 +67,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
         ChatPresenter mPresenter = new ChatPresenter();
         mPresenter.attachView(this);
-
+        mPresenter.receiverUserAccountId(mMessegeReceiverId);
         mMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,7 +100,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         });
         mPresenter.getMessage(mMessageSenderId, mMessegeReceiverId);
         mChatView.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     private void viewHolder() {
@@ -117,28 +120,30 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
     @Override
+    public void receiverUserDetailSuccess(UserAccount account) {
+        CircularImageView profilePic = findViewById(R.id.chat_profile_pic);
+        AppCompatTextView userName = findViewById(R.id.chat_username);
+        AppCompatTextView chatStatus = findViewById(R.id.chat_status);
+
+        if (account.getProfilePic() == null) {
+            Picasso.get().load(R.drawable.pic).into(profilePic);
+        } else {
+            Picasso.get().load(account.getProfilePic()).into(profilePic);
+        }
+
+        userName.setText(account.getUsername());
+        chatStatus.setText("Available");
+    }
+
+    @Override
     public void messageFailure(String error) {
 
     }
 
     @Override
     public void getMessageSuccess(List<MessageTime> messages) {
-//        if (messageTimes == null) {
-//            if (messages != null) {
-//                for (MessageTime messageTime : messages) {
         mChatAdapter = new ChatAdapter(messages, this);
         mChatView.setAdapter(mChatAdapter);
         mChatAdapter.notifyDataSetChanged();
-//                }
-//            }
-//            messageTimes = messages;
-//        } else {
-//            for (MessageTime messageTime : messages) {
-//                if (!messageTimes.contains(messageTime)) {
-//                    mChatAdapter.add(messageTime);
-//                }
-//            }
-//            messageTimes = messages;
-//        }
     }
 }

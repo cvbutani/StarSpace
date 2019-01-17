@@ -31,9 +31,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/googlesans_regular"
-        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/googlesans_bold"
+        android:textAppearance="?android:textAppearanceLarge"
         android:textColor="#2B3D4D"
+        app:layout_constraintBottom_toBottomOf="@+id/view_user_profile_pic"
         app:layout_constraintStart_toEndOf="@+id/view_user_profile_pic"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Tony Stark" />

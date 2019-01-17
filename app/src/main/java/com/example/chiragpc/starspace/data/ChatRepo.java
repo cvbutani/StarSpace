@@ -1,18 +1,13 @@
 package com.example.chiragpc.starspace.data;
 
-import android.util.Log;
-
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -29,7 +24,7 @@ import androidx.annotation.NonNull;
  * Created by Chirag on 1/8/2019 at 19:54.
  * Project - StarSpace
  */
-public class ChatRepo {
+class ChatRepo {
 
     private FirebaseRepo mFirebaseRepo;
 
@@ -67,7 +62,7 @@ public class ChatRepo {
                                     String messageType) {
 
         if (task.isSuccessful()) {
-            List<MessageTime> sentReceiveText = null;
+            List<MessageTime> sentReceiveText = new ArrayList<>();
             if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
                 sentReceiveText = task.getResult().toObject(ChatMessage.class).getMessages();
             }

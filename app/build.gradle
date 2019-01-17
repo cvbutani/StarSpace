@@ -36,10 +36,6 @@ dependencies {
     //  Material Design
     implementation 'com.google.android.material:material:1.0.0'
 
-    //  Butter Knife
-    implementation 'com.jakewharton:butterknife:9.0.0-rc2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
-
     //  Firebase
     implementation 'com.google.firebase:firebase-firestore:17.1.5'
     implementation 'com.google.firebase:firebase-auth:16.1.0'

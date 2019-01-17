@@ -5,6 +5,7 @@ import com.example.chiragpc.starspace.data.DataManager;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
+import com.example.chiragpc.starspace.model.UserAccount;
 
 import java.util.List;
 
@@ -30,6 +31,21 @@ public class ChatPresenter
     @Override
     public void attachView(ChatContract.View view) {
         super.attachView(view);
+    }
+
+    @Override
+    public void receiverUserAccountId(String userId) {
+        mDataManager.userAccountDataRepo(userId, new OnTaskCompletion.UserAccountInfo() {
+            @Override
+            public void onCurrentUserInfoSuccess(UserAccount account) {
+                getView().receiverUserDetailSuccess(account);
+            }
+
+            @Override
+            public void onCurrentUserInfoFailure(String error) {
+                getView().messageFailure(error);
+            }
+        });
     }
 
     @Override

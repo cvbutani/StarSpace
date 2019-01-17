@@ -71,43 +71,4 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             mImageView = itemView.findViewById(R.id.view_image);
         }
     }
-
-
-//    public ChatAdapter(@NonNull Context context, int resource, @NonNull List<MessageTime> objects) {
-//        super(context, resource, objects);
-//    }
-//
-//    @NonNull
-//    @Override
-//    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//
-//        if (convertView == null) {
-//            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.view_recycler_chat, parent, false);
-//        }
-//
-//        AppCompatTextView chatMessages = convertView.findViewById(R.id.view_message);
-//        AppCompatImageView imageMessage = convertView.findViewById(R.id.view_image);
-//
-//        MessageTime message = getItem(position);
-//
-////        boolean isPhoto = message.getImageUrl() != null;
-////        if (isPhoto) {
-////            chatMessages.setVisibility(View.GONE);
-////            imageMessage.setVisibility(View.VISIBLE);
-////            Picasso.get().load(message.getImageUrl()).into(imageMessage);
-////        } else {
-//            imageMessage.setVisibility(View.GONE);
-//            chatMessages.setVisibility(View.VISIBLE);
-//            if (message != null && message.getTextMessage() != null) {
-//                if (message.getMessageType().equals("sentMessages")) {
-//                    chatMessages.setGravity(Gravity.END);
-//                } else if (message.getMessageType().equals("receivedMessages")) {
-//                    chatMessages.setGravity(Gravity.START);
-//                }
-//                chatMessages.setText(message.getTextMessage());
-//            }
-////        }
-//
-//        return convertView;
-//    }
 }

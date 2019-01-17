@@ -19,7 +19,6 @@
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:gravity="center"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -29,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:fontFamily="@font/googlesans_medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D"
