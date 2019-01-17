@@ -14,6 +14,8 @@ import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.splash.SplashActivity;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -52,6 +54,12 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     private CircularImageView mUserProfilePic;
 
     private MaterialButton mSendFriendRequest, mCancelFriendRequest;
+
+    private TextInputLayout mEmailTextLayout, mDoBTextLayout;
+
+    private TextInputEditText mEmailEditLayout, mDoBEditLayout;
+
+    private AppCompatTextView mEmailAddress, mEmailAddressLabel, mDateOfBirth, mDateOfBirthLabel, mGender, mGenderLabel;
 
     private static SettingsFragment sSettingsFragment;
 
@@ -95,8 +103,20 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         mSendFriendRequest = rootView.findViewById(R.id.profile_friend_request);
         mSendFriendRequest.setVisibility(View.GONE);
 
+        mEmailTextLayout = rootView.findViewById(R.id.account_email_text);
+        mDoBTextLayout = rootView.findViewById(R.id.account_dob_text);
+        mEmailEditLayout = rootView.findViewById(R.id.account_email_address);
+        mDoBEditLayout = rootView.findViewById(R.id.account_date_of_birth);
+
+        mEmailAddress = rootView.findViewById(R.id.settings_email_address);
+        mDateOfBirth = rootView.findViewById(R.id.settings_date_birth);
+        mGender = rootView.findViewById(R.id.settings_gender);
+        mEmailAddressLabel = rootView.findViewById(R.id.settings_email_address_label);
+        mDateOfBirthLabel = rootView.findViewById(R.id.settings_date_birth_label);
+        mGenderLabel = rootView.findViewById(R.id.settings_gender_label);
         mSignOut.setOnClickListener(this);
         mUserProfilePic.setOnClickListener(this);
+
         return rootView;
     }
 
@@ -140,6 +160,10 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
             case R.id.settings_profile_pic:
                 Logger.i("Profile Pic");
                 startProfilePicIntent();
+                break;
+            case R.id.settings_edit:
+
+                editUserInfo();
                 break;
         }
     }
@@ -190,5 +214,21 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     public void onPause() {
         super.onPause();
         sSettingsFragment = null;
+    }
+
+    private void editUserInfo() {
+        mEmailTextLayout.setVisibility(View.VISIBLE);
+        mDoBTextLayout.setVisibility(View.VISIBLE);
+
+        mEmailEditLayout.setText(mEmailAddress.getText());
+        mDoBEditLayout.setText(mDateOfBirth.getText());
+
+        mGender.setVisibility(View.GONE);
+        mEmailAddress.setText(View.GONE);
+        mDateOfBirth.setVisibility(View.GONE);
+
+        mEmailAddressLabel.setVisibility(View.GONE);
+        mDateOfBirthLabel.setVisibility(View.GONE);
+        mGenderLabel.setVisibility(View.GONE);
     }
 }
