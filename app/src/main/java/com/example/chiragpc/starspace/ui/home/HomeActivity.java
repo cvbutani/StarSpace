@@ -3,7 +3,7 @@ package com.example.chiragpc.starspace.ui.home;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
@@ -11,11 +11,13 @@ import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.ui.friends.FriendsFragment;
 import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
 import com.example.chiragpc.starspace.ui.user.AllUsersFragment;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
@@ -25,7 +27,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 //    Toolbar mToolbar;
 
     BottomNavigationView mNavigation;
-
     String userId = "";
 
     //  Bottom Navigation View
@@ -35,6 +36,9 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
+                    HomeFragment home = HomeFragment.newInstance(userId);
+
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, home).commit();
                     return true;
                 case R.id.navigation_friends:
                     FriendsFragment friends = FriendsFragment.newInstance(userId);

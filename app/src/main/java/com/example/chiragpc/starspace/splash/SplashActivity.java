@@ -41,9 +41,7 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SplashActivity.this, RegisterActivity.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                finish();
+                startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
             }
         });
 

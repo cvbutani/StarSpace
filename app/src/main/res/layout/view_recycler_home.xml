@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/view_user_profile_pic"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_star" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_user_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:fontFamily="@font/googlesans_medium"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#2B3D4D"
+            tools:text="Tony Stark" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_user_message"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_user_name"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:fontFamily="@font/googlesans_medium"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="#2B3D4D"
+            tools:text="How Are you?" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/view_user_availability"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_available" />
+    </RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
