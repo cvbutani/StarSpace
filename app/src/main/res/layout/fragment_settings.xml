@@ -139,6 +139,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/settings_status"
         app:layout_constraintStart_toStartOf="@+id/settings_status"
         app:layout_constraintTop_toBottomOf="@+id/settings_status">
@@ -157,6 +158,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/account_email_text"
         app:layout_constraintStart_toStartOf="@+id/account_email_text"
@@ -166,8 +168,8 @@
             android:id="@+id/account_date_of_birth"
             style="@style/EditorFieldStyle"
             android:fontFamily="@font/googlesans_regular"
-            android:hint="@string/email_address"
-            android:inputType="textEmailAddress"
+            android:hint="@string/date_of_birth"
+            android:inputType="date"
             android:selectAllOnFocus="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,14 +177,16 @@
         android:id="@+id/gender_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginBottom="32dp"
         android:fontFamily="@font/googlesans_regular"
         android:gravity="center_horizontal"
+        android:visibility="gone"
         android:text="Gender :"
         android:textAppearance="?android:textAppearanceLarge"
-        app:layout_constraintBottom_toTopOf="@+id/account_dob_text"
+        app:layout_constraintTop_toBottomOf="@+id/account_dob_text"
         app:layout_constraintStart_toStartOf="@+id/account_dob_text" />
 
     <RadioGroup
@@ -198,13 +202,13 @@
         app:layout_constraintTop_toTopOf="@+id/gender_label">
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/register_male"
+            android:id="@+id/gender_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Male" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/register_female"
+            android:id="@+id/gender_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -253,6 +257,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/settings_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:text="Save"
+        android:visibility="gone"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/settings_edit"
         android:layout_width="wrap_content"

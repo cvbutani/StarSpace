@@ -9,6 +9,8 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.model.UserAccount;
@@ -43,7 +45,7 @@ import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
  */
 public class SettingsFragment extends Fragment implements SettingsContract.View, View.OnClickListener {
 
-    private AppCompatTextView mSignOut;
+    private AppCompatTextView mSignOut, mEdit, mSave;
 
     private SettingsPresenter mPresenter;
 
@@ -59,7 +61,12 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
 
     private TextInputEditText mEmailEditLayout, mDoBEditLayout;
 
-    private AppCompatTextView mEmailAddress, mEmailAddressLabel, mDateOfBirth, mDateOfBirthLabel, mGender, mGenderLabel;
+    private AppCompatTextView mEmailAddress, mEmailAddressLabel, mDateOfBirth,
+            mDateOfBirthLabel, mGender, mGenderLabel, mGenderRadioLabel;
+
+    private RadioGroup mGenderRadioGroup;
+
+    private RadioButton mSelectedRadioButton;
 
     private static SettingsFragment sSettingsFragment;
 
@@ -97,6 +104,8 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         mUsername = rootView.findViewById(R.id.settings_username);
         mUserProfilePic = rootView.findViewById(R.id.settings_profile_pic);
         mProgressBar = rootView.findViewById(R.id.settings_progressBar);
+        mEdit = rootView.findViewById(R.id.settings_edit);
+        mSave = rootView.findViewById(R.id.settings_save);
 
         mCancelFriendRequest = rootView.findViewById(R.id.profile_cancel_request);
         mCancelFriendRequest.setVisibility(View.GONE);
@@ -114,8 +123,15 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
         mEmailAddressLabel = rootView.findViewById(R.id.settings_email_address_label);
         mDateOfBirthLabel = rootView.findViewById(R.id.settings_date_birth_label);
         mGenderLabel = rootView.findViewById(R.id.settings_gender_label);
+
+        mGenderRadioGroup = rootView.findViewById(R.id.gender);
+        mGenderRadioLabel = rootView.findViewById(R.id.gender_label);
+//        mSelectedRadioButton = rootView.findViewById(mGenderRadioGroup.getCheckedRadioButtonId());
+
         mSignOut.setOnClickListener(this);
         mUserProfilePic.setOnClickListener(this);
+        mEdit.setOnClickListener(this);
+        mSave.setOnClickListener(this);
 
         return rootView;
     }
@@ -162,8 +178,10 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
                 startProfilePicIntent();
                 break;
             case R.id.settings_edit:
-
                 editUserInfo();
+                break;
+            case R.id.settings_save:
+                saveUserInfo(v);
                 break;
         }
     }
@@ -219,16 +237,49 @@ public class SettingsFragment extends Fragment implements SettingsContract.View,
     private void editUserInfo() {
         mEmailTextLayout.setVisibility(View.VISIBLE);
         mDoBTextLayout.setVisibility(View.VISIBLE);
+        mGenderRadioLabel.setVisibility(View.VISIBLE);
+        mGenderRadioGroup.setVisibility(View.VISIBLE);
+        mSave.setVisibility(View.VISIBLE);
 
         mEmailEditLayout.setText(mEmailAddress.getText());
         mDoBEditLayout.setText(mDateOfBirth.getText());
 
         mGender.setVisibility(View.GONE);
-        mEmailAddress.setText(View.GONE);
+        mEmailAddress.setVisibility(View.GONE);
         mDateOfBirth.setVisibility(View.GONE);
 
         mEmailAddressLabel.setVisibility(View.GONE);
         mDateOfBirthLabel.setVisibility(View.GONE);
         mGenderLabel.setVisibility(View.GONE);
+        mEdit.setVisibility(View.GONE);
+        mSignOut.setVisibility(View.GONE);
+
+    }
+
+    private void saveUserInfo(View view) {
+        mGender.setVisibility(View.VISIBLE);
+        mEmailAddress.setVisibility(View.VISIBLE);
+        mDateOfBirth.setVisibility(View.VISIBLE);
+
+        mEmailAddressLabel.setVisibility(View.VISIBLE);
+        mDateOfBirthLabel.setVisibility(View.VISIBLE);
+        mGenderLabel.setVisibility(View.VISIBLE);
+        mEdit.setVisibility(View.VISIBLE);
+        mSignOut.setVisibility(View.VISIBLE);
+
+        mEmailAddress.setText(mEmailTextLayout.getEditText().getText().toString());
+        mDateOfBirth.setText(mDoBTextLayout.getEditText().getText().toString());
+//        mGenderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                mSelectedRadioButton = group.findViewById(checkedId);
+//                mGender.setText(mSelectedRadioButton.getText().toString());
+//            }
+//        });
+        mEmailTextLayout.setVisibility(View.GONE);
+        mDoBTextLayout.setVisibility(View.GONE);
+        mGenderRadioLabel.setVisibility(View.GONE);
+        mGenderRadioGroup.setVisibility(View.GONE);
+        mSave.setVisibility(View.GONE);
     }
 }
