@@ -2,6 +2,7 @@ package com.example.chiragpc.starspace.ui.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,10 @@ import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -52,23 +56,47 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                 holder.mTextView.setGravity(Gravity.START);
             }
             holder.mTextView.setText(messages.getTextMessage());
+
+            holder.mChatTime.setText(getFormattedDate(mContext, messages.getTimestamp()));
+        }
+
+    }
+
+    public String getFormattedDate(Context context, long smsTimeInMilis) {
+        Calendar smsTime = Calendar.getInstance();
+        smsTime.setTimeInMillis(smsTimeInMilis);
+
+        Calendar now = Calendar.getInstance();
+
+        final String timeFormatString = "h:mm aa";
+        final String dateTimeFormatString = "EEEE, MMMM d, h:mm aa";
+        final long HOURS = 60 * 60 * 60;
+        if (now.get(Calendar.DATE) == smsTime.get(Calendar.DATE)) {
+            return "Today " + DateFormat.format(timeFormatString, smsTime);
+        } else if (now.get(Calendar.DATE) - smsTime.get(Calendar.DATE) == 1) {
+            return "Yesterday " + DateFormat.format(timeFormatString, smsTime);
+        } else if (now.get(Calendar.YEAR) == smsTime.get(Calendar.YEAR)) {
+            return DateFormat.format(dateTimeFormatString, smsTime).toString();
+        } else {
+            return DateFormat.format("MMMM dd yyyy, h:mm aa", smsTime).toString();
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return messageList.size();
-    }
+        @Override
+        public int getItemCount () {
+            return messageList.size();
+        }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatTextView mTextView;
-        AppCompatImageView mImageView;
+            AppCompatTextView mTextView, mChatTime;
+            AppCompatImageView mImageView;
 
-        ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mTextView = itemView.findViewById(R.id.view_message);
-            mImageView = itemView.findViewById(R.id.view_image);
+            ViewHolder(@NonNull View itemView) {
+                super(itemView);
+                mTextView = itemView.findViewById(R.id.view_message);
+                mChatTime = itemView.findViewById(R.id.chat_time);
+                mImageView = itemView.findViewById(R.id.view_image);
+            }
         }
     }
-}

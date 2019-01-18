@@ -8,7 +8,10 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/chat_toolbar"
@@ -19,15 +22,15 @@
             app:popupTheme="@style/AppTheme.Home">
 
             <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/chat_profile_pic"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/pic"
-            app:civ_border_color="#EEEEEE"
-            app:civ_border_width="0dp"
-            app:civ_shadow_radius="0.5" />
+                android:id="@+id/chat_profile_pic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/pic"
+                app:civ_border_color="#EEEEEE"
+                app:civ_border_width="0dp"
+                app:civ_shadow_radius="0.5" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
