@@ -28,10 +28,13 @@ public class UserAccount {
     @Nullable
     private String type;
 
+    @Nullable
+    private List<String> messageId;
+
     public UserAccount() {
     }
 
-    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived, @Nullable String profilePic, @Nullable List<String> friends, @Nullable String type) {
+    public UserAccount(String id, String username, @Nullable List<String> requestSent, @Nullable List<String> requestReceived, @Nullable String profilePic, @Nullable List<String> friends, @Nullable String type, @Nullable List<String> messageId) {
         this.id = id;
         this.username = username;
         this.requestSent = requestSent;
@@ -39,6 +42,7 @@ public class UserAccount {
         this.profilePic = profilePic;
         this.friends = friends;
         this.type = type;
+        this.messageId = messageId;
     }
 
     public String getId() {
@@ -100,5 +104,14 @@ public class UserAccount {
 
     public void setType(@Nullable String type) {
         this.type = type;
+    }
+
+    @Nullable
+    public List<String> getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(@Nullable List<String> messageId) {
+        this.messageId = messageId;
     }
 }

@@ -3,11 +3,15 @@ package com.example.chiragpc.starspace.data;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
 import com.example.chiragpc.starspace.model.MessageTime;
+import com.example.chiragpc.starspace.model.UserAccount;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
@@ -41,112 +45,167 @@ class ChatRepo {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        sendReceiveMessage(message, receiverId, senderId, task, "sentMessages");
-                    }
-                });
-        //  Add Messages in Receiver User Firestore Account
-        mFirebaseRepo.getChatDatabaseReferenceInstace()
-                .document(receiverId + senderId)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        sendReceiveMessage(message, senderId, receiverId, task, "receivedMessages");
+                        if (task.isSuccessful()) {
+
+                            String chatId = task.getResult().getId();
+
+                            List<MessageTime> messageTimeList = new ArrayList<>();
+                            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
+                                messageTimeList = task.getResult().toObject(ChatMessage.class).getMessages();
+                            }
+
+                            //  Add "messages" label in database
+                            if (messageTimeList == null) {
+                                HashMap<String, String> messageLabel = new HashMap<>();
+                                messageLabel.put("messages", null);
+                                mFirebaseRepo
+                                        .getChatDatabaseReferenceInstace()
+                                        .document(chatId)
+                                        .set(messageLabel, SetOptions.merge());
+                            }
+                            //  Merge messages to database
+                            List<MessageTime> textMessage = new ArrayList<>();
+                            HashMap<String, List<MessageTime>> messageText = new HashMap<>();
+                            MessageTime text = new MessageTime(message, System.currentTimeMillis(), senderId, receiverId);
+
+                            if (messageTimeList != null) {
+                                textMessage = messageTimeList;
+                            }
+                            textMessage.add(text);
+                            messageText.put("messages", textMessage);
+
+                            mFirebaseRepo
+                                    .getChatDatabaseReferenceInstace()
+                                    .document(chatId)
+                                    .set(messageText, SetOptions.mergeFields("messages"));
+
+                            //  Add Message Id to Sender User Database
+                            addMessageIdToUserDatabase(chatId, senderId);
+
+                            //  Add Message Id to Receiver User Database
+                            addMessageIdToUserDatabase(chatId, receiverId);
+                        }
                     }
                 });
     }
 
-    private void sendReceiveMessage(String message,
-                                    String senderReceiverId,
-                                    String ReceiverSenderId,
-                                    Task<DocumentSnapshot> task,
-                                    String messageType) {
+    private void addMessageIdToUserDatabase(String id, String userId) {
+        mFirebaseRepo.getUserDatabaseReferenceInstance()
+                .document(userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.toObject(UserAccount.class) != null) {
+                            UserAccount account = documentSnapshot.toObject(UserAccount.class);
 
-        if (task.isSuccessful()) {
-            List<MessageTime> sentReceiveText = new ArrayList<>();
-            if (task.getResult() != null && task.getResult().toObject(ChatMessage.class) != null) {
-                sentReceiveText = task.getResult().toObject(ChatMessage.class).getMessages();
-            }
-            if (sentReceiveText == null) {
-                HashMap<String, String> messageLabel = new HashMap<>();
-                messageLabel.put("messages", null);
-                mFirebaseRepo
-                        .getChatDatabaseReferenceInstace()
-                        .document(ReceiverSenderId + senderReceiverId)
-                        .set(messageLabel, SetOptions.merge());
-            }
+                            List<String> messageFriends = null;
+                            if (account != null && account.getMessageId() != null) {
+                                messageFriends = account.getMessageId();
+                            }
+                            if (messageFriends != null) {
+                                if (!messageFriends.contains(id)) {
+                                    messageFriends.add(id);
 
-            HashMap<String, List<MessageTime>> messageText = new HashMap<>();
+                                }
+                            } else {
+                                messageFriends = new ArrayList<>();
+                                messageFriends.add(id);
+                            }
 
-            List<MessageTime> textMessage = new ArrayList<>();
+                            HashMap<String, List<String>> messages = new HashMap<>();
+                            messages.put("messageId", messageFriends);
 
-            switch (messageType) {
-                case "sentMessages":
-                    messageType = "sentMessages";
-                    break;
-                case "receivedMessages":
-                    messageType = "receivedMessages";
-                    break;
-            }
-
-            MessageTime text = new MessageTime(message, System.currentTimeMillis(), messageType, ReceiverSenderId, senderReceiverId);
-
-            if (sentReceiveText != null) {
-                textMessage = sentReceiveText;
-            }
-            textMessage.add(text);
-            messageText.put("messages", textMessage);
-
-            mFirebaseRepo
-                    .getChatDatabaseReferenceInstace()
-                    .document(ReceiverSenderId + senderReceiverId)
-                    .set(messageText, SetOptions.mergeFields("messages"));
-        }
+                            mFirebaseRepo
+                                    .getUserDatabaseReferenceInstance()
+                                    .document(userId)
+                                    .set(messages, SetOptions.mergeFields("messageId"));
+                        }
+                    }
+                });
     }
 
     void getMessagesChatRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
         Logger.addLogAdapter(new AndroidLogAdapter());
-        mFirebaseRepo.getChatDatabaseReferenceInstace()
-                .document(senderId + receiverId)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mFirebaseRepo
+                .getUserDatabaseReferenceInstance()
+                .document(senderId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            if (documentSnapshot.toObject(ChatMessage.class) != null) {
-                                List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
-                                taskCompletion.onGetMessagesSuccess(listMessages);
-                            }
-                        }
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot != null && documentSnapshot.toObject(UserAccount.class) != null) {
+                            List<String> message = documentSnapshot.toObject(UserAccount.class).getMessageId();
+                            if (message != null) {
+                                mFirebaseRepo
+                                        .getUserDatabaseReferenceInstance()
+                                        .document(receiverId)
+                                        .get()
+                                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                if (documentSnapshot != null && documentSnapshot.toObject(UserAccount.class) != null) {
+                                                    List<String> messageList = documentSnapshot.toObject(UserAccount.class).getMessageId();
+                                                    if (messageList != null) {
+                                                        for (String id : message) {
+                                                            for (String mId : messageList)
+                                                                if (id.contains(mId)) {
+                                                                    mFirebaseRepo
+                                                                            .getChatDatabaseReferenceInstace()
+                                                                            .document(id)
+                                                                            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                                                @Override
+                                                                                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                                                                                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                                                                                        if (documentSnapshot.toObject(ChatMessage.class) != null) {
+                                                                                            List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
+                                                                                            MessageTime lastText = listMessages.get(listMessages.size() - 1);
+                                                                                            Map<String, MessageTime> userMessage = new HashMap<>();
+                                                                                            userMessage.put(receiverId, lastText);
+                                                                                            taskCompletion.onGetLastMessageSuccess(userMessage);
+                                                                                            taskCompletion.onGetMessagesSuccess(listMessages);
+                                                                                        }
+                                                                                    }
+                                                                                    if (e != null) {
+                                                                                        taskCompletion.onGetMessagesFailure(e.getMessage());
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                }
+                                                        }
+                                                    }
+                                                }
+                                            }
 
-                        if (e != null) {
-                            taskCompletion.onGetMessagesFailure(e.getMessage());
+                                        });
+                            }
                         }
                     }
                 });
     }
 
     void getLastMessageChatRepo(String senderId, List<String> friendsId, OnTaskCompletion.GetLastMessages taskCompletion) {
-        Logger.addLogAdapter(new AndroidLogAdapter());
-        Map<String, MessageTime> userMessage = new HashMap<>();
-        for (String userId : friendsId) {
-            mFirebaseRepo.getChatDatabaseReferenceInstace()
-                    .document(senderId + userId)
-                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                            if (documentSnapshot != null && documentSnapshot.exists()) {
-                                if (documentSnapshot.toObject(ChatMessage.class) != null) {
-                                    List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
-                                    MessageTime lastText = listMessages.get(listMessages.size() - 1);
-
-                                    userMessage.put(userId, lastText);
-                                    taskCompletion.onGetLastMessageSuccess(userMessage);
-
-                                }
-                            }
-
-                        }
-                    });
-        }
+//        Logger.addLogAdapter(new AndroidLogAdapter());
+//        Map<String, MessageTime> userMessage = new HashMap<>();
+//        for (String userId : friendsId) {
+//            mFirebaseRepo.getChatDatabaseReferenceInstace()
+//                    .document(senderId + userId)
+//                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+//                            if (documentSnapshot != null && documentSnapshot.exists()) {
+//                                if (documentSnapshot.toObject(ChatMessage.class) != null) {
+//                                    List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
+//                                    MessageTime lastText = listMessages.get(listMessages.size() - 1);
+//
+//                                    userMessage.put(userId, lastText);
+//                                    taskCompletion.onGetLastMessageSuccess(userMessage);
+//
+//                                }
+//                            }
+//
+//                        }
+//                    });
+//        }
     }
 }

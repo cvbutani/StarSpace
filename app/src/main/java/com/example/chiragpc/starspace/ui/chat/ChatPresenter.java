@@ -8,6 +8,7 @@ import com.example.chiragpc.starspace.model.MessageTime;
 import com.example.chiragpc.starspace.model.UserAccount;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Chirag on 1/8/2019 at 20:06.
@@ -59,6 +60,11 @@ public class ChatPresenter
             @Override
             public void onGetMessagesSuccess(List<MessageTime> messages) {
                 getView().getMessageSuccess(messages);
+            }
+
+            @Override
+            public void onGetLastMessageSuccess(Map<String, MessageTime> userMessage) {
+
             }
 
             @Override

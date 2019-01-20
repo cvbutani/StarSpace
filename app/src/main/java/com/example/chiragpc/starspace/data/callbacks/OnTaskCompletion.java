@@ -64,6 +64,7 @@ public interface OnTaskCompletion {
 
     interface GetMessages {
         void onGetMessagesSuccess(List<MessageTime> messages);
+        void onGetLastMessageSuccess(Map<String, MessageTime> userMessage);
         void onGetMessagesFailure(String error);
     }
 

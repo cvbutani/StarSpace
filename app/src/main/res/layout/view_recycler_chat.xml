@@ -6,43 +6,85 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
+        android:id="@+id/received_layout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/view_message"
+            android:id="@+id/received_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/googlesans_medium"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="#2B3D4D"
             tools:text="How are you doing?" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/view_image"
+            android:id="@+id/received_image"
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:visibility="gone" />
 
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/received_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/received_layout"
+        app:layout_constraintStart_toEndOf="@+id/received_layout"
+        app:layout_constraintTop_toTopOf="@+id/received_layout"
+        tools:text="asda" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/sender_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/chat_time"
+            android:id="@+id/sender_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:text="asda"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/googlesans_medium"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#2B3D4D"
+            tools:text="How are you doing?" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sender_image"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/sender_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sender_layout"
+        app:layout_constraintEnd_toStartOf="@+id/sender_layout"
+        app:layout_constraintTop_toTopOf="@+id/sender_layout"
+        tools:text="asda" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

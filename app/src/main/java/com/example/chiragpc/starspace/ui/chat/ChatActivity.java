@@ -142,7 +142,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     public void getMessageSuccess(List<MessageTime> messages) {
-        mChatAdapter = new ChatAdapter(messages, this);
+        mChatAdapter = new ChatAdapter(messages, this, mMessageSenderId);
         mChatView.setAdapter(mChatAdapter);
         mChatAdapter.notifyDataSetChanged();
     }

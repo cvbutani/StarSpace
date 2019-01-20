@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -32,10 +33,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     private List<MessageTime> messageList;
     private Context mContext;
+    private String mUserId;
 
-    ChatAdapter(List<MessageTime> messageList, Context mContext) {
+    ChatAdapter(List<MessageTime> messageList, Context mContext, String userId) {
         this.messageList = messageList;
         this.mContext = mContext;
+        this.mUserId = userId;
     }
 
     @NonNull
@@ -48,21 +51,30 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MessageTime messages = messageList.get(position);
-        holder.mImageView.setVisibility(View.GONE);
-        if (messages != null && messages.getTextMessage() != null) {
-            if (messages.getMessageType().equals("sentMessages")) {
-                holder.mTextView.setGravity(Gravity.END);
-            } else if (messages.getMessageType().equals("receivedMessages")) {
-                holder.mTextView.setGravity(Gravity.START);
-            }
-            holder.mTextView.setText(messages.getTextMessage());
+        holder.mSendImage.setVisibility(View.GONE);
+        holder.mReceiveImage.setVisibility(View.GONE);
 
-            holder.mChatTime.setText(getFormattedDate(mContext, messages.getTimestamp()));
+        if (messages != null && messages.getTextMessage() != null) {
+            if (!messages.getSenderId().equals(mUserId)) {
+                holder.mSenderLayout.setVisibility(View.VISIBLE);
+                holder.mSendText.setText(messages.getTextMessage());
+                holder.mReceiverLayout.setVisibility(View.GONE);
+                holder.mReceiveTextTime.setVisibility(View.GONE);
+                holder.mSendTextTime.setVisibility(View.VISIBLE);
+                holder.mSendTextTime.setText(getFormattedDate(messages.getTimestamp()));
+            } else {
+                holder.mReceiverLayout.setVisibility(View.VISIBLE);
+                holder.mReceiveText.setText(messages.getTextMessage());
+                holder.mSenderLayout.setVisibility(View.GONE);
+                holder.mSendTextTime.setVisibility(View.GONE);
+                holder.mReceiveTextTime.setVisibility(View.VISIBLE);
+                holder.mReceiveTextTime.setText(getFormattedDate(messages.getTimestamp()));
+            }
         }
 
     }
 
-    public String getFormattedDate(Context context, long smsTimeInMilis) {
+    String getFormattedDate(long smsTimeInMilis) {
         Calendar smsTime = Calendar.getInstance();
         smsTime.setTimeInMillis(smsTimeInMilis);
 
@@ -82,21 +94,28 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         }
     }
 
-        @Override
-        public int getItemCount () {
-            return messageList.size();
-        }
+    @Override
+    public int getItemCount() {
+        return messageList.size();
+    }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-            AppCompatTextView mTextView, mChatTime;
-            AppCompatImageView mImageView;
+        AppCompatTextView mSendText, mSendTextTime, mReceiveText, mReceiveTextTime;
+        AppCompatImageView mSendImage, mReceiveImage;
+        LinearLayoutCompat mSenderLayout, mReceiverLayout;
 
-            ViewHolder(@NonNull View itemView) {
-                super(itemView);
-                mTextView = itemView.findViewById(R.id.view_message);
-                mChatTime = itemView.findViewById(R.id.chat_time);
-                mImageView = itemView.findViewById(R.id.view_image);
-            }
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mSenderLayout = itemView.findViewById(R.id.sender_layout);
+            mSendText = itemView.findViewById(R.id.sender_message);
+            mSendTextTime = itemView.findViewById(R.id.sender_time);
+            mSendImage = itemView.findViewById(R.id.sender_image);
+
+            mReceiverLayout = itemView.findViewById(R.id.received_layout);
+            mReceiveText = itemView.findViewById(R.id.received_message);
+            mReceiveTextTime = itemView.findViewById(R.id.received_time);
+            mReceiveImage = itemView.findViewById(R.id.received_image);
         }
     }
+}
