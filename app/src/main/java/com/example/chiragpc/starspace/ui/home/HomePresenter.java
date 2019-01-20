@@ -20,6 +20,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View>
 
     private DataManager mDataManager;
     private UserAccount userAccount;
+
     public HomePresenter() {
         mDataManager = DataManager.getInstance();
     }
@@ -39,8 +40,12 @@ public class HomePresenter extends BasePresenter<HomeContract.View>
         mDataManager.userAccountDataRepo(userId, new OnTaskCompletion.UserAccountInfo() {
             @Override
             public void onCurrentUserInfoSuccess(UserAccount account) {
-                userAccount =account;
-                getLastMessages(userId,account.getFriends());
+                userAccount = account;
+                if (account.getFriends() != null) {
+                    for (String id : account.getFriends()) {
+                        lastMessage(userId, id);
+                    }
+                }
             }
 
             @Override
@@ -50,14 +55,25 @@ public class HomePresenter extends BasePresenter<HomeContract.View>
     }
 
     @Override
-    public void getLastMessages(String senderId, List<String> friendsId) {
-        mDataManager.getLastMessageDataRepo(senderId, friendsId, new OnTaskCompletion.GetLastMessages() {
+    public void lastMessage(String senderId, String receiverId) {
+        mDataManager.getMessagesDataRepo(senderId, receiverId, new OnTaskCompletion.GetMessages() {
+            @Override
+            public void onGetMessagesSuccess(List<MessageTime> messages) {
+
+            }
+
             @Override
             public void onGetLastMessageSuccess(Map<String, MessageTime> userMessage) {
                 Logger.addLogAdapter(new AndroidLogAdapter());
 
-                Logger.i(userMessage.get(friendsId.get(0)).getTextMessage());
+                Logger.i(userMessage.get(receiverId).getTextMessage());
+            }
+
+            @Override
+            public void onGetMessagesFailure(String error) {
+
             }
         });
     }
+
 }

@@ -19,6 +19,8 @@ public interface HomeContract {
 
     interface Presenter {
         void userAccount(String userId);
-        void getLastMessages(String senderId, List<String> friendsId);
+
+        void lastMessage(String senderId, String receiverId);
+
     }
 }
