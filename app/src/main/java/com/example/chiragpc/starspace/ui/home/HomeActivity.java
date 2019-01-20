@@ -1,28 +1,23 @@
 package com.example.chiragpc.starspace.ui.home;
 
-
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.chiragpc.starspace.R;
 import com.example.chiragpc.starspace.base.BaseActivity;
-import com.example.chiragpc.starspace.model.UserAccount;
 import com.example.chiragpc.starspace.ui.friends.FriendsFragment;
 import com.example.chiragpc.starspace.ui.settings.SettingsFragment;
 import com.example.chiragpc.starspace.ui.user.AllUsersFragment;
-import com.google.android.material.appbar.AppBarLayout;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.Toolbar;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
 
-public class HomeActivity extends BaseActivity implements HomeContract.View {
+public class HomeActivity extends BaseActivity {
 
 //    Toolbar mToolbar;
 
@@ -37,7 +32,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
                     HomeFragment home = HomeFragment.newInstance(userId);
-
                     getSupportFragmentManager().beginTransaction().replace(R.id.container, home).commit();
                     return true;
                 case R.id.navigation_friends:
@@ -57,8 +51,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
         }
     };
 
-    HomePresenter mPresenter;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,50 +58,21 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
 
         viewHolder();
 
-//        setSupportActionBar(mToolbar);
-
         if (getIntent().hasExtra(USER_ID)) {
             userId = getIntent().getStringExtra(USER_ID);
         }
 
         Logger.addLogAdapter(new AndroidLogAdapter());
         Logger.i(userId);
-
+        if (savedInstanceState == null) {
+            HomeFragment home = HomeFragment.newInstance(userId);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, home).commit();
+        }
         mNavigation.setOnNavigationItemSelectedListener(mItemSelectedListener);
 
-        mPresenter = new HomePresenter();
-        mPresenter.attachView(this);
-        mPresenter.userAccount(userId);
     }
 
     private void viewHolder() {
-//        mToolbar = findViewById(R.id.home_toolbar);
-
         mNavigation = findViewById(R.id.navigation_view);
-    }
-
-    @Override
-    public void userAccountSuccess(UserAccount account) {
-//        mToolbar.setTitle(account.getUsername());
-    }
-
-    @Override
-    public void userAccountFailure(String error) {
-
-    }
-
-    @Override
-    public void showProgressBar() {
-
-    }
-
-    @Override
-    public void hideProgressBar() {
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

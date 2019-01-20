@@ -13,7 +13,7 @@ import com.orhanobut.logger.Logger;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
@@ -50,6 +50,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
         Logger.addLogAdapter(new AndroidLogAdapter());
         Logger.i(mUserId);
+
+        HomePresenter presenter = new HomePresenter();
+        presenter.attachView(this);
+        presenter.userAccount(mUserId);
     }
 
     @Nullable
@@ -61,16 +65,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
-    }
-
-    @Override
-    public void userAccountSuccess(UserAccount account) {
-
-    }
-
-    @Override
-    public void userAccountFailure(String error) {
-
     }
 
     @Override

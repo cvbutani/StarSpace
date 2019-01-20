@@ -5,6 +5,8 @@ import android.net.Uri;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
 
+import java.util.List;
+
 public interface DataContract {
 
     void currentUserDataRepo(OnTaskCompletion.CurrentUserInfo taskCompletion);
@@ -34,4 +36,6 @@ public interface DataContract {
     void saveMessagesDataRepo(String message, String senderId, String receiverId);
 
     void getMessagesDataRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion);
+
+    void getLastMessageDataRepo(String senderID, List<String> friends, OnTaskCompletion.GetLastMessages taskCompletion);
 }

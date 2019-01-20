@@ -4,16 +4,14 @@ import com.example.chiragpc.starspace.base.MvpView;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.UserAccount;
 
+import java.util.List;
+
 /**
  * Created by Chirag on 12/18/2018 at 19:47.
  * Project - StarSpace
  */
 public interface HomeContract {
     interface View extends MvpView {
-        void userAccountSuccess(UserAccount account);
-
-        void userAccountFailure(String error);
-
         void showProgressBar();
 
         void hideProgressBar();
@@ -21,5 +19,6 @@ public interface HomeContract {
 
     interface Presenter {
         void userAccount(String userId);
+        void getLastMessages(String senderId, List<String> friendsId);
     }
 }

@@ -5,6 +5,7 @@ import com.example.chiragpc.starspace.model.UserAccount;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OnTaskCompletion {
 
@@ -64,5 +65,9 @@ public interface OnTaskCompletion {
     interface GetMessages {
         void onGetMessagesSuccess(List<MessageTime> messages);
         void onGetMessagesFailure(String error);
+    }
+
+    interface GetLastMessages {
+        void onGetLastMessageSuccess(Map<String, MessageTime> userMessage);
     }
 }

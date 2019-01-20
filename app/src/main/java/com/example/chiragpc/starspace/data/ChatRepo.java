@@ -15,6 +15,7 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -122,5 +123,30 @@ class ChatRepo {
                         }
                     }
                 });
+    }
+
+    void getLastMessageChatRepo(String senderId, List<String> friendsId, OnTaskCompletion.GetLastMessages taskCompletion) {
+        Logger.addLogAdapter(new AndroidLogAdapter());
+        Map<String, MessageTime> userMessage = new HashMap<>();
+        for (String userId : friendsId) {
+            mFirebaseRepo.getChatDatabaseReferenceInstace()
+                    .document(senderId + userId)
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                if (documentSnapshot.toObject(ChatMessage.class) != null) {
+                                    List<MessageTime> listMessages = documentSnapshot.toObject(ChatMessage.class).getMessages();
+                                    MessageTime lastText = listMessages.get(listMessages.size() - 1);
+
+                                    userMessage.put(userId, lastText);
+                                    taskCompletion.onGetLastMessageSuccess(userMessage);
+
+                                }
+                            }
+
+                        }
+                    });
+        }
     }
 }

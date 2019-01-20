@@ -5,6 +5,8 @@ import android.net.Uri;
 import com.example.chiragpc.starspace.data.callbacks.OnTaskCompletion;
 import com.example.chiragpc.starspace.model.ChatMessage;
 
+import java.util.List;
+
 public class DataManager implements DataContract {
 
     private AccountRepo mAccountRepo;
@@ -98,6 +100,11 @@ public class DataManager implements DataContract {
     @Override
     public void getMessagesDataRepo(String senderId, String receiverId, OnTaskCompletion.GetMessages taskCompletion) {
         mChatRepo.getMessagesChatRepo(senderId, receiverId, taskCompletion);
+    }
+
+    @Override
+    public void getLastMessageDataRepo(String senderID, List<String> friends, OnTaskCompletion.GetLastMessages taskCompletion) {
+        mChatRepo.getLastMessageChatRepo(senderID, friends, taskCompletion);
     }
 
 }
