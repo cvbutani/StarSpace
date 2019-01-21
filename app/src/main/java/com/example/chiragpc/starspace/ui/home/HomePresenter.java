@@ -64,9 +64,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View>
 
             @Override
             public void onGetLastMessageSuccess(Map<String, MessageTime> userMessage) {
-                Logger.addLogAdapter(new AndroidLogAdapter());
-
-                Logger.i(userMessage.get(receiverId).getTextMessage());
+                getView().getLastMessage(userMessage);
             }
 
             @Override

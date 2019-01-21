@@ -6,14 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.chiragpc.starspace.R;
+import com.example.chiragpc.starspace.model.MessageTime;
 import com.example.chiragpc.starspace.model.UserAccount;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.chiragpc.starspace.config.AppConfig.USER_ID;
@@ -29,6 +34,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     private String mUserId;
 
     private RecyclerView mRecyclerView;
+
+    Map<String, MessageTime> messages = new HashMap<>();
+
+    private HomeAdapter mHomeAdapter;
 
     public static HomeFragment newInstance(String userId) {
         if (sHomeFragment == null) {
@@ -62,9 +71,19 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         mRecyclerView = rootView.findViewById(R.id.home_recycler_view);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
+    }
+
+    @Override
+    public void getLastMessage(Map<String, MessageTime> userMessage) {
+        if (userMessage != null) {
+            messages.putAll(userMessage);
+        }
+        mHomeAdapter = new HomeAdapter(getContext(), messages);
+        mRecyclerView.setAdapter(mHomeAdapter);
+        mHomeAdapter.notifyDataSetChanged();
     }
 
     @Override
